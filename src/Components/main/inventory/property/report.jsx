@@ -7,9 +7,10 @@ import MoveModal from "./move_modal";
 import ObserveModal from "./observemodal";
 import {Permission} from "../permission";
 import {Thead} from "./thead";
-import {InfoOutlined, PrinterOutlined, SwapOutlined} from "@ant-design/icons";
+import {DeleteOutlined, InfoOutlined, PrinterOutlined, SwapOutlined} from "@ant-design/icons";
 import {Link} from "react-router-dom";
 import {Context} from "../../../../context";
+import RecycleModal from "./recycle_modal";
 
 const ReportProperty = () => {
     const [factors, setFactors] = useState([])
@@ -146,6 +147,7 @@ const ReportProperty = () => {
             <Permission setRank={setRank} setOffice={setOffice}/>
             <Modal setTypeCommunication={setTypeCommunication} typeCommunication={typeCommunication} viewOnly={viewOnly} setViewOnly={setViewOnly}  typeProperty={typeProperty} editStatus={editStatus} setEditStatus={setEditStatus} idNumber={idNumber} setIdNumber={setIdNumber} setTypeDigital={setTypeDigital} typeDigital={typeDigital}/>
             <MoveModal setTypeCommunication={setTypeCommunication} typeCommunication={typeCommunication}  typeProperty={typeProperty} editStatus={editStatus} setEditStatus={setEditStatus} idNumber={idNumber} setIdNumber={setIdNumber} setTypeDigital={setTypeDigital} typeDigital={typeDigital}/>
+            <RecycleModal setTypeCommunication={setTypeCommunication} typeCommunication={typeCommunication}  typeProperty={typeProperty} editStatus={editStatus} setEditStatus={setEditStatus} idNumber={idNumber} setIdNumber={setIdNumber} setTypeDigital={setTypeDigital} typeDigital={typeDigital}/>
             <ObserveModal setTypeCommunication={setTypeCommunication} typeCommunication={typeCommunication}  typeProperty={typeProperty} editStatus={editStatus} setEditStatus={setEditStatus} idNumber={idNumber} setIdNumber={setIdNumber} setTypeDigital={setTypeDigital} typeDigital={typeDigital}/>
             <div className= 'plater  m-2 rounded-3 shadow-lg mb-4'>
                  <div className= 'd-flex  justify-content-between m-4' >
@@ -445,9 +447,10 @@ const ReportProperty = () => {
                         <span className="dot bg-danger"></span><span> به معنی جا به جا شده و قفل شده</span>
                         <span className="dot bg-warning ms-4"></span><span> به معنی ارسال شده برای تعمیر و موقتاً قفل شده</span>
                         <span className="dot bg-success ms-4"></span><span> به معنی در انتظار تایید جا به جایی در مقصد</span>
+                        <span className="dot ms-4" style={{backgroundColor:'hsla(240,38%,63%,0.59)'}}></span><span> به معنی در بایگانه شده</span>
                     </div>
                 <div className= 'm-4 table-responsive text-nowrap rounded-3' style={{maxHeight : '35vh'}}>
-                    <table className="table table-hover table-fixed text-center align-middle table-bordered border-primary" style={{direction:'rtl' , fontSize:'1vw'}} ref={componentPDF}>
+                    <table className="table table-hover table-fixed text-center align-middle table-bordered border-primary bg-light" style={{direction:'rtl' , fontSize:'1vw'}} ref={componentPDF}>
                             <Thead typeProperty={typeProperty}/>
                         <tbody>
                              {(() => {
@@ -458,7 +461,7 @@ const ReportProperty = () => {
                                           }else{
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
-                                           <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) }`}} key={data.code}>
+                                           <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
                                                 <th scope="row">{i}</th>
                                                 <td>{data.code}</td>
                                                 <td>{data.name}</td>
@@ -472,15 +475,18 @@ const ReportProperty = () => {
                                                         setIdNumber(data.code)
                                                     }}>
                                                         construction</button>
-                                                    <button className= 'btn btn-warning mx-2' disabled={data.movement_status === 'received'}  data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
+                                                    <button className= 'btn btn-warning mx-2' data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
                                                             setEditStatus(true)
                                                             setIdNumber(data.code)
                                                            setViewOnly(true)
                                                         }}><InfoOutlined /></button>
-                                                    <button className='btn btn-secondary' disabled={data.movement_status === 'received'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
+                                                    <button className='btn btn-secondary' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
                                                             setIdNumber(data.code)
                                                         }}>
                                                             <SwapOutlined /></button>
+                                                    <button className='btn btn-danger  ms-2' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#recycleModal" onClick={() => {
+                                                            setIdNumber(data.code)
+                                                        }}><DeleteOutlined /></button>
                                                 </td>
                                            </tr>
                                              )))
@@ -492,7 +498,7 @@ const ReportProperty = () => {
                                           }else{
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
-                                            <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) }`}} key={data.code}>
+                                            <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
                                                 <th scope="row">{i}</th>
                                                 <td>{data.code}</td>
                                                 <td>{data.name}</td>
@@ -504,15 +510,18 @@ const ReportProperty = () => {
                                                         setIdNumber(data.code)
                                                     }}>
                                                         construction</button>
-                                                    <button className= 'btn btn-warning  mx-2' disabled={data.movement_status === 'received'} data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
+                                                    <button className= 'btn btn-warning  mx-2' data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
                                                             setEditStatus(true)
                                                             setIdNumber(data.code)
                                                             setViewOnly(true)
                                                         }}><InfoOutlined /></button>
-                                                    <button className='btn btn-secondary ' disabled={data.movement_status === 'received'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
+                                                    <button className='btn btn-secondary ' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
                                                             setIdNumber(data.code)
                                                         }}>
                                                             <SwapOutlined /></button>
+                                                    <button className='btn btn-danger  ms-2' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#recycleModal" onClick={() => {
+                                                            setIdNumber(data.code)
+                                                        }}><DeleteOutlined /></button>
                                                 </td>
                                             </tr>
                                                      )))
@@ -524,7 +533,7 @@ const ReportProperty = () => {
                                           }else{
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
-                                            <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) }`}} key={data.code}>
+                                            <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
                                                 <th scope="row">{i}</th>
                                                 <td>{data.code}</td>
                                                 <td>{data.name}</td>
@@ -534,17 +543,20 @@ const ReportProperty = () => {
                                                         setIdNumber(data.code)
                                                     }}>
                                                         construction</button>
-                                                    <button className= 'btn btn-warning  mx-2' disabled={data.movement_status === 'received'} data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
+                                                    <button className= 'btn btn-warning  mx-2' data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
                                                             setEditStatus(true)
                                                             setIdNumber(data.code)
                                                             setTypeDigital(data.type_furniture)
                                                             setTypeCommunication(data.name)
                                                              setViewOnly(true)
                                                         }}><InfoOutlined /></button>
-                                                    <button className='btn btn-secondary ' disabled={data.movement_status === 'received'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
+                                                    <button className='btn btn-secondary ' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
                                                             setIdNumber(data.code)
                                                         }}>
                                                             <SwapOutlined /></button>
+                                                    <button className='btn btn-danger  ms-2' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#recycleModal" onClick={() => {
+                                                            setIdNumber(data.code)
+                                                        }}><DeleteOutlined /></button>
                                                 </td>
                                             </tr>
                                                      )))
@@ -556,7 +568,7 @@ const ReportProperty = () => {
                                           }else{
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
-                                                <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) }`}} key={data.code}>
+                                                <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
                                                     <th scope="row">{i}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.name}</td>
@@ -569,15 +581,18 @@ const ReportProperty = () => {
                                                         setIdNumber(data.code)
                                                           }}>
                                                         construction</button>
-                                                        <button className= 'btn btn-warning  mx-2' disabled={data.movement_status === 'received'}  data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
+                                                        <button className= 'btn btn-warning  mx-2' data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
                                                             setEditStatus(true)
                                                             setIdNumber(data.code)
                                                             setViewOnly(true)
                                                         }}><InfoOutlined /></button>
-                                                        <button className='btn btn-secondary ' disabled={data.movement_status === 'received'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
+                                                        <button className='btn btn-secondary ' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
                                                             setIdNumber(data.code)
                                                         }}>
                                                             <SwapOutlined /></button>
+                                                        <button className='btn btn-danger  ms-2' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#recycleModal" onClick={() => {
+                                                            setIdNumber(data.code)
+                                                        }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
                                              )))
@@ -589,7 +604,7 @@ const ReportProperty = () => {
                                           }else{
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
-                                                <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) }`}} key={data.code}>
+                                                <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
                                                     <th scope="row">{i}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.name}</td>
@@ -601,15 +616,18 @@ const ReportProperty = () => {
                                                         setIdNumber(data.code)
                                                           }}>
                                                         construction</button>
-                                                        <button className= 'btn btn-warning  mx-2' disabled={data.movement_status === 'received'} data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
+                                                        <button className= 'btn btn-warning  mx-2' data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
                                                             setEditStatus(true)
                                                             setIdNumber(data.code)
                                                             setViewOnly(true)
                                                         }}><InfoOutlined /></button>
-                                                        <button className='btn btn-secondary ' disabled={data.movement_status === 'received'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
+                                                        <button className='btn btn-secondary ' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
                                                             setIdNumber(data.code)
                                                         }}>
                                                             <SwapOutlined /></button>
+                                                        <button className='btn btn-danger  ms-2' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#recycleModal" onClick={() => {
+                                                            setIdNumber(data.code)
+                                                        }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
                                            )))
@@ -621,7 +639,7 @@ const ReportProperty = () => {
                                           }else{
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
-                                                <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) }`}} key={data.code}>
+                                                <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
                                                     <th scope="row">{i}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.name}</td>
@@ -632,15 +650,18 @@ const ReportProperty = () => {
                                                         setIdNumber(data.code)
                                                           }}>
                                                         construction</button>
-                                                        <button className= 'btn btn-warning  mx-2' disabled={data.movement_status === 'received'}  data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
+                                                        <button className= 'btn btn-warning  mx-2' data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
                                                             setEditStatus(true)
                                                             setIdNumber(data.code)
                                                             setViewOnly(true)
                                                         }}><InfoOutlined /></button>
-                                                        <button className='btn btn-secondary ' disabled={data.movement_status === 'received'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
+                                                        <button className='btn btn-secondary ' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
                                                             setIdNumber(data.code)
                                                         }}>
                                                             <SwapOutlined /></button>
+                                                        <button className='btn btn-danger  ms-2' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#recycleModal" onClick={() => {
+                                                            setIdNumber(data.code)
+                                                        }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
                                            )))
@@ -652,7 +673,7 @@ const ReportProperty = () => {
                                           }else{
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
-                                                <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) }`}} key={data.code}>
+                                                <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
                                                     <th scope="row">{i}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.name}</td>
@@ -668,15 +689,18 @@ const ReportProperty = () => {
                                                         setIdNumber(data.code)
                                                           }}>
                                                         construction</button>
-                                                        <button className= 'btn btn-warning  mx-2' disabled={data.movement_status === 'received'} data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
+                                                        <button className= 'btn btn-warning mx-2' data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
                                                             setEditStatus(true)
                                                             setIdNumber(data.code)
                                                             setViewOnly(true)
                                                         }}><InfoOutlined /></button>
-                                                        <button className='btn btn-secondary ' disabled={data.movement_status === 'received'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
+                                                        <button className='btn btn-secondary' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
                                                             setIdNumber(data.code)
                                                         }}>
                                                             <SwapOutlined /></button>
+                                                        <button className='btn btn-danger  ms-2' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#recycleModal" onClick={() => {
+                                                            setIdNumber(data.code)
+                                                        }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
                                            )))
@@ -688,7 +712,7 @@ const ReportProperty = () => {
                                           }else{
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
-                                                <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) }`}} key={data.code}>
+                                                <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
                                                     <th scope="row">{i}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.name}</td>
@@ -696,15 +720,18 @@ const ReportProperty = () => {
                                                     <td>{data.year_buy}</td>
                                                     <td>{data.using_location}</td>
                                                     <td className='d-print-none'>
-                                                        <button className= 'btn btn-warning ' disabled={data.movement_status === 'received'} data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
+                                                        <button className= 'btn btn-warning' data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
                                                             setEditStatus(true)
                                                             setIdNumber(data.code)
                                                             setViewOnly(true)
                                                         }}><InfoOutlined /></button>
-                                                        <button className='btn btn-secondary  ms-2' disabled={data.movement_status === 'received'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
+                                                        <button className='btn btn-secondary  ms-2' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
                                                             setIdNumber(data.code)
                                                         }}>
                                                             <SwapOutlined /></button>
+                                                        <button className='btn btn-danger  ms-2' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#recycleModal" onClick={() => {
+                                                            setIdNumber(data.code)
+                                                        }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
                                            )))
@@ -716,7 +743,7 @@ const ReportProperty = () => {
                                           }else{
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
-                                                <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) }`}} key={data.code}>
+                                                <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
                                                     <th scope="row">{i}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.name}</td>
@@ -729,15 +756,18 @@ const ReportProperty = () => {
                                                         setIdNumber(data.code)
                                                           }}>
                                                         construction</button>
-                                                        <button className= 'btn btn-warning  mx-2' disabled={data.movement_status === 'received'} data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
+                                                        <button className= 'btn btn-warning  mx-2' data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
                                                             setEditStatus(true)
                                                             setIdNumber(data.code)
                                                             setViewOnly(true)
                                                         }}><InfoOutlined /></button>
-                                                        <button className='btn btn-secondary ' disabled={data.movement_status === 'received'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
+                                                        <button className='btn btn-secondary ' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
                                                             setIdNumber(data.code)
                                                         }}>
                                                             <SwapOutlined /></button>
+                                                        <button className='btn btn-danger  ms-2' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#recycleModal" onClick={() => {
+                                                            setIdNumber(data.code)
+                                                        }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
                                            )))
@@ -749,7 +779,7 @@ const ReportProperty = () => {
                                           }else{
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
-                                                <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) }`}} key={data.code}>
+                                                <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
                                                     <th scope="row">{i}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.type_item}</td>
@@ -758,15 +788,18 @@ const ReportProperty = () => {
                                                     <td>{data.using_location}</td>
                                                     <td>{data.user}</td>
                                                     <td className='d-print-none'>
-                                                        <button className= 'btn btn-warning ' disabled={data.movement_status === 'received'} data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
+                                                        <button className= 'btn btn-warning' data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
                                                             setEditStatus(true)
                                                             setIdNumber(data.code)
                                                             setViewOnly(true)
                                                         }}><InfoOutlined /></button>
-                                                        <button className='btn btn-secondary  ms-2' disabled={data.movement_status === 'received'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
+                                                        <button className='btn btn-secondary  ms-2' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
                                                             setIdNumber(data.code)
                                                         }}>
                                                             <SwapOutlined /></button>
+                                                        <button className='btn btn-danger  ms-2' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#recycleModal" onClick={() => {
+                                                            setIdNumber(data.code)
+                                                        }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
                                            )))
@@ -790,6 +823,9 @@ const ReportProperty = () => {
                                                             setViewOnly(true)
                                                             setIdNumber(data.code)
                                                         }}><InfoOutlined /></button>
+                                                        <button className='btn btn-danger  ms-2' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#recycleModal" onClick={() => {
+                                                            setIdNumber(data.code)
+                                                        }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
                                            )))

@@ -146,6 +146,12 @@ const NavBar = () => {
             label: (
             <Link className='text-decoration-none' to='/pending-products'>ارسالی</Link>
         ),
+          },{
+            key: '2-4',
+            label: (
+
+            context.permission === 'مدیر' ? <Link className='text-decoration-none' to='/pending-recycle'>بایگانی</Link> : null
+        ),
           },
         ],
       },

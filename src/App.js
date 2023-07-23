@@ -30,6 +30,7 @@ import ReportProducts from "./Components/main/inventory/storage-prodoct/report";
 import BillProperty from "./Components/main/inventory/property/bill";
 import {Detector} from "react-detect-offline";
 import Swal from "sweetalert2";
+import PendingRecycle from "./Components/main/inventory/property/pending-recycle";
 
 function App() {
     const [modalTitle , setModalTitle] = useState('')
@@ -360,7 +361,10 @@ function App() {
                             : null}
 
                             {permission === 'مدیر' ?
-                          <Route path="warehouse-handling" element={<StorageHandling/>} />
+                                <Fragment>
+                                          <Route path="warehouse-handling" element={<StorageHandling/>} />
+                                         <Route path="pending-recycle" element={<PendingRecycle/>} />
+                                </Fragment>
                                 : null}
                           <Route path="pending-products" element={<PendingProperty/>} />
                           <Route path="/logout" element={<Logout/>}/>
