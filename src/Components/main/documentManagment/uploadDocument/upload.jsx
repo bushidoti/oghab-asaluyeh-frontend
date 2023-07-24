@@ -28,10 +28,16 @@ const UploadDocuments = () => {
       secondBail2: contract.secondBail2,
       topicContract: contract.topicContract,
       typeContract: contract.typeContract,
-      doc_1: contract.doc_1,
-      doc_2: contract.doc_2,
-      doc_3: contract.doc_3,
-      doc_4: contract.doc_4,
+      doc_1: '',
+      doc_2: '',
+      doc_3: '',
+      doc_4: '',
+      doc_5: '',
+      doc_6: '',
+      doc_7: '',
+      doc_8: '',
+      doc_9: '',
+      doc_10: '',
       doc_bail_1: contract.doc_bail_1,
       doc_bail_2: contract.doc_bail_2,
 
@@ -44,7 +50,7 @@ const UploadDocuments = () => {
 
      const fetchDataSpecific = async () => {
          if (contractId !== ''){
-                const response = await fetch(`${Url}/api/documents/${contractId}/`, {
+                const response = await fetch(`${Url}/api/documents/${contractId}/?fields=contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus`, {
              headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -56,7 +62,7 @@ const UploadDocuments = () => {
       }
 
       const fetchData = async () => {
-        const response = await fetch(`${Url}/api/documents`, {
+        const response = await fetch(`${Url}/api/documents/?fields=contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus`, {
              headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -261,44 +267,44 @@ const UploadDocuments = () => {
                                                     <div className="input-group mb-3 align-items-center">
                                                           <label className='me-2'>صفحه 05</label>
                                                           <button className="btn btn-outline-secondary" type="button" id="forthPageBtn" onClick={putHandler}>بارگذاری</button>
-                                                          <input type="file" className="form-control" accept="application/pdf" name='doc_4' id="forthPageInp"
-                                                          aria-describedby="forthPageBtn" aria-label="forthPageInp" onChange={doc_5}/>
+                                                          <input type="file" className="form-control" accept="application/pdf" name='doc_5' id="5thPageInp"
+                                                          aria-describedby="5thPageInp" aria-label="5thPageInp" onChange={doc_5}/>
                                                   </div>
                                                 </div>
                                                 <div className='col'>
                                                      <div className="input-group mb-3 align-items-center">
                                                           <label className='me-2'>صفحه 06</label>
                                                           <button className="btn btn-outline-secondary" type="button" id="forthPageBtn" onClick={putHandler}>بارگذاری</button>
-                                                          <input type="file" className="form-control" accept="application/pdf" name='doc_4' id="forthPageInp"
-                                                          aria-describedby="forthPageBtn" aria-label="forthPageInp" onChange={doc_6}/>
+                                                          <input type="file" className="form-control" accept="application/pdf" name='doc_6' id="6thPageInp"
+                                                          aria-describedby="6thPageInp" aria-label="6thPageInp" onChange={doc_6}/>
                                                   </div>
 
                                                      <div className="input-group mb-3 align-items-center">
                                                           <label className='me-2'>صفحه 07</label>
                                                           <button className="btn btn-outline-secondary" type="button" id="forthPageBtn" onClick={putHandler}>بارگذاری</button>
-                                                          <input type="file" className="form-control" accept="application/pdf" name='doc_4' id="forthPageInp"
-                                                          aria-describedby="forthPageBtn" aria-label="forthPageInp" onChange={doc_7}/>
+                                                          <input type="file" className="form-control" accept="application/pdf" name='doc_7' id="7thPageInp"
+                                                          aria-describedby="7thPageInp" aria-label="7thPageInp" onChange={doc_7}/>
                                                   </div>
 
                                                      <div className="input-group mb-3 align-items-center">
                                                           <label className='me-2'>صفحه 08</label>
                                                           <button className="btn btn-outline-secondary" type="button" id="forthPageBtn" onClick={putHandler}>بارگذاری</button>
-                                                          <input type="file" className="form-control" accept="application/pdf" name='doc_4' id="forthPageInp"
-                                                          aria-describedby="forthPageBtn" aria-label="forthPageInp" onChange={doc_8}/>
+                                                          <input type="file" className="form-control" accept="application/pdf" name='doc_8' id="8thPageInp"
+                                                          aria-describedby="8thPageInp" aria-label="8thPageInp" onChange={doc_8}/>
                                                   </div>
 
                                                      <div className="input-group mb-3 align-items-center">
                                                           <label className='me-2'>صفحه 09</label>
                                                           <button className="btn btn-outline-secondary" type="button" id="forthPageBtn" onClick={putHandler}>بارگذاری</button>
-                                                          <input type="file" className="form-control" accept="application/pdf" name='doc_4' id="forthPageInp"
-                                                          aria-describedby="forthPageBtn" aria-label="forthPageInp" onChange={doc_9}/>
+                                                          <input type="file" className="form-control" accept="application/pdf" name='doc_9' id="9thPageInp"
+                                                          aria-describedby="9thPageInp" aria-label="9thPageInp" onChange={doc_9}/>
                                                   </div>
 
                                                      <div className="input-group mb-3 align-items-center">
                                                           <label className='me-2'>صفحه 10</label>
                                                           <button className="btn btn-outline-secondary" type="button" id="forthPageBtn" onClick={putHandler}>بارگذاری</button>
-                                                          <input type="file" className="form-control" accept="application/pdf" name='doc_4' id="forthPageInp"
-                                                          aria-describedby="forthPageBtn" aria-label="forthPageInp" onChange={doc_10}/>
+                                                          <input type="file" className="form-control" accept="application/pdf" name='doc_10' id="10thPageInp"
+                                                          aria-describedby="10thPageInp" aria-label="10thPageInp" onChange={doc_10}/>
                                                   </div>
                                             </div>
                                         </div>

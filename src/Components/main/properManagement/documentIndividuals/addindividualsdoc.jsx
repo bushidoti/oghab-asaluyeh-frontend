@@ -7,13 +7,13 @@ import Url from "../../../config";
 import {Context} from "../../../../context";
 import {CheckOutlined, DeleteOutlined, EditOutlined} from "@ant-design/icons";
 
-const AddIndividualsDoc = (props) => {
+const AddIndividualsDoc = () => {
     const [contract, setContracts] = useState([])
     const [idNumber, setIdNumber] = useState(null)
     const context = useContext(Context)
 
     const fetchData = async () => {
-        const response = await fetch(`${Url}/api/persons/?full_name=${context.formikPersonalSearch.values.full_name}` , {
+        const response = await fetch(`${Url}/api/persons/?fields=type,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument&full_name=${context.formikPersonalSearch.values.full_name}` , {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }

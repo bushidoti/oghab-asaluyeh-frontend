@@ -22,7 +22,7 @@ const Report = (props) => {
 
     const fetchData = async () => {
         const response = await
-        fetch(`${Url}/api/documents/?employer=${context.formik.values.employer}
+        fetch(`${Url}/api/documents/?fields=contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus&employer=${context.formik.values.employer}
         &typeContract=${context.formik.values.typeContract}&id=${context.formik.values.id}&contractNumber=${context.formik.values.contractNumber}
         &dateContract=${fixNumbers(context.formik.values.dateContract)}&topicContract=${context.formik.values.topicContract}&clearedStatus=${context.formik.values.clearedStatus}` , {
              headers: {
