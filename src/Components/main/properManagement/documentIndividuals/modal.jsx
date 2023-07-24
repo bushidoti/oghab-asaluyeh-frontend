@@ -224,7 +224,7 @@ const Modal = (props) => {
 
       const fetchData = async () => {
         if (props.idNumber !== null){
-            const response = await fetch(`${Url}/api/persons/?fields=type,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument`+ props.idNumber , {
+            const response = await fetch(`${Url}/api/persons/${props.idNumber}/?fields=type,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument` , {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }

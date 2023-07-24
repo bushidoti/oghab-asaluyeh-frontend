@@ -218,7 +218,7 @@ const Modal = (props) => {
 
     const fetchData = async () => {
         if (props.idNumber !== null){
-            const response = await fetch(`${Url}/api/documents/${props.idNumber}/?fields=contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus&`, {
+            const response = await fetch(`${Url}/api/documents/${props.idNumber}/?fields=contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus`, {
              headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }

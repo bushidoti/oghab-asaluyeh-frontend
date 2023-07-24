@@ -250,7 +250,7 @@ const Modal = (props) => {
 
     const fetchData = async () => {
         if (props.idNumber !== null){
-            const response = await fetch(`${Url}/api/properties/?fields=typeProperty,type_form,name,docNumber,plateMotor,addressChassis,landlord,modelMeter,madeOf,part1plate,part2plate,part3plate,cityPlate,descriptionLocation,paperDoc,insurancePaper,gasCard,carCard,description,soldDate,buyer,soldStatus`+ props.idNumber , {
+            const response = await fetch(`${Url}/api/properties/${props.idNumber}/?fields=typeProperty,type_form,name,docNumber,plateMotor,addressChassis,landlord,modelMeter,madeOf,part1plate,part2plate,part3plate,cityPlate,descriptionLocation,paperDoc,insurancePaper,gasCard,carCard,description,soldDate,buyer,soldStatus` , {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
