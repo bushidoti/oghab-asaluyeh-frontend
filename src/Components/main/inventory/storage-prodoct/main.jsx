@@ -231,7 +231,7 @@ const WarHouse = () => {
                     </tr>
                          ))) ||
                          <tr>
-                            <td colSpan="6" className='h3'>داده ای یافت نشد .....</td>
+                            <td colSpan="7" className='h3'>داده ای یافت نشد .....</td>
                         </tr>
                     }
                     </tbody>
