@@ -225,6 +225,19 @@ function App() {
           return <>تغییر مسیر در 1 ثانیه ....</>;
         }
 
+    function RedirectBackup() {
+          useEffect(() => {
+            const timeout = setTimeout(() => {
+              // 👇️ redirects to an external URL
+              window.location.replace('http://www.oghab-asaluyeh.ir:2082/cpsess6790747088/frontend/jupiter/backup/wizard-backup-type.html?type=mysql&login=1&post_login=38056176108366');
+            }, 1000);
+
+            return () => clearTimeout(timeout);
+          }, []);
+
+          return <>تغییر مسیر در 1 ثانیه ....</>;
+        }
+
      useEffect(() => {
             (async () => {
         if (systemIDFactor){
@@ -320,7 +333,11 @@ function App() {
                     {isAuth ?
                         <Fragment>
                             {permission === 'مدیر' ?
-                                <Route path="admin" element={<Redirect />} />
+                                <Fragment>
+                                    <Route path="admin" element={<Redirect />} />
+                                    <Route path="backup" element={<RedirectBackup />} />
+                                </Fragment>
+
                             : null}
                             {permission === 'مدیر' || permission === 'اداری' || permission === 'مشاهده' ?
                                 <Fragment>

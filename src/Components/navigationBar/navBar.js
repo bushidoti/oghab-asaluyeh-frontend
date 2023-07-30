@@ -205,7 +205,11 @@ const NavBar = () => {
                     {context.isAuth ?
                         <Fragment>
                             {context.permission === 'مدیر' ?
-                                  <Link className='nav-link active' to='/admin' >پنل مدیریتی</Link>
+                                <Fragment>
+                                     <Link className='nav-link active' to='/admin' >پنل مدیریتی</Link>
+                                     <Link className='nav-link active' to='/backup' >بکاپ</Link>
+                                </Fragment>
+
                             : null}
                             {context.permission === 'مدیر'  || context.permission === 'اداری' || context.permission === 'مشاهده'?
                                 <Fragment>
