@@ -108,6 +108,7 @@ const ManualModal = (props) => {
               - (props.products.filter(products => products.product ===  formik.values.code).reduce((a,v) =>   a + v.output , 0 )) + formik.values.input,
               date: today.replaceAll('/' , '-'),
               operator:'ثبت اولیه',
+              systemID: documents === 'فاکتور' ? handleAutoIncrementFactor() : null,
               document_type: formikStatic.values.document_type,
               document_code: formikStatic.values.document_code,
               factor: formik.values.factor,
