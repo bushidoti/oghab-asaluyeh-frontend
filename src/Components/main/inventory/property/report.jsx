@@ -489,7 +489,11 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                 </td>
                                            </tr>
-                                             )))
+                                             ))) ||
+
+                                              <tr>
+                                                <td colSpan="9" className='h3'>داده ای یافت نشد .....</td>
+                                              </tr>
                                         )
                                     }else if (typeProperty === 'safetyequipment'){
                                         return (
@@ -524,7 +528,11 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                 </td>
                                             </tr>
-                                                     )))
+                                                     ))) ||
+
+                                              <tr>
+                                                <td colSpan="7" className='h3'>داده ای یافت نشد .....</td>
+                                              </tr>
                                         )
                                     }else if (typeProperty === 'digitalfurniture'){
                                         return (
@@ -559,7 +567,11 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                 </td>
                                             </tr>
-                                                     )))
+                                                     ))) ||
+
+                                              <tr>
+                                                <td colSpan="5" className='h3'>داده ای یافت نشد .....</td>
+                                              </tr>
                                         )
                                     }else if (typeProperty === 'electronicfurniture' || typeProperty === 'facilityfurniture'){
                                         return (

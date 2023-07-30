@@ -259,7 +259,7 @@ const ReportPropertyDoc = (props) => {
             </div>
             {context.propertyToggle === null ? null :
                 <div className= 'm-4 table-responsive text-nowrap rounded-3' style={{maxHeight : '50vh'}}>
-                    <table className="table table-hover table-fixed text-center align-middle table-bordered border-primary" ref={componentPDF} style={{direction:'rtl'}}>
+                    <table className="table table-hover table-fixed text-center align-middle table-bordered border-primary bg-light" ref={componentPDF} style={{direction:'rtl'}}>
                          <thead className= 'bg-light'>
                             <tr>
                                 {context.propertyToggle ?
@@ -342,7 +342,7 @@ const ReportPropertyDoc = (props) => {
                         </tr>
                         ))) ||
                         <tr>
-                            <td colSpan="11" className='h3'>داده ای یافت نشد .....</td>
+                            <td colSpan="16" className='h3'>داده ای یافت نشد .....</td>
                         </tr>
                         }
                     </tbody>

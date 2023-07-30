@@ -502,7 +502,7 @@ const ManualModal = (props) => {
                               </div>
                              <div className="form-floating col-4">
                                 <input type="text" className="form-control" name='document_code'
-                                id="documentIdManual" value={documents === 'حواله' ?  handleAutoIncrementCheck() : ''} disabled={documents === 'حواله'}
+                                id="documentIdManual" value={documents === 'حواله' ?  handleAutoIncrementCheck() : null} disabled={documents === 'حواله'}
                                 onChange={formikStatic.handleChange}
                                        placeholder="560"/>
                                     <label htmlFor="documentIdManual">شناسه {documents}</label>

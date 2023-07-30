@@ -86,7 +86,7 @@ const Main = (props) => {
             {context.docToggle === null ?  null :
                 <Fragment>
                     <div className= 'm-4 table-responsive text-nowrap rounded-3' style={{maxHeight : '50vh'}}>
-                            <Table striped bordered hover className="text-center align-middle border-primary" style={{fontSize:'1vw'}}>
+                            <Table striped bordered hover className="text-center align-middle border-primary bg-light" style={{fontSize:'1vw'}}>
                                 <thead className= 'bg-light'>
                                 <tr>
                                     <th scope="col">شماره ثبت</th>
@@ -124,7 +124,7 @@ const Main = (props) => {
                                         </tr>
                                         ))) ||
                                         <tr>
-                                            <td colSpan="6" className='h3'>داده ای یافت نشد .....</td>
+                                            <td colSpan="7" className='h3'>داده ای یافت نشد .....</td>
                                         </tr>
                                     }
                                 </tbody>

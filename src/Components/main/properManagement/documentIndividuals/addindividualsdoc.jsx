@@ -85,7 +85,7 @@ const AddIndividualsDoc = () => {
                     <span className="dot bg-danger"></span><span> به معنی تسویه شده و قفل شده</span>
                </div>
             <div className= 'm-4 table-responsive text-nowrap rounded-3' style={{maxHeight : '50vh'}}>
-                <table className="table table-hover text-center align-middle table-bordered border-primary" style={{fontSize:'1vw'}}>
+                <table className="table table-hover text-center align-middle table-bordered border-primary bg-light" style={{fontSize:'1vw'}}>
                     <thead className= 'bg-light'>
                     <tr>
                         <th scope="col">شماره ثبت</th>

@@ -111,7 +111,7 @@ const AddPropertyDoc = (props) => {
             {context.propertyToggle === null ?  null :
                 <Fragment>
                     <div className= 'm-4 table-responsive text-nowrap rounded-3' style={{maxHeight : '50vh'}}>
-                        <table className="table table-hover text-center align-middle table-bordered border-primary" style={{direction:'rtl' , fontSize:'1vw'}}>
+                        <table className="table table-hover text-center align-middle table-bordered border-primary bg-light" style={{direction:'rtl' , fontSize:'1vw'}}>
                             <thead className= 'bg-light'>
                             <tr>
                                 <th scope="col">شماره ثبت</th>

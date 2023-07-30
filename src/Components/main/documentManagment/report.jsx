@@ -172,7 +172,7 @@ const Report = (props) => {
                 {context.docToggle === null ? null :
                     <div className='m-4 table-responsive text-nowrap rounded-3'  style={{maxHeight: '50vh'}}>
                         <table ref={componentPDF}
-                        className="table table-hover table-fixed text-center align-middle table-striped table-bordered border-primary" style={{direction:'rtl' , fontSize:'1vw'}}>
+                        className="table table-hover table-fixed text-center align-middle table-striped table-bordered border-primary bg-light" style={{direction:'rtl' , fontSize:'1vw'}}>
                             <thead className='bg-light'>
                             <tr>
                                 <th scope="col">ردیف</th>

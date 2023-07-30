@@ -205,7 +205,7 @@ const ReportIndividualsDoc = () => {
                             <span className="dot bg-danger"></span><span> به معنی تسویه شده و قفل شده</span>
                        </div>
                 <div className= 'm-4 table-responsive text-nowrap rounded-3' style={{maxHeight : '50vh'}}>
-                    <table className="table table-hover table-fixed text-center align-middle table-bordered border-primary"
+                    <table className="table table-hover table-fixed text-center align-middle table-bordered border-primary bg-light"
                            ref={componentPDF} style={{direction:'rtl' , fontSize:'1vw'}}>
                          <thead className= 'bg-light'>
                             <tr>
