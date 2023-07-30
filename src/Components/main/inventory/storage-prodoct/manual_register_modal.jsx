@@ -130,6 +130,7 @@ const ManualModal = (props) => {
               'ok',
               postHandler(),
               putHandlerAutoIncrement(),
+              putHandlerAutoIncrementFactor(),
               fetchDataAutoIncrement(),
             )
       }
