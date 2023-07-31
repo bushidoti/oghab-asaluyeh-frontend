@@ -423,6 +423,7 @@ const Modal = (props) => {
                                              locale={persian_fa}
                                              required
                                          />
+
                                     </div>
 
                             </div>
@@ -690,9 +691,10 @@ const Modal = (props) => {
                                 </div>
                         </div>
 
-                        <hr className='bg-primary mb-4'/>
-
-                            <div className='d-flex gap-2  mb-2 align-items-center '>
+                            {props.modalTitle === 'done' ?
+                                <Fragment>
+                                    <hr className='bg-primary mb-4'/>
+                                   <div className='d-flex gap-2  mb-2 align-items-center '>
                                         <div className='d-flex col align-items-center'>
                                             <p className='me-2'>در</p>
                                             <div>
@@ -725,6 +727,9 @@ const Modal = (props) => {
                                             </label>
                                         </div>
                             </div>
+                                    </Fragment>
+                                : null}
+
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-danger" onClick={refreshPage} data-bs-dismiss="modal"><CloseOutlined /></button>
