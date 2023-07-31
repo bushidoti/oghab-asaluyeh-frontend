@@ -17,7 +17,7 @@ const Modal = (props) => {
 
     const formik = useFormik({
     initialValues: {
-      id: property.id || '',
+      id: property.id || 1,
       typeProperty: property.typeProperty || '',
       name: property.name || '',
       docNumber: property.docNumber || '',
@@ -47,7 +47,6 @@ const Modal = (props) => {
     });
 
     function refreshPage() {
-        formik.setFieldValue('id' , '')
         formik.setFieldValue('typeProperty' , '')
         formik.setFieldValue('name' , '')
         formik.setFieldValue('docNumber' , '')
@@ -249,8 +248,8 @@ const Modal = (props) => {
         }
 
     const fetchData = async () => {
-        if (props.idNumber !== null){
-            const response = await fetch(`${Url}/api/properties/${props.idNumber}/?fields=typeProperty,type_form,name,docNumber,plateMotor,addressChassis,landlord,modelMeter,madeOf,part1plate,part2plate,part3plate,cityPlate,descriptionLocation,paperDoc,insurancePaper,gasCard,carCard,description,soldDate,buyer,soldStatus` , {
+        if (props.idNumber){
+            const response = await fetch(`${Url}/api/properties/${props.idNumber}/?fields=id,typeProperty,type_form,name,docNumber,plateMotor,addressChassis,landlord,modelMeter,madeOf,part1plate,part2plate,part3plate,cityPlate,descriptionLocation,paperDoc,insurancePaper,gasCard,carCard,description,soldDate,buyer,soldStatus` , {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -261,7 +260,7 @@ const Modal = (props) => {
       }
 
     const fetchLastData = async () => {
-        const response = await fetch(`${Url}/api/properties/?fields=typeProperty,type_form,name,docNumber,plateMotor,addressChassis,landlord,modelMeter,madeOf,part1plate,part2plate,part3plate,cityPlate,descriptionLocation,paperDoc,insurancePaper,gasCard,carCard,description,soldDate,buyer,soldStatus` , {
+        const response = await fetch(`${Url}/api/properties/?fields=id,typeProperty,type_form,name,docNumber,plateMotor,addressChassis,landlord,modelMeter,madeOf,part1plate,part2plate,part3plate,cityPlate,descriptionLocation,paperDoc,insurancePaper,gasCard,carCard,description,soldDate,buyer,soldStatus` , {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -290,6 +289,23 @@ const Modal = (props) => {
             return postAlert
         }
     }
+
+    (function () {
+                  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                const forms = document.querySelectorAll('form');
+                // Loop over them and prevent submission
+                  Array.prototype.slice.call(forms)
+                    .forEach(function (form) {
+                      form.addEventListener('click', function (event) {
+                        if (!form.checkValidity()) {
+                          event.preventDefault()
+                        }
+
+                        form.classList.add('was-validated')
+                      }, false)
+                    })
+                })()
+
   return (
       <Fragment>
          <div className="modal fade " data-bs-backdrop="static" data-bs-keyboard="false"  id="modalMain" tabIndex="-1" aria-labelledby="modalMainLabel"

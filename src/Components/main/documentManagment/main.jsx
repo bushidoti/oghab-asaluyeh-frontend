@@ -15,7 +15,7 @@ const Main = (props) => {
     const context = useContext(Context)
 
     const fetchData = async () => {
-        const response = await fetch(`${Url}/api/documents/?fields=contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus&employer=${context.formik.values.employer}`, {
+        const response = await fetch(`${Url}/api/documents/?fields=id,contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus&employer=${context.formik.values.employer}`, {
              headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -62,7 +62,6 @@ const Main = (props) => {
           },
           // eslint-disable-next-line react-hooks/exhaustive-deps
           [context.formik.values.employer])
-
     return (
         <Fragment>
                  <Modal docToggle={context.docToggle} editDocument={context.editDocument} setEditDocument={context.setEditDocument}  modalTitle={context.modalTitle} idNumber={idNumber} setIdNumber={setIdNumber}/>

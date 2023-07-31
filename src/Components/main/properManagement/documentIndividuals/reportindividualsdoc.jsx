@@ -22,7 +22,7 @@ const ReportIndividualsDoc = () => {
 
     const fetchData = async () => {
         const response = await
-        fetch(`${Url}/api/persons/?fields=type,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument&full_name=${context.formikPersonalSearch.values.full_name}
+        fetch(`${Url}/api/persons/?fields=id,type,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument&full_name=${context.formikPersonalSearch.values.full_name}
         &sex=${context.formikPersonalSearch.values.sex}&id=${context.formikPersonalSearch.values.id}&office=${context.formikPersonalSearch.values.office}
         &date=${fixNumbers(context.formikPersonalSearch.values.date)}&national_id=${context.formikPersonalSearch.values.national_id}
         &clearedStatus=${context.formikPersonalSearch.values.clearedStatus}&type=${context.formikPersonalSearch.values.type}&job=${context.formikPersonalSearch.values.job}` , {

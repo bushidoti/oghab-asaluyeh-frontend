@@ -435,6 +435,24 @@ const ManualModal = (props) => {
               return autoIncrementCheck.oghab107
           }
     }
+
+          (function () {
+                  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                const forms = document.querySelectorAll('form');
+                // Loop over them and prevent submission
+                  Array.prototype.slice.call(forms)
+                    .forEach(function (form) {
+                      form.addEventListener('click', function (event) {
+                        if (!form.checkValidity()) {
+                          event.preventDefault()
+                          event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                      }, false)
+                    })
+                })()
+
   return (
       <Fragment>
          <div className="modal fade"  id="manualModal" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="manualModalLabel" aria-hidden="true">

@@ -21,7 +21,7 @@ const ObserveModal = () => {
       }
 
      const fetchDataSpecific = async () => {
-        if (contractId !== ''){
+        if (contractId){
             const response = await fetch(`${Url}/api/properties/${contractId}/` , {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),

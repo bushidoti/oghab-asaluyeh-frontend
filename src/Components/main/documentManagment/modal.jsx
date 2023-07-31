@@ -18,7 +18,7 @@ const Modal = (props) => {
 
     const formik = useFormik({
     initialValues: {
-      id: contract.id || '',
+      id: contract.id || 1,
       contractNumber: contract.contractNumber || '',
       employer: contract.employer || '',
       dateContract: contract.dateContract || '',
@@ -217,8 +217,8 @@ const Modal = (props) => {
         }
 
     const fetchData = async () => {
-        if (props.idNumber !== null){
-            const response = await fetch(`${Url}/api/documents/${props.idNumber}/?fields=contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus`, {
+        if (props.idNumber){
+            const response = await fetch(`${Url}/api/documents/${props.idNumber}/?fields=id,contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus`, {
              headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -229,7 +229,7 @@ const Modal = (props) => {
       }
 
     const fetchLastData = async () => {
-        const response = await fetch(`${Url}/api/documents/?fields=contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus` , {
+        const response = await fetch(`${Url}/api/documents/?fields=id,contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus` , {
              headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -247,7 +247,6 @@ const Modal = (props) => {
           [props.idNumber])
 
      function refreshPage() {
-        formik.setFieldValue('id' , '')
         formik.setFieldValue('contractNumber' , '')
         formik.setFieldValue('employer' , '')
         formik.setFieldValue('dateContract' , '')
@@ -327,6 +326,21 @@ const Modal = (props) => {
     function refreshPages() {
         window.location.reload()
     }
+     (function () {
+                  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                const forms = document.querySelectorAll('form');
+                // Loop over them and prevent submission
+                  Array.prototype.slice.call(forms)
+                    .forEach(function (form) {
+                      form.addEventListener('click', function (event) {
+                        if (!form.checkValidity()) {
+                          event.preventDefault()
+                        }
+
+                        form.classList.add('was-validated')
+                      }, false)
+                    })
+                })()
   return (
       <Fragment>
      <div className="modal fade " data-bs-backdrop="static" data-bs-keyboard="false" id="modalMain" tabIndex="-1" aria-labelledby="modalMainLabel"

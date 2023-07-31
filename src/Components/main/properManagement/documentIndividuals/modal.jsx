@@ -18,7 +18,7 @@ const Modal = (props) => {
 
     const formik = useFormik({
     initialValues: {
-      id: contract.id || '',
+      id: contract.id || 1,
       type: contract.type || '',
       full_name: contract.full_name || '',
       date: contract.date,
@@ -39,7 +39,6 @@ const Modal = (props) => {
     });
 
      function refreshPage() {
-        formik.setFieldValue('id' , '')
         formik.setFieldValue('type' , '')
         formik.setFieldValue('full_name' , '')
         formik.setFieldValue('date' , '')
@@ -223,8 +222,8 @@ const Modal = (props) => {
         }
 
       const fetchData = async () => {
-        if (props.idNumber !== null){
-            const response = await fetch(`${Url}/api/persons/${props.idNumber}/?fields=type,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument` , {
+        if (props.idNumber){
+            const response = await fetch(`${Url}/api/persons/${props.idNumber}/?fields=id,type,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument` , {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -235,7 +234,7 @@ const Modal = (props) => {
       }
 
       const fetchLastData = async () => {
-        const response = await fetch(`${Url}/api/persons/?fields=type,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument`, {
+        const response = await fetch(`${Url}/api/persons/?fields=id,type,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument`, {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -289,7 +288,25 @@ const Modal = (props) => {
         }
 
     }
+
+    (function () {
+                  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                const forms = document.querySelectorAll('form');
+                // Loop over them and prevent submission
+                  Array.prototype.slice.call(forms)
+                    .forEach(function (form) {
+                      form.addEventListener('click', function (event) {
+                        if (!form.checkValidity()) {
+                          event.preventDefault()
+                        }
+
+                        form.classList.add('was-validated')
+                      }, false)
+                    })
+                })()
+
     handleLabelBails1()
+
 
   return (
       <Fragment>
