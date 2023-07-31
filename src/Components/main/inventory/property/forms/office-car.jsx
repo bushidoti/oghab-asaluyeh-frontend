@@ -558,15 +558,15 @@ export const OfficeCar = () => {
                                                             type="tel" name='plate4' value={form.editStatus ? form.formik.values.plate4 : formik.values.plate4}
                                                onChange={form.editStatus ? form.formik.handleChange : formik.handleChange}
                                                             maxLength='2' placeholder="⚊ ⚊"
-                                                            id="carPlateSection4"/>
+                                                            id="carPlateSection4" required/>
                                                             <span className="c-form__car-plate-input__iran">ایران</span>
                                                             <input type="tel"  id="carPlateSection3" placeholder="⚊ ⚊ ⚊" disabled={form.viewOnly}
                                                             aria-label="First name" name='plate3' value={form.editStatus ? form.formik.values.plate3 : formik.values.plate3}
                                                onChange={form.editStatus ? form.formik.handleChange : formik.handleChange}
-                                                            maxLength='3' className="c-form__input form-control"/>
+                                                            maxLength='3' className="c-form__input form-control" required/>
                                                             <select id="carPlateSection2" disabled={form.viewOnly}
                                                             className="c-form__combo c-form__car-plate-input__section2" name='plate2' value={form.editStatus ? form.formik.values.plate2 : formik.values.plate2}
-                                               onChange={form.editStatus ? form.formik.handleChange : formik.handleChange}>
+                                               onChange={form.editStatus ? form.formik.handleChange : formik.handleChange} required>
                                                                 <option value="" disabled>انتخاب</option>
                                                                 <option value="الف">الف</option>
                                                                 <option value="ب">ب</option>
@@ -598,7 +598,7 @@ export const OfficeCar = () => {
                                                             </select>
                                                             <input type="tel" placeholder="⚊ ⚊"  id="carPlateSection1" maxLength='2' disabled={form.viewOnly}
                                                             className="c-form__input form-control" name='plate1' value={form.editStatus ? form.formik.values.plate1 : formik.values.plate1}
-                                               onChange={form.editStatus ? form.formik.handleChange : formik.handleChange}/>
+                                               onChange={form.editStatus ? form.formik.handleChange : formik.handleChange} required/>
                                                             <span className="input-group-text c-form__car-plate-input rounded-8"></span>
                                                           </div>
                                                           </div>
