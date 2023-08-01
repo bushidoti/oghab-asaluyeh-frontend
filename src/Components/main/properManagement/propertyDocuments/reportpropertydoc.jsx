@@ -8,7 +8,7 @@ import {CopyOutlined, InfoOutlined, PrinterOutlined} from "@ant-design/icons";
 
 const ReportPropertyDoc = (props) => {
     const [property, setProperties] = useState([])
-    const [idNumber, setIdNumber] = useState(null)
+    const [idNumber, setIdNumber] = useState('')
     const componentPDF= useRef();
     const context = useContext(Context)
 
@@ -318,6 +318,7 @@ const ReportPropertyDoc = (props) => {
                                                 <button className= 'btn btn-warning' data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
                                             context.handleEditProperty()
                                             setIdNumber(data.id)
+                                            context.setModalTitle('visit')
                                         }}><InfoOutlined /></button>
                                             </td>
                                         </Fragment>

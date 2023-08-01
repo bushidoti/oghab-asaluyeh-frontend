@@ -21,7 +21,7 @@ const Modal = (props) => {
       id: contract.id || 1,
       type: contract.type || '',
       full_name: contract.full_name || '',
-      date: contract.date,
+      date: contract.date || '',
       national_id: contract.national_id || '',
       sex: contract.sex || '',
       office: contract.office || '',
@@ -78,10 +78,31 @@ const Modal = (props) => {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-              })
-           setTimeout(
-                    refreshPages, 3000)
+              }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                            alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                            postAlert()
+                            setTimeout(
+                                refreshPages, 3000)
+                        }
+                    }
+
+                })
+
         }
+      const alert= (code) => {
+            Swal.fire({
+                  icon: 'error',
+                  title: `کد ارور ${code}`,
+                  text: 'لطفا تمام فیلد های مورد نیاز را بصورت صحیح پر کنید.',
+                })
+    }
 
     const putHandler = async () => {
          await axios.put(
@@ -189,27 +210,12 @@ const Modal = (props) => {
       }
 
       const postAlert = () => {
-          Swal.fire({
-              title: 'مطمئنید?',
-              text: "آیا از ثبت این قرارداد مطمئنید ؟",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              cancelButtonText: 'انصراف',
-              confirmButtonText: 'بله, ثبت کن!'
-            }).then((result) => {
-              if (result.isConfirmed) {
                 Swal.fire(
                   'ثبت شد!',
                   'قرارداد ثبت شد.',
                   'success',
                   'ok',
-                  postHandler(),
-
                 )
-              }
-            })
       }
 
 
@@ -256,7 +262,8 @@ const Modal = (props) => {
         }else if (props.ModalTitle === 'done'){
             return putAlertCleared
         }else {
-            return postAlert
+            return postHandler
+
         }
     }
 
@@ -550,7 +557,7 @@ const Modal = (props) => {
                                           })()}
                             </div>
 
-                     {props.modalTitle === 'done' ?
+                     {props.ModalTitle === 'done' ?
                                 <Fragment>
                                                                 <hr className='bg-primary mb-5'/>
 
@@ -585,8 +592,7 @@ const Modal = (props) => {
                                             </label>
                                     </div>
                                 </div>
-                                </Fragment>
-                                    : null}
+                                </Fragment> : null}
                             </div>
 
                             <div className="modal-footer">

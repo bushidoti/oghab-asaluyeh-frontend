@@ -15,7 +15,6 @@ import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
 const Modal = (props) => {
     const [contract, setContracts] = useState([])
     const [lastID, setLastID] = useState([])
-    const [axiosErrorMessage, setAxiosErrorMessage] = useState('')
 
     const formik = useFormik({
     initialValues: {
@@ -71,20 +70,9 @@ const Modal = (props) => {
             }).then(response => {
      return response
           }).then(async data => {
-
-                    const prom = async (id) => {
-                        return alert(id)
-
-                    }
-                    const func = async (id) => {
-                        await prom(id).then(() => {
-                            setAxiosErrorMessage(id)
-                        });
-                    }
-
                     try {
                         if (data.response.status === 400) {
-                            await func(data.response.data.dateContract[0])
+                                alert(data.response.status)
                         }
                     } catch (e) {
                         if (data.status === 201) {
@@ -97,11 +85,11 @@ const Modal = (props) => {
                 })
         }
 
-      const alert = (id) => {
+     const alert= (code) => {
             Swal.fire({
                   icon: 'error',
-                  title: 'خطا در ثبت قرارداد',
-                  text: id,
+                  title: `کد ارور ${code}`,
+                  text: 'لطفا تمام فیلد های مورد نیاز را بصورت صحیح پر کنید.',
                 })
     }
 

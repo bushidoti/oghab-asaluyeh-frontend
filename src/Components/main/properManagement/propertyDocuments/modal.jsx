@@ -68,10 +68,9 @@ const Modal = (props) => {
         formik.setFieldValue('soldDate' , '')
         formik.setFieldValue('buyer' , '')
         formik.setFieldValue('soldStatus' , '')
-        props.setIdNumber('')
+        props.setIdNumber('*')
         props.setEditProperty(false)
       }
-
     const postHandler = async () => {
            await axios.post(
             `${Url}/api/properties/`,
@@ -99,10 +98,34 @@ const Modal = (props) => {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-              })
-           setTimeout(
-                    refreshPages, 3000)
+              }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                            postAlert()
+                            setTimeout(
+                                refreshPages, 3000)
+                        }
+                    }
+
+                })
+
         }
+
+
+     const alert= (code) => {
+            Swal.fire({
+                  icon: 'error',
+                  title: `کد ارور ${code}`,
+                  text: 'لطفا تمام فیلد های مورد نیاز را بصورت صحیح پر کنید.',
+                })
+    }
+
 
     const putHandler = async () => {
        await axios.put(
@@ -219,27 +242,12 @@ const Modal = (props) => {
       }
 
       const postAlert = () => {
-          Swal.fire({
-              title: 'مطمئنید?',
-              text: "آیا از ثبت این اموال مطمئنید ؟",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              cancelButtonText: 'انصراف',
-              confirmButtonText: 'بله, ثبت کن!'
-            }).then((result) => {
-              if (result.isConfirmed) {
                 Swal.fire(
                   'ثبت شد!',
                   'اموال ثبت شد.',
                   'success',
                   'ok',
-                  postHandler(),
-
                 )
-              }
-            })
       }
 
 
@@ -280,13 +288,14 @@ const Modal = (props) => {
    function refreshPages() {
         window.location.reload();
       }
+
    const handleSubmit = () => {
         if (props.ModalTitle === 'edit'){
             return putAlert
         }else if (props.ModalTitle === 'done'){
             return putAlertCleared
         }else {
-            return postAlert
+            return postHandler
         }
     }
 
@@ -551,7 +560,9 @@ const Modal = (props) => {
                                         <hr className='bg-primary mb-5'/>
                                 </Fragment>
                             }
-                              <div className='d-flex mb-2'>
+
+                            {props.ModalTitle === 'done' ?
+                                     <div className='d-flex mb-2'>
                                         <div className='d-flex col align-items-center'>
                                              <p className='me-2'>در</p>
                                              <div>
@@ -579,6 +590,8 @@ const Modal = (props) => {
                                             </div>
                                         </div>
                                     </div>
+                                : null}
+
                                 </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={refreshPage}><CloseOutlined /></button>
