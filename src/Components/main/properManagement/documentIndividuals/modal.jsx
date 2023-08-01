@@ -54,7 +54,7 @@ const Modal = (props) => {
         formik.setFieldValue('clearedStatus' , '')
         formik.setFieldValue('clearedDate' , '')
         formik.setFieldValue('receivedDocument' , '')
-        props.setIdNumber('')
+        props.setIdNumber('*')
         props.setEditDocumentIndividuals(false)
       }
 

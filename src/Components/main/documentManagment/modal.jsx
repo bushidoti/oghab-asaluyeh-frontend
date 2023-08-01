@@ -273,7 +273,7 @@ const Modal = (props) => {
         formik.setFieldValue('typeContract' , '')
         formik.setFieldValue('clearedDate' , '')
         formik.setFieldValue('receivedDocument' , '')
-        props.setIdNumber('')
+        props.setIdNumber('*')
         props.setEditDocument(false)
       }
 
