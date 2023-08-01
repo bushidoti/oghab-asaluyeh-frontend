@@ -15,6 +15,7 @@ import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
 const Modal = (props) => {
     const [contract, setContracts] = useState([])
     const [lastID, setLastID] = useState([])
+    const [axiosErrorMessage, setAxiosErrorMessage] = useState('')
 
     const formik = useFormik({
     initialValues: {
@@ -43,34 +44,66 @@ const Modal = (props) => {
     });
 
      const postHandler = async () => {
-          await axios.post(
-            `${Url}/api/documents/`,
-              {
-              contractNumber: formik.values.contractNumber,
-              employer: formik.values.employer,
-              type_form: props.docToggle,
-              dateContract: formik.values.dateContract,
-              contractPrice: formik.values.contractPrice,
-              durationContract: formik.values.durationContract,
-              prePaidPrice: formik.values.prePaidPrice,
-              goodPrice: formik.values.goodPrice,
-              typeBail1: formik.values.typeBail1,
-              firstBail: firstBail1 + ' ' + formik.values.firstBail,
-              secondBail: secondBail1 +  ' ' + formik.values.secondBail,
-              commitmentPrice: formik.values.commitmentPrice,
-              typeBail2: formik.values.typeBail2,
-              firstBail2: firstBail2 + ' ' + formik.values.firstBail2,
-              secondBail2: secondBail2 + ' ' + formik.values.secondBail2 ,
-              topicContract: formik.values.topicContract,
-              typeContract: formik.values.typeContract,
-         }, {
-             headers: {
-                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
-                }
-        })
-           setTimeout(
-                    refreshPages, 3000)
+                await axios.post(
+                `${Url}/api/documents/`,
+                  {
+                  contractNumber: formik.values.contractNumber,
+                  employer: formik.values.employer,
+                  type_form: props.docToggle,
+                  dateContract: formik.values.dateContract,
+                  contractPrice: formik.values.contractPrice,
+                  durationContract: formik.values.durationContract,
+                  prePaidPrice: formik.values.prePaidPrice,
+                  goodPrice: formik.values.goodPrice,
+                  typeBail1: formik.values.typeBail1,
+                  firstBail: firstBail1 + ' ' + formik.values.firstBail,
+                  secondBail: secondBail1 +  ' ' + formik.values.secondBail,
+                  commitmentPrice: formik.values.commitmentPrice,
+                  typeBail2: formik.values.typeBail2,
+                  firstBail2: firstBail2 + ' ' + formik.values.firstBail2,
+                  secondBail2: secondBail2 + ' ' + formik.values.secondBail2 ,
+                  topicContract: formik.values.topicContract,
+                  typeContract: formik.values.typeContract,
+             }, {
+                 headers: {
+                      'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                    }
+            }).then(response => {
+     return response
+          }).then(async data => {
+
+                    const prom = async (id) => {
+                        return alert(id)
+
+                    }
+                    const func = async (id) => {
+                        await prom(id).then(() => {
+                            setAxiosErrorMessage(id)
+                        });
+                    }
+
+                    try {
+                        if (data.response.status === 400) {
+                            await func(data.response.data.dateContract[0])
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                            postAlert()
+                            setTimeout(
+                                refreshPages, 3000)
+                        }
+                    }
+
+                })
         }
+
+      const alert = (id) => {
+            Swal.fire({
+                  icon: 'error',
+                  title: 'خطا در ثبت قرارداد',
+                  text: id,
+                })
+    }
 
        const putHandler = async () => {
          await axios.put(
@@ -185,27 +218,14 @@ const Modal = (props) => {
       }
 
       const postAlert = () => {
-          Swal.fire({
-              title: 'مطمئنید?',
-              text: "آیا از ثبت این قرارداد مطمئنید ؟",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              cancelButtonText: 'انصراف',
-              confirmButtonText: 'بله, ثبت کن!'
-            }).then((result) => {
-              if (result.isConfirmed) {
                 Swal.fire(
                   'ثبت شد!',
                   'قرارداد ثبت شد.',
                   'success',
                   'ok',
-                  postHandler(),
 
                 )
-              }
-            })
+
       }
 
     function handleChange(value){
@@ -320,7 +340,7 @@ const Modal = (props) => {
         }else if (props.modalTitle === 'done'){
             return putAlertCleared
         }else {
-            return postAlert
+            return postHandler
         }
     }
     function refreshPages() {
@@ -341,6 +361,7 @@ const Modal = (props) => {
                       }, false)
                     })
                 })()
+
   return (
       <Fragment>
      <div className="modal fade " data-bs-backdrop="static" data-bs-keyboard="false" id="modalMain" tabIndex="-1" aria-labelledby="modalMainLabel"
