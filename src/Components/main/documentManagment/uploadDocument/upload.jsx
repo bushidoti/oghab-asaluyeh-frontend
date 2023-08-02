@@ -50,7 +50,7 @@ const UploadDocuments = () => {
 
      const fetchDataSpecific = async () => {
          if (contractId){
-                const response = await fetch(`${Url}/api/documents/${contractId}/?fields=contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus`, {
+                const response = await fetch(`${Url}/api/documents/${contractId}/?fields=id,contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus`, {
              headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -62,7 +62,7 @@ const UploadDocuments = () => {
       }
 
       const fetchData = async () => {
-        const response = await fetch(`${Url}/api/documents/?fields=contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus`, {
+        const response = await fetch(`${Url}/api/documents/?fields=id,contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus`, {
              headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
