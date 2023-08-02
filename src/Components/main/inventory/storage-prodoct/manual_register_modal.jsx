@@ -97,7 +97,23 @@ const ManualModal = (props) => {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            })
+            }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                            postAlert()
+                              await putHandlerAutoIncrement()
+                              await putHandlerAutoIncrementFactor()
+                              await fetchDataAutoIncrement()
+                        }
+                    }
+
+                })
          await axios.post(
             `${Url}/api/allproducts/`,
               {
@@ -119,9 +135,32 @@ const ManualModal = (props) => {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            })
+            }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                            postAlert()
+                            setTimeout(
+                                refreshPages, 3000)
+                        }
+                    }
+
+                })
            
         }
+
+     const alert= (code) => {
+            Swal.fire({
+                  icon: 'error',
+                  title: `کد ارور ${code}`,
+                  text: 'لطفا تمام فیلد های مورد نیاز را بصورت صحیح پر کنید.',
+                })
+    }
 
     const postAlert = () => {
             Swal.fire(
@@ -129,10 +168,6 @@ const ManualModal = (props) => {
               'کالا ثبت شد.',
               'success',
               'ok',
-              postHandler(),
-              putHandlerAutoIncrement(),
-              putHandlerAutoIncrementFactor(),
-              fetchDataAutoIncrement(),
             )
       }
 
@@ -361,7 +396,7 @@ const ManualModal = (props) => {
 
     const handleSubmit = () => {
         if (repeatedProduct === false){
-            return postAlert()
+            return postHandler()
         }else if (registerType === 'خروج'){
             return postAlertProductsOutput()
         }else if (registerType === 'ورود'){
@@ -442,7 +477,7 @@ const ManualModal = (props) => {
                 // Loop over them and prevent submission
                   Array.prototype.slice.call(forms)
                     .forEach(function (form) {
-                      form.addEventListener('click', function (event) {
+                      form.addEventListener('click', function () {
 
 
                         form.classList.add('was-validated')
