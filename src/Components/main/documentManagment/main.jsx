@@ -15,7 +15,7 @@ const Main = (props) => {
     const context = useContext(Context)
 
     const fetchData = async () => {
-        const response = await fetch(`${Url}/api/documents/?fields=id,contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus&employer=${context.formik.values.employer}`, {
+        const response = await fetch(`${Url}/api/documents/?fields=id,contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus`, {
              headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -61,7 +61,7 @@ const Main = (props) => {
             void fetchData()
           },
           // eslint-disable-next-line react-hooks/exhaustive-deps
-          [context.formik.values.employer])
+          [])
     return (
         <Fragment>
                  <Modal docToggle={context.docToggle} editDocument={context.editDocument} setEditDocument={context.setEditDocument}  modalTitle={context.modalTitle} idNumber={idNumber} setIdNumber={setIdNumber}/>
@@ -98,7 +98,13 @@ const Main = (props) => {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    {(contract.length > 0 && contract.filter(contract => contract.type_form === context.docToggle).map((data) => (
+                                    {(contract.length > 0 && contract.filter((contract) => {
+                                                    if (context.formik.values.employer){
+                                                        return contract.type_form === context.docToggle && contract.employer === String(context.formik.values.employer)
+                                                    }else {
+                                                        return contract.type_form === context.docToggle
+                                                    }
+                                          }).map((data) => (
                                         <tr key={data.id}>
                                             <th scope="row">{data.id}</th>
                                             <td>{data.contractNumber}</td>

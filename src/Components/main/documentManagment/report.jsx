@@ -9,7 +9,6 @@ import {CustomInputDate} from "../../../App";
 import {Toggler} from "./toggler";
 import { useReactToPrint } from "react-to-print";
 import fixNumbers from '.././persianNumbers'
-import options from "../date-option";
 import Url from "../../config";
 import {Context} from "../../../context";
 import {CopyOutlined, InfoOutlined, PrinterOutlined} from "@ant-design/icons";
@@ -22,9 +21,7 @@ const Report = (props) => {
 
     const fetchData = async () => {
         const response = await
-        fetch(`${Url}/api/documents/?fields=id,contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus&employer=${context.formik.values.employer}
-        &typeContract=${context.formik.values.typeContract}&id=${context.formik.values.id}&contractNumber=${context.formik.values.contractNumber}
-        &dateContract=${fixNumbers(context.formik.values.dateContract)}&topicContract=${context.formik.values.topicContract}&clearedStatus=${context.formik.values.clearedStatus}` , {
+        fetch(`${Url}/api/documents/?fields=id,contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus` , {
              headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -37,12 +34,12 @@ const Report = (props) => {
             void fetchData()
           },
           // eslint-disable-next-line react-hooks/exhaustive-deps
-          [context.formik.values])
+          [])
 
 
 
      function handleChange(value){
-            context.formik.setFieldValue('dateContract' , value.toDate().toLocaleDateString('fa-IR', options).replaceAll('/' , '-'))
+            context.formik.setFieldValue('dateContract' , value.format("YYYY-MM-DD"))
         }
 
      const nameFieldHandler = () => {
@@ -196,7 +193,25 @@ const Report = (props) => {
                             </thead>
 
                             <tbody>
-                                {(contract.length > 0 && contract.filter(contract => contract.type_form === context.docToggle).map((data,i) => (
+                                {(contract.length > 0 && contract.filter((contract) => {
+                                                    if (context.formik.values.employer){
+                                                        return contract.type_form === context.docToggle && contract.employer === String(context.formik.values.employer)
+                                                    }else if (context.formik.values.typeContract){
+                                                        return contract.type_form === context.docToggle && contract.typeContract === String(context.formik.values.typeContract)
+                                                    }else if (context.formik.values.id){
+                                                        return contract.type_form === context.docToggle && contract.id === Number(context.formik.values.id)
+                                                    }else if (context.formik.values.contractNumber){
+                                                        return contract.type_form === context.docToggle && contract.contractNumber === String(context.formik.values.contractNumber)
+                                                    }else if (context.formik.values.topicContract){
+                                                        return contract.type_form === context.docToggle && contract.topicContract === String(context.formik.values.topicContract)
+                                                    }else if (context.formik.values.clearedStatus){
+                                                        return contract.type_form === context.docToggle && contract.clearedStatus === String(context.formik.values.clearedStatus)
+                                                    }else if (context.formik.values.dateContract){
+                                                        return contract.type_form === context.docToggle && contract.dateContract === fixNumbers(context.formik.values.dateContract)
+                                                    }else {
+                                                        return contract.type_form === context.docToggle
+                                                    }
+                                          }).map((data,i) => (
                                     <tr key={data.id}>
                                         <th scope="row">{i}</th>
                                         <td>{data.id}</td>
