@@ -5,7 +5,9 @@ import {Link, Outlet} from "react-router-dom";
 import {Container, Nav, Navbar} from "react-bootstrap";
 import {Context} from "../../context";
 import type { MenuProps } from 'antd';
-import {ConfigProvider, Dropdown, Space} from 'antd';
+import {ConfigProvider, Dropdown, Select, Space} from 'antd';
+import axios from "axios";
+import Url from "../config";
 
 
 const NavBar = () => {
@@ -175,7 +177,26 @@ const NavBar = () => {
 
 
 
+    const handleChange = async (value: string) => {
+        await axios.put(
+            `${Url}/api/employee/1/`,
+            {
+                office: value,
+                department: 'مالی',
+                rank: 'مدیر',
+                user: 1,
+            }, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+            })
+        setTimeout(
+            refreshPages, 1000)
+    };
 
+    function refreshPages() {
+        window.location.reload()
+    }
     return (
         <Fragment>
           <div className='rounded-top  bg-light mt-2 w-50 ms-2 border-top border-start border-end  border-success' style={{maxWidth: 'max-content'}}><Clock/></div>
@@ -206,15 +227,30 @@ const NavBar = () => {
                         <Fragment>
                             {context.permission === 'مدیر' ?
                                 <Fragment>
+                                    <Select className='nav-link active'
+                                          defaultValue="انتخاب انبار"
+                                          style={{ width: 150 }}
+                                          onChange={handleChange}
+                                          options={[
+                                            { value: 'دفتر مرکزی', label: 'دفتر مرکزی' },
+                                            { value: 'چابهار', label: 'چابهار' },
+                                            { value: 'دزفول', label: 'دزفول' },
+                                            { value: 'جاسک', label: 'جاسک' },
+                                            { value: 'بیشه کلا', label: 'بیشه کلا' },
+                                            { value: 'اورهال تهران', label: 'اورهال تهران' },
+                                            { value: 'اورهال اصفهان', label: 'اورهال اصفهان' },
+                                          ]}
+                                        />
                                      <Link className='nav-link active' to='/admin' >پنل مدیریتی</Link>
                                      <Link className='nav-link active' to='/backup' >بکاپ</Link>
+
                                 </Fragment>
 
                             : null}
                             {context.permission === 'مدیر'  || context.permission === 'اداری' || context.permission === 'مشاهده'?
                                 <Fragment>
                                     {context.permission === 'مدیر' || (context.permission === 'اداری' && context.office === 'دفتر مرکزی') || context.permission === 'مشاهده'  ?
-                                           <Dropdown placement="bottom" arrow={{ pointAtCenter: true }} orientation="left"
+                                           <Dropdown className='nav-link active' placement="bottom" arrow={{ pointAtCenter: true }} orientation="left"
                                             menu={{
                                               items:dropdown1,
                                               selectable: true,
@@ -230,7 +266,7 @@ const NavBar = () => {
                                     {context.permission === 'مدیر' || context.permission === 'اداری' ?
 
 
-                                        <Dropdown placement="bottom" arrow={{ pointAtCenter: true }}
+                                        <Dropdown className='nav-link active' placement="bottom" arrow={{ pointAtCenter: true }}
                                             menu={{
                                               items:dropdown2,
                                               selectable: true,
@@ -246,7 +282,7 @@ const NavBar = () => {
                              : null}
                             {context.permission === 'انباردار' || context.permission === 'مدیر'?
 
-                                <Dropdown placement="bottom" arrow={{ pointAtCenter: true }}
+                                <Dropdown className='nav-link active' placement="bottom" arrow={{ pointAtCenter: true }}
                                             menu={{
                                               items:dropdown3,
                                               selectable: true,

@@ -33,7 +33,7 @@ const WarHouse = () => {
 
 
     const fetchData = async () => {
-        const response = await fetch(`${Url}/api/product/?name=${context.formikProductSearch.values.name}&code=${context.formikProductSearch.values.code}&category=${context.formikProductSearch.values.category}`, {
+        const response = await fetch(`${Url}/api/product/?name=${context.formikProductSearch.values.name}&category=${context.formikProductSearch.values.category}`, {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -210,7 +210,11 @@ const WarHouse = () => {
                     </thead>
                     <tbody>
                     {(product.length > 0 && product.filter(product => {if (rank === 'مدیر'){
-                                              return product.inventory
+                                           if (context.formikProductSearch.values.code){
+                                                        return product.code === Number(context.formikProductSearch.values.code)
+                                                }else {
+                                                  return product.inventory
+                                           }
                                           }else{
                                               return (product.inventory === context.office)
                                           }}).map((data) => (
