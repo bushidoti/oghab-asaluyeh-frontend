@@ -47,7 +47,7 @@ const ReportProducts = () => {
       }
 
     const fetchDataProducts = async () => {
-        const response = await fetch(`${Url}/api/allproducts/?fields=product,input,name,category,systemID,scale,inventory,output,document_code,document_type,date,operator,afterOperator,obsolete,consumable,buyer,receiver,amendment,id&date=${fixNumbers(context.formikProductSearch.values.date)}&consumable=${context.formikProductSearch.values.consumable}&operator=${context.formikProductSearch.values.operator}&receiver=${context.formikProductSearch.values.receiver}&buyer=${context.formikProductSearch.values.buyer}&name=${context.formikProductSearch.values.name}`, {
+        const response = await fetch(`${Url}/api/allproducts/?fields=product,input,name,category,systemID,scale,inventory,output,document_code,document_type,date,operator,afterOperator,obsolete,consumable,buyer,receiver,amendment,id`, {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -55,7 +55,6 @@ const ReportProducts = () => {
         const data = await response.json()
         setProducts(data)
       }
-
 
     useEffect(() => {
             void fetchDataProducts()
@@ -66,7 +65,7 @@ const ReportProducts = () => {
                  handleSystem()
           },
            // eslint-disable-next-line react-hooks/exhaustive-deps
-        [context.formikProductSearch.values.receiver, context.systemIDFactor ,context.formikProductSearch.values.date,context.formikProductSearch.values.consumable,context.formikProductSearch.values.category,context.formikProductSearch.values.buyer,context.formikProductSearch.values.product,context.formikProductSearch.values.name, idNumberProduct , context.factor , context.billCheck , context.handling])
+        [context.systemIDFactor ,idNumberProduct , context.factor , context.billCheck , context.handling])
 
 
     const handleCheckFactor = () => {
@@ -88,7 +87,7 @@ const ReportProducts = () => {
 
 
   function handleChange(value){
-            context.formikProductSearch.setFieldValue('date' , value.toDate().toLocaleDateString('fa-IR', options).replaceAll('/' , '-'))
+            context.formikProductSearch.setFieldValue('date' , value.format("YYYY-MM-DD"))
         }
 
   const handleSystem = () => {
@@ -194,6 +193,7 @@ const ReportProducts = () => {
                                  id="date"
                                  name='date'
                                  onChange={handleChange}
+                                 format={'YYYY/MM/DD'}
                                  calendar={persian}
                                  onOpenPickNewDate={false}
                                  locale={persian_fa}
@@ -312,16 +312,40 @@ const ReportProducts = () => {
                         {(products.length > 0 && products.filter((value) => {if (rank === 'مدیر'){
                                                     if (context.formikProductSearch.values.product){
                                                         return value.product === Number(context.formikProductSearch.values.product)
-                                                    }if (context.formikProductSearch.values.category){
+                                                    }else if (context.formikProductSearch.values.category){
                                                         return value.category === String(context.formikProductSearch.values.category)
+                                                    }else if (context.formikProductSearch.values.consumable){
+                                                        return value.consumable === String(context.formikProductSearch.values.consumable)
+                                                    }else if (context.formikProductSearch.values.name){
+                                                        return value.name === String(context.formikProductSearch.values.name)
+                                                    }else if (context.formikProductSearch.values.buyer){
+                                                        return value.buyer === String(context.formikProductSearch.values.buyer)
+                                                    }else if (context.formikProductSearch.values.receiver){
+                                                        return value.receiver === String(context.formikProductSearch.values.receiver)
+                                                    }else if (context.formikProductSearch.values.operator){
+                                                        return value.operator === String(context.formikProductSearch.values.operator)
+                                                    }else if (context.formikProductSearch.values.date){
+                                                        return value.date === fixNumbers(context.formikProductSearch.values.date)
                                                     }else {
                                                         return value.inventory
                                                     }
                                           }else{
                                                 if (context.formikProductSearch.values.product){
                                                     return value.inventory === context.office && value.product === Number(context.formikProductSearch.values.product)
-                                                }if (context.formikProductSearch.values.category){
+                                                }else if (context.formikProductSearch.values.category){
                                                     return value.inventory === context.office && value.category === String(context.formikProductSearch.values.category)
+                                                }else if (context.formikProductSearch.values.consumable){
+                                                        return value.inventory === context.office && value.consumable === String(context.formikProductSearch.values.consumable)
+                                                }else if (context.formikProductSearch.values.name){
+                                                        return value.inventory === context.office && value.name === String(context.formikProductSearch.values.name)
+                                                }else if (context.formikProductSearch.values.buyer){
+                                                        return value.inventory === context.office && value.buyer === String(context.formikProductSearch.values.buyer)
+                                                }else if (context.formikProductSearch.values.receiver){
+                                                        return value.inventory === context.office && value.receiver === String(context.formikProductSearch.values.receiver)
+                                                }else if (context.formikProductSearch.values.operator){
+                                                        return value.inventory === context.office && value.operator === String(context.formikProductSearch.values.operator)
+                                                }else if (context.formikProductSearch.values.date){
+                                                        return value.inventory === context.office && value.date === fixNumbers(context.formikProductSearch.values.date)
                                                 }else {
                                                     return value.inventory === context.office
                                                 }

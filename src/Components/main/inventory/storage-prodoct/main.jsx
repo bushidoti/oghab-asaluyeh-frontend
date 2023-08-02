@@ -220,7 +220,15 @@ const WarHouse = () => {
                                                   return product.inventory
                                            }
                                           }else{
-                                              return (product.inventory === context.office)
+                                                if (context.formikProductSearch.values.code){
+                                                    return product.code === Number(context.formikProductSearch.values.code) && product.inventory === context.office
+                                                        }else if (context.formikProductSearch.values.category){
+                                                                return product.category === String(context.formikProductSearch.values.category) && product.inventory === context.office
+                                                        }else if (context.formikProductSearch.values.name) {
+                                                               return product.name === String(context.formikProductSearch.values.name) && product.inventory === context.office
+                                                       }else {
+                                                              return product.inventory === context.office
+                                                       }
                                           }}).map((data) => (
                     <tr key={data.code}>
                         <th scope="row">{data.code}</th>
