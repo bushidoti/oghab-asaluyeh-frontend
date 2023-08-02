@@ -33,7 +33,7 @@ const WarHouse = () => {
 
 
     const fetchData = async () => {
-        const response = await fetch(`${Url}/api/product/?name=${context.formikProductSearch.values.name}&category=${context.formikProductSearch.values.category}`, {
+        const response = await fetch(`${Url}/api/product/`, {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -64,11 +64,11 @@ const WarHouse = () => {
                  handleSystem()
           },
            // eslint-disable-next-line react-hooks/exhaustive-deps
-        [context.formikProductSearch.values.code, idNumberProduct , context.factor , context.systemIDFactor , context.billCheck , context.formikProductSearch.values.name , context.formikProductSearch.values.category , context.handling])
+        [idNumberProduct , context.factor , context.systemIDFactor , context.billCheck , context.handling])
 
 
     const handleCheckFactor = () => {
-        if (products.filter(product => product.document_code === context.factor && product.document_code !== '' && product.document_type === 'فاکتور')[0]){
+        if (products.filter(product => product.document_code === context.factor && product.document_code !== '' && product.document_type === 'فاکتور' && product.inventory === context.office)[0]){
             return setFactorBtn(false)
         }else return setFactorBtn(true)
     }
@@ -85,7 +85,7 @@ const WarHouse = () => {
     }
 
      const handleSystem = () => {
-        if (products.filter(product => product.systemID === context.systemIDFactor && product.document_type === 'فاکتور')[0]){
+        if (products.filter(product => product.systemID === context.systemIDFactor && product.document_type === 'فاکتور' && product.inventory === context.office)[0]){
             return setSystemIDBtn(false)
         }else return setSystemIDBtn(true)
     }
@@ -211,8 +211,12 @@ const WarHouse = () => {
                     <tbody>
                     {(product.length > 0 && product.filter(product => {if (rank === 'مدیر'){
                                            if (context.formikProductSearch.values.code){
-                                                        return product.code === Number(context.formikProductSearch.values.code)
-                                                }else {
+                                                    return product.code === Number(context.formikProductSearch.values.code)
+                                            }else if (context.formikProductSearch.values.category){
+                                                    return product.category === String(context.formikProductSearch.values.category)
+                                            }else if (context.formikProductSearch.values.name) {
+                                           return product.name === String(context.formikProductSearch.values.name)
+                                           }else {
                                                   return product.inventory
                                            }
                                           }else{
