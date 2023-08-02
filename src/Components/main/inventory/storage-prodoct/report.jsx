@@ -15,7 +15,6 @@ import transition from "react-element-popper/animations/transition";
 import {CustomInputDate} from "../../../../App";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
-import options from "../../date-option";
 
 const ReportProducts = () => {
     const [product, setProduct] = useState([])
