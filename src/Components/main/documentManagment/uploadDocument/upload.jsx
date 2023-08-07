@@ -1,12 +1,17 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React, {Fragment, useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {useFormik} from "formik";
 import Url from "../../../config";
+import {Context} from "../../../../context";
+import Swal from "sweetalert2";
 
 const UploadDocuments = () => {
     const [partitionSelect , setPartitionSelect] = useState('')
     const [search , setSearch] = useState('')
     const [contract, setContracts] = useState([])
+    const context = useContext(Context)
+    const [selectedFile, setSelectedFile] = useState('')
+
     const [allContract, setAllContract] = useState([])
     const [contractId, setContractId] = useState('')
     const formik = useFormik({
@@ -77,15 +82,9 @@ const UploadDocuments = () => {
             ))
       }
 
-          useEffect(() => {
-            void fetchData()
-            void fetchDataSpecific()
 
-          },
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-          [contractId])
 
-        const putHandler = async () => {
+        const putHandler1 = async () => {
             await axios.put(
                 `${Url}/api/documents/${contractId}/`,
                   {
@@ -105,115 +104,563 @@ const UploadDocuments = () => {
                       secondBail2: formik.values.secondBail2,
                       topicContract: formik.values.topicContract,
                       typeContract: formik.values.typeContract,
-                      doc_1: formik.values.doc_1,
-                      doc_2: formik.values.doc_2,
-                      doc_3: formik.values.doc_3,
-                      doc_4: formik.values.doc_4,
-                      doc_5: formik.values.doc_5,
-                      doc_6: formik.values.doc_6,
-                      doc_7: formik.values.doc_7,
-                      doc_8: formik.values.doc_8,
-                      doc_9: formik.values.doc_9,
-                      doc_10: formik.values.doc_10,
-                      doc_bail_1: formik.values.doc_bail_1,
-                      doc_bail_2: formik.values.doc_bail_2,
+                      doc_1: context.scan,
              }, {
              headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-        })
+        }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('صفحه یک')
+                            context.setScan('')
+
+                        }
+                    }
+
+                })
         }
 
-       function reader(file, callback) {
-              const fr = new FileReader();
-              fr.onload = () => callback(null, fr.result);
-              fr.onerror = (err) => callback(err);
-              fr.readAsDataURL(file);
-            }
+         const putHandler2 = async () => {
+            await axios.put(
+                `${Url}/api/documents/${contractId}/`,
+                  {
+                      contractNumber: formik.values.contractNumber,
+                      employer: formik.values.employer,
+                      dateContract: formik.values.dateContract,
+                      contractPrice: formik.values.contractPrice,
+                      durationContract: formik.values.durationContract,
+                      prePaidPrice: formik.values.prePaidPrice,
+                      goodPrice: formik.values.goodPrice,
+                      typeBail1: formik.values.typeBail1,
+                      firstBail: formik.values.firstBail,
+                      secondBail: formik.values.secondBail,
+                      commitmentPrice: formik.values.commitmentPrice,
+                      typeBail2: formik.values.typeBail2,
+                      firstBail2: formik.values.firstBail2,
+                      secondBail2: formik.values.secondBail2,
+                      topicContract: formik.values.topicContract,
+                      typeContract: formik.values.typeContract,
+                      doc_2: context.scan,
+             }, {
+             headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+        }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('صفحه دو')
+                            context.setScan('')
 
-        function doc_1(e) {
-              reader(e.target.files[0], (err, res) => {
-                formik.setFieldValue('doc_1' , res)
-              });
-            }
+                        }
+                    }
 
-        function doc_2(e) {
-              reader(e.target.files[0], (err, res) => {
-                formik.setFieldValue('doc_2' , res)
-              });
-            }
-
-        function doc_3(e) {
-              reader(e.target.files[0], (err, res) => {
-                formik.setFieldValue('doc_3' , res)
-              });
-            }
-
-        function doc_4(e) {
-          reader(e.target.files[0], (err, res) => {
-            formik.setFieldValue('doc_4' , res)
-          });
+                })
         }
 
-        function doc_5(e) {
-          reader(e.target.files[0], (err, res) => {
-            formik.setFieldValue('doc_5' , res)
-          });
+         const putHandler3 = async () => {
+            await axios.put(
+                `${Url}/api/documents/${contractId}/`,
+                  {
+                      contractNumber: formik.values.contractNumber,
+                      employer: formik.values.employer,
+                      dateContract: formik.values.dateContract,
+                      contractPrice: formik.values.contractPrice,
+                      durationContract: formik.values.durationContract,
+                      prePaidPrice: formik.values.prePaidPrice,
+                      goodPrice: formik.values.goodPrice,
+                      typeBail1: formik.values.typeBail1,
+                      firstBail: formik.values.firstBail,
+                      secondBail: formik.values.secondBail,
+                      commitmentPrice: formik.values.commitmentPrice,
+                      typeBail2: formik.values.typeBail2,
+                      firstBail2: formik.values.firstBail2,
+                      secondBail2: formik.values.secondBail2,
+                      topicContract: formik.values.topicContract,
+                      typeContract: formik.values.typeContract,
+                      doc_3: context.scan,
+             }, {
+             headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+        }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('صفحه سه')
+                            context.setScan('')
+
+                        }
+                    }
+
+                })
         }
 
-        function doc_6(e) {
-          reader(e.target.files[0], (err, res) => {
-            formik.setFieldValue('doc_6' , res)
-          });
+         const putHandler4 = async () => {
+            await axios.put(
+                `${Url}/api/documents/${contractId}/`,
+                  {
+                      contractNumber: formik.values.contractNumber,
+                      employer: formik.values.employer,
+                      dateContract: formik.values.dateContract,
+                      contractPrice: formik.values.contractPrice,
+                      durationContract: formik.values.durationContract,
+                      prePaidPrice: formik.values.prePaidPrice,
+                      goodPrice: formik.values.goodPrice,
+                      typeBail1: formik.values.typeBail1,
+                      firstBail: formik.values.firstBail,
+                      secondBail: formik.values.secondBail,
+                      commitmentPrice: formik.values.commitmentPrice,
+                      typeBail2: formik.values.typeBail2,
+                      firstBail2: formik.values.firstBail2,
+                      secondBail2: formik.values.secondBail2,
+                      topicContract: formik.values.topicContract,
+                      typeContract: formik.values.typeContract,
+                      doc_4: context.scan,
+             }, {
+             headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+        }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('صفحه چهار')
+                            context.setScan('')
+
+                        }
+                    }
+
+                })
         }
 
-        function doc_7(e) {
-          reader(e.target.files[0], (err, res) => {
-            formik.setFieldValue('doc_7' , res)
-          });
+         const putHandler5 = async () => {
+            await axios.put(
+                `${Url}/api/documents/${contractId}/`,
+                  {
+                      contractNumber: formik.values.contractNumber,
+                      employer: formik.values.employer,
+                      dateContract: formik.values.dateContract,
+                      contractPrice: formik.values.contractPrice,
+                      durationContract: formik.values.durationContract,
+                      prePaidPrice: formik.values.prePaidPrice,
+                      goodPrice: formik.values.goodPrice,
+                      typeBail1: formik.values.typeBail1,
+                      firstBail: formik.values.firstBail,
+                      secondBail: formik.values.secondBail,
+                      commitmentPrice: formik.values.commitmentPrice,
+                      typeBail2: formik.values.typeBail2,
+                      firstBail2: formik.values.firstBail2,
+                      secondBail2: formik.values.secondBail2,
+                      topicContract: formik.values.topicContract,
+                      typeContract: formik.values.typeContract,
+                      doc_5: context.scan,
+             }, {
+             headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+        }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('صفحه پنج')
+                            context.setScan('')
+
+                        }
+                    }
+
+                })
         }
 
-        function doc_8(e) {
-          reader(e.target.files[0], (err, res) => {
-            formik.setFieldValue('doc_8' , res)
-          });
+         const putHandler6 = async () => {
+            await axios.put(
+                `${Url}/api/documents/${contractId}/`,
+                  {
+                      contractNumber: formik.values.contractNumber,
+                      employer: formik.values.employer,
+                      dateContract: formik.values.dateContract,
+                      contractPrice: formik.values.contractPrice,
+                      durationContract: formik.values.durationContract,
+                      prePaidPrice: formik.values.prePaidPrice,
+                      goodPrice: formik.values.goodPrice,
+                      typeBail1: formik.values.typeBail1,
+                      firstBail: formik.values.firstBail,
+                      secondBail: formik.values.secondBail,
+                      commitmentPrice: formik.values.commitmentPrice,
+                      typeBail2: formik.values.typeBail2,
+                      firstBail2: formik.values.firstBail2,
+                      secondBail2: formik.values.secondBail2,
+                      topicContract: formik.values.topicContract,
+                      typeContract: formik.values.typeContract,
+                      doc_6: context.scan,
+             }, {
+             headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+        }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('صفحه شش')
+                            context.setScan('')
+
+                        }
+                    }
+
+                })
         }
 
-        function doc_9(e) {
-          reader(e.target.files[0], (err, res) => {
-            formik.setFieldValue('doc_9' , res)
-          });
+         const putHandler7 = async () => {
+            await axios.put(
+                `${Url}/api/documents/${contractId}/`,
+                  {
+                      contractNumber: formik.values.contractNumber,
+                      employer: formik.values.employer,
+                      dateContract: formik.values.dateContract,
+                      contractPrice: formik.values.contractPrice,
+                      durationContract: formik.values.durationContract,
+                      prePaidPrice: formik.values.prePaidPrice,
+                      goodPrice: formik.values.goodPrice,
+                      typeBail1: formik.values.typeBail1,
+                      firstBail: formik.values.firstBail,
+                      secondBail: formik.values.secondBail,
+                      commitmentPrice: formik.values.commitmentPrice,
+                      typeBail2: formik.values.typeBail2,
+                      firstBail2: formik.values.firstBail2,
+                      secondBail2: formik.values.secondBail2,
+                      topicContract: formik.values.topicContract,
+                      typeContract: formik.values.typeContract,
+                      doc_7: context.scan,
+             }, {
+             headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+        }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('صفحه هفت')
+                            context.setScan('')
+
+                        }
+                    }
+
+                })
         }
 
-        function doc_10(e) {
-          reader(e.target.files[0], (err, res) => {
-            formik.setFieldValue('doc_10' , res)
-          });
+         const putHandler8 = async () => {
+            await axios.put(
+                `${Url}/api/documents/${contractId}/`,
+                  {
+                      contractNumber: formik.values.contractNumber,
+                      employer: formik.values.employer,
+                      dateContract: formik.values.dateContract,
+                      contractPrice: formik.values.contractPrice,
+                      durationContract: formik.values.durationContract,
+                      prePaidPrice: formik.values.prePaidPrice,
+                      goodPrice: formik.values.goodPrice,
+                      typeBail1: formik.values.typeBail1,
+                      firstBail: formik.values.firstBail,
+                      secondBail: formik.values.secondBail,
+                      commitmentPrice: formik.values.commitmentPrice,
+                      typeBail2: formik.values.typeBail2,
+                      firstBail2: formik.values.firstBail2,
+                      secondBail2: formik.values.secondBail2,
+                      topicContract: formik.values.topicContract,
+                      typeContract: formik.values.typeContract,
+                      doc_8: context.scan,
+             }, {
+             headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+        }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('صفحه هشت')
+                            context.setScan('')
+
+                        }
+                    }
+
+                })
         }
 
-        function doc_bail_1(e) {
-          reader(e.target.files[0], (err, res) => {
-            formik.setFieldValue('doc_bail_1' , res)
-          });
+         const putHandler9 = async () => {
+            await axios.put(
+                `${Url}/api/documents/${contractId}/`,
+                  {
+                      contractNumber: formik.values.contractNumber,
+                      employer: formik.values.employer,
+                      dateContract: formik.values.dateContract,
+                      contractPrice: formik.values.contractPrice,
+                      durationContract: formik.values.durationContract,
+                      prePaidPrice: formik.values.prePaidPrice,
+                      goodPrice: formik.values.goodPrice,
+                      typeBail1: formik.values.typeBail1,
+                      firstBail: formik.values.firstBail,
+                      secondBail: formik.values.secondBail,
+                      commitmentPrice: formik.values.commitmentPrice,
+                      typeBail2: formik.values.typeBail2,
+                      firstBail2: formik.values.firstBail2,
+                      secondBail2: formik.values.secondBail2,
+                      topicContract: formik.values.topicContract,
+                      typeContract: formik.values.typeContract,
+                      doc_9: context.scan,
+             }, {
+             headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+        }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('صفحه نه')
+                            context.setScan('')
+
+                        }
+                    }
+
+                })
         }
 
-        function doc_bail_2(e) {
-          reader(e.target.files[0], (err, res) => {
-            formik.setFieldValue('doc_bail_2' , res)
-          });
+         const putHandler10 = async () => {
+            await axios.put(
+                `${Url}/api/documents/${contractId}/`,
+                  {
+                      contractNumber: formik.values.contractNumber,
+                      employer: formik.values.employer,
+                      dateContract: formik.values.dateContract,
+                      contractPrice: formik.values.contractPrice,
+                      durationContract: formik.values.durationContract,
+                      prePaidPrice: formik.values.prePaidPrice,
+                      goodPrice: formik.values.goodPrice,
+                      typeBail1: formik.values.typeBail1,
+                      firstBail: formik.values.firstBail,
+                      secondBail: formik.values.secondBail,
+                      commitmentPrice: formik.values.commitmentPrice,
+                      typeBail2: formik.values.typeBail2,
+                      firstBail2: formik.values.firstBail2,
+                      secondBail2: formik.values.secondBail2,
+                      topicContract: formik.values.topicContract,
+                      typeContract: formik.values.typeContract,
+                      doc_10: context.scan,
+             }, {
+             headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+        }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('صفحه ده')
+                            context.setScan('')
+
+
+                        }
+                    }
+
+                })
         }
+         const putHandler11 = async () => {
+            await axios.put(
+                `${Url}/api/documents/${contractId}/`,
+                  {
+                      contractNumber: formik.values.contractNumber,
+                      employer: formik.values.employer,
+                      dateContract: formik.values.dateContract,
+                      contractPrice: formik.values.contractPrice,
+                      durationContract: formik.values.durationContract,
+                      prePaidPrice: formik.values.prePaidPrice,
+                      goodPrice: formik.values.goodPrice,
+                      typeBail1: formik.values.typeBail1,
+                      firstBail: formik.values.firstBail,
+                      secondBail: formik.values.secondBail,
+                      commitmentPrice: formik.values.commitmentPrice,
+                      typeBail2: formik.values.typeBail2,
+                      firstBail2: formik.values.firstBail2,
+                      secondBail2: formik.values.secondBail2,
+                      topicContract: formik.values.topicContract,
+                      typeContract: formik.values.typeContract,
+                      doc_bail_1: context.scan,
+             }, {
+             headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+        }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('ضمانت اول')
+                            context.setScan('')
+                        }
+                    }
+
+                })
+        }
+
+         const putHandler12 = async () => {
+            await axios.put(
+                `${Url}/api/documents/${contractId}/`,
+                  {
+                      contractNumber: formik.values.contractNumber,
+                      employer: formik.values.employer,
+                      dateContract: formik.values.dateContract,
+                      contractPrice: formik.values.contractPrice,
+                      durationContract: formik.values.durationContract,
+                      prePaidPrice: formik.values.prePaidPrice,
+                      goodPrice: formik.values.goodPrice,
+                      typeBail1: formik.values.typeBail1,
+                      firstBail: formik.values.firstBail,
+                      secondBail: formik.values.secondBail,
+                      commitmentPrice: formik.values.commitmentPrice,
+                      typeBail2: formik.values.typeBail2,
+                      firstBail2: formik.values.firstBail2,
+                      secondBail2: formik.values.secondBail2,
+                      topicContract: formik.values.topicContract,
+                      typeContract: formik.values.typeContract,
+                      doc_bail_2: context.scan,
+             }, {
+             headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+        }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('ضمانت دوم')
+                            context.setScan('')
+
+                        }
+                    }
+
+                })
+        }
+
+   const postAlert = (file) => {
+                Swal.fire(
+                  'ثبت شد!',
+                  `${file} ثبت شد.`,
+                  'success',
+                  'ok',
+                )
+      }
+
+
+    const alert= (code) => {
+            Swal.fire({
+                  icon: 'error',
+                  title: `کد ارور ${code}`,
+                })
+    }
+
+
+
+          function scanImage() {
+           window.ws.send("1100");
+       }
+
+  const handleSubmit = () => {
+        if (selectedFile === 'doc_1'){
+            return putHandler1
+        }else if (selectedFile === 'doc_2'){
+            return putHandler2
+        }else if (selectedFile === 'doc_3'){
+            return putHandler3
+        }else if (selectedFile === 'doc_4'){
+            return putHandler4
+        }else if (selectedFile === 'doc_5'){
+            return putHandler5
+        }else if (selectedFile === 'doc_6'){
+            return putHandler6
+        }else if (selectedFile === 'doc_7'){
+            return putHandler7
+        }else if (selectedFile === 'doc_8'){
+            return putHandler8
+        }else if (selectedFile === 'doc_9'){
+            return putHandler9
+        }else if (selectedFile === 'doc_10'){
+            return putHandler10
+        }else if (selectedFile === 'doc_bail_1'){
+            return putHandler11
+        }else if (selectedFile === 'doc_bail_2'){
+            return putHandler12
+        }
+    }
+
+   useEffect(() => {
+            void fetchData()
+            void fetchDataSpecific()
+          },
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+          [contractId])
+
     return (
         <Fragment>
             <div className= 'plater  m-2 rounded-3 shadow-lg '>
-                     <div className="form-floating m-4" style={{maxWidth:'255px'}}>
-                        <select className="form-select" defaultValue='' id="partitionSelect" style={{maxWidth:'20vw' , minWidth:'200px'}}
-                        aria-label="partitionSelect" onChange={(e) => setPartitionSelect(e.target.value)}>
-                            <option value='' disabled>یک مورد انتخاب کنید</option>
-                            <option value="قرارداد">قرارداد</option>
-                            <option value="تضامین">تضامین</option>
-                        </select>
-                        <label htmlFor="partitionSelect">بارگذاری بخش</label>
-                     </div>
+
 
                      <div className='m-4'>
                             <div className="input-group mb-3">
@@ -231,110 +678,59 @@ const UploadDocuments = () => {
                          {(() => {
                             if (allContract.filter(contract => contract.contractNumber === search).length !== 0){
                                 return (
+                                    <Fragment>
+                                             <div className="form-floating" style={{maxWidth:'255px'}}>
+                                                    <select className="form-select" defaultValue='' id="partitionSelect" style={{maxWidth:'20vw' , minWidth:'200px'}}
+                                                    aria-label="partitionSelect" onChange={(e) => setPartitionSelect(e.target.value)}>
+                                                        <option value='' disabled>یک مورد انتخاب کنید</option>
+                                                        <option value="قرارداد">قرارداد</option>
+                                                        <option value="تضامین">تضامین</option>
+                                                    </select>
+                                                    <label htmlFor="partitionSelect">بارگذاری بخش</label>
+                                                 </div>
                                     <div className= 'mt-5'>
-                                    {(() => {
-                                        if (partitionSelect === 'قرارداد'){
-                                            return (
-                                                <div className='d-flex flex-wrap gap-3'>
-                                                <div className='col'>
-                                                  <div className="input-group mb-3 align-items-center">
-                                                        <label className='me-2'>صفحه 01</label>
-                                                        <button className="btn btn-outline-secondary" type="button" id="firstPageBtn" onClick={putHandler}>بارگذاری</button>
-                                                        <input type="file" name='doc_1'  accept="application/pdf" onChange={doc_1} className="form-control" id="firstPageInp"
-                                                        aria-describedby="firstPageBtn" aria-label="firstPageInp"/>
-                                                  </div>
-                                                  <div className="input-group mb-3 align-items-center">
-                                                         <label className='me-2'>صفحه 02</label>
-                                                         <button className="btn btn-outline-secondary" type="button" id="secondPageBtn" onClick={putHandler}>بارگذاری</button>
-                                                         <input type="file" name='doc_2' accept="application/pdf" className="form-control" id="secondPageInp"
-                                                         aria-describedby="secondPageBtn" aria-label="secondPageInp" onChange={doc_2}/>
-                                                  </div>
+                                                  <div className='row'>
+                                                    <div className="input-group mb-3">
+                                                        <button className="btn btn-warning" type="button" id="firstPageBtn" onClick={scanImage}>اسکن</button>
+                                                        <button className="btn btn-success" type="button" id="firstPageBtn" disabled={!context.scan} onClick={handleSubmit()}>بارگذاری</button>
+                                                        <select className="form-select" defaultValue='' id="checkFileBtn" onChange={e => setSelectedFile(e.target.value)}
+                                                        aria-label="checkFileBtn">
+                                                            <option value=''>فایل مورد نظر را انتخاب کنید</option>
+                                                            {(() => {
+                                                                if (partitionSelect === 'قرارداد'){
+                                                                    return (
+                                                                        <Fragment>
+                                                                            <option value="doc_1">صفحه اول</option>
+                                                                            <option value="doc_2">صفحه دوم</option>
+                                                                            <option value="doc_3">صفحه سوم</option>
+                                                                            <option value="doc_4">صفحه چهارم</option>
+                                                                            <option value="doc_5">صفحه پنجم</option>
+                                                                            <option value="doc_6">صفحه ششم</option>
+                                                                            <option value="doc_7">صفحه هفتم</option>
+                                                                            <option value="doc_8">صفحه هشتم</option>
+                                                                            <option value="doc_9">صفحه نهم</option>
+                                                                            <option value="doc_10">صفحه دهم</option>
+                                                                        </Fragment>
+                                                                    )
+                                                                }else if (partitionSelect === 'تضامین') {
+                                                                    return (
+                                                                        <Fragment>
+                                                                            <option value="doc_bail_1">ضمانت اول</option>
+                                                                            <option value="doc_bail_2">ضمانت دوم</option>
+                                                                        </Fragment>
+                                                                    )
+                                                                }
+                                                            })()}
+                                                        </select>
+                                                    </div>
+                                                 </div>
+                                  </div>
 
-                                                  <div className="input-group mb-3 align-items-center">
-                                                         <label className='me-2'>صفحه 03</label>
-                                                         <button className="btn btn-outline-secondary" type="button" id="thirdPageBtn" onClick={putHandler}>بارگذاری</button>
-                                                         <input type="file" className="form-control" accept="application/pdf" name='doc_3' id="thirdPageInp"
-                                                         aria-describedby="thirdPageBtn" aria-label="thirdPageInp" onChange={doc_3}/>
-                                                  </div>
-
-                                                  <div className="input-group mb-3 align-items-center">
-                                                          <label className='me-2'>صفحه 04</label>
-                                                          <button className="btn btn-outline-secondary" type="button" id="forthPageBtn" onClick={putHandler}>بارگذاری</button>
-                                                          <input type="file" className="form-control" accept="application/pdf" name='doc_4' id="forthPageInp"
-                                                          aria-describedby="forthPageBtn" aria-label="forthPageInp" onChange={doc_4}/>
-                                                  </div>
-
-                                                    <div className="input-group mb-3 align-items-center">
-                                                          <label className='me-2'>صفحه 05</label>
-                                                          <button className="btn btn-outline-secondary" type="button" id="forthPageBtn" onClick={putHandler}>بارگذاری</button>
-                                                          <input type="file" className="form-control" accept="application/pdf" name='doc_5' id="5thPageInp"
-                                                          aria-describedby="5thPageInp" aria-label="5thPageInp" onChange={doc_5}/>
-                                                  </div>
-                                                </div>
-                                                <div className='col'>
-                                                     <div className="input-group mb-3 align-items-center">
-                                                          <label className='me-2'>صفحه 06</label>
-                                                          <button className="btn btn-outline-secondary" type="button" id="forthPageBtn" onClick={putHandler}>بارگذاری</button>
-                                                          <input type="file" className="form-control" accept="application/pdf" name='doc_6' id="6thPageInp"
-                                                          aria-describedby="6thPageInp" aria-label="6thPageInp" onChange={doc_6}/>
-                                                  </div>
-
-                                                     <div className="input-group mb-3 align-items-center">
-                                                          <label className='me-2'>صفحه 07</label>
-                                                          <button className="btn btn-outline-secondary" type="button" id="forthPageBtn" onClick={putHandler}>بارگذاری</button>
-                                                          <input type="file" className="form-control" accept="application/pdf" name='doc_7' id="7thPageInp"
-                                                          aria-describedby="7thPageInp" aria-label="7thPageInp" onChange={doc_7}/>
-                                                  </div>
-
-                                                     <div className="input-group mb-3 align-items-center">
-                                                          <label className='me-2'>صفحه 08</label>
-                                                          <button className="btn btn-outline-secondary" type="button" id="forthPageBtn" onClick={putHandler}>بارگذاری</button>
-                                                          <input type="file" className="form-control" accept="application/pdf" name='doc_8' id="8thPageInp"
-                                                          aria-describedby="8thPageInp" aria-label="8thPageInp" onChange={doc_8}/>
-                                                  </div>
-
-                                                     <div className="input-group mb-3 align-items-center">
-                                                          <label className='me-2'>صفحه 09</label>
-                                                          <button className="btn btn-outline-secondary" type="button" id="forthPageBtn" onClick={putHandler}>بارگذاری</button>
-                                                          <input type="file" className="form-control" accept="application/pdf" name='doc_9' id="9thPageInp"
-                                                          aria-describedby="9thPageInp" aria-label="9thPageInp" onChange={doc_9}/>
-                                                  </div>
-
-                                                     <div className="input-group mb-3 align-items-center">
-                                                          <label className='me-2'>صفحه 10</label>
-                                                          <button className="btn btn-outline-secondary" type="button" id="forthPageBtn" onClick={putHandler}>بارگذاری</button>
-                                                          <input type="file" className="form-control" accept="application/pdf" name='doc_10' id="10thPageInp"
-                                                          aria-describedby="10thPageInp" aria-label="10thPageInp" onChange={doc_10}/>
-                                                  </div>
-                                            </div>
-                                        </div>
-                                            )
-                                        } else if (partitionSelect === 'تضامین'){
-                                            return (
-                                                <Fragment>
-                                                          <div className="input-group mb-3 align-items-center">
-                                                              <label className='me-2'>ضمانت اول</label>
-                                                              <button className="btn btn-outline-secondary" type="button" id="firstBailBtn" onClick={putHandler}>بارگذاری</button>
-                                                              <input type="file" className="form-control" accept="application/pdf" name='doc_bail_1' onChange={doc_bail_1} id="firstBailInp"
-                                                              aria-describedby="firstBailBtn" aria-label="firstBailInp"/>
-                                                          </div>
-                                                          <div className="input-group mb-3 align-items-center">
-                                                              <label className='me-2'>ضمانت دوم</label>
-                                                              <button className="btn btn-outline-secondary" type="button" id="secondBailBtn" onClick={putHandler}>بارگذاری</button>
-                                                              <input type="file" className="form-control" accept="application/pdf" name='doc_bail_2' onChange={doc_bail_2} id="secondBailInp"
-                                                              aria-describedby="secondBailBtn" aria-label="secondBailInp"/>
-                                                          </div>
-                                                </Fragment>
-                                            )
-                                        }
-
-                                    })()}
-                        </div>
+                                    </Fragment>
                                 )
                             }
                          })()}
-
-
+                         <img width={'500px'} height={'350px'} src={context.scan} alt={'تصویری اسکن نشده است'}/>
                     </div>
                  </div>
         </Fragment>

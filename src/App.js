@@ -37,6 +37,7 @@ function App() {
     const [isAuth, setIsAuth] = useState(false);
     const [permission, setPermission] = useState('');
     const [office, setOffice] = useState('');
+    const [scan, setScan] = useState('');
     const [factor, setFactor] = useState('');
     const [systemIDFactor, setSystemIDFactor] = useState('');
     const [systemIDFactorProperty, setSystemIDFactorProperty] = useState('');
@@ -276,6 +277,36 @@ function App() {
                 })
     }
 
+
+
+
+    window.onload = function () {
+        let i = 0;
+           var wsImpl = window.WebSocket || window.MozWebSocket;
+
+           window.ws = new wsImpl('ws://localhost:8181/');
+
+           window.ws.onmessage = function (e) {
+               if (typeof e.data === "string") {
+                   //IF Received Data is String
+               } else if (e.data instanceof ArrayBuffer) {
+                   //IF Received Data is ArrayBuffer
+               } else if (e.data instanceof Blob) {
+                   i++;
+                   const f = e.data;
+                   f.name = "File" + i;
+                   const reader = new FileReader();
+                   reader.onload = function (e) {
+                   setScan(e.target.result.replace('data:application/octet-stream;base64,' ,  'data:image/jpg;base64,' ))
+                   }
+                   reader.readAsDataURL(f);
+               }
+           };
+       };
+
+
+
+
   return (
        <Fragment>
            <Detector
@@ -294,6 +325,7 @@ function App() {
             editDocument:editDocument,
             formik:formikDocumentSearch,
             isAuth:isAuth,
+            scan:scan,
             setIsAuth:setIsAuth,
             office:office,
             setDocToggle:setDocToggle,
@@ -304,6 +336,7 @@ function App() {
             editDocumentIndividuals:editDocumentIndividuals,
             formikPersonalSearch:formikPersonalSearch,
             handleProduct:handleProduct,
+            setScan:setScan,
             formikProductSearch:formikProductSearch,
             formikPropertySearch:formikPropertySearch,
             setEditProperty:setEditProperty,

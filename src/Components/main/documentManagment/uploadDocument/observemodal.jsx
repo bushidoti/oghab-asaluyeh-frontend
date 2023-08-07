@@ -122,7 +122,7 @@ const ObserveModal = () => {
                                                 </div>
                                                 <div className='row'>
                                                     <div className="input-group mb-3">
-                                                        <Link className='text-decoration-none link-dark' download='document.pdf'
+                                                        <Link className='text-decoration-none link-dark' download='document.jpg'
                                                               rel="noreferrer" to={handleOpenFile()} >
                                                         <button className="btn btn-outline-success"  type="button">
                                                         نمایش</button></Link>
