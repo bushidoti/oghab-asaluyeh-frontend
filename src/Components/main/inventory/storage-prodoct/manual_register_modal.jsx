@@ -60,24 +60,6 @@ const ManualModal = (props) => {
         enableReinitialize: true,
     });
 
-     function reader(file, callback) {
-              const fr = new FileReader();
-              fr.onload = () => callback(null, fr.result);
-              fr.onerror = (err) => callback(err);
-              fr.readAsDataURL(file);
-            }
-
-    function factor(e) {
-              reader(e.target.files[0], (err, res) => {
-                formik.setFieldValue('factor' , res)
-              });
-            }
-
-    function checkBill(e) {
-          reader(e.target.files[0], (err, res) => {
-                formik.setFieldValue('checkBill' , res)
-              });
-        }
 
      const postHandler = async () => {
            await axios.post(
