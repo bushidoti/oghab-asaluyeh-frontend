@@ -68,8 +68,6 @@ const Main = (props) => {
 
     return (
         <Fragment>
-
-            <a href={context.scan.replace('data:application/octet-stream;base64,' ,  'data:image/jpg;base64,' )}>we</a>
             <Modal docToggle={context.docToggle} editDocument={context.editDocument} setEditDocument={context.setEditDocument}  modalTitle={context.modalTitle} idNumber={idNumber} setIdNumber={setIdNumber}/>
         <div className= 'plater  m-2 rounded-3 shadow-lg'>
             <div className= 'd-flex justify-content-between m-4' >
