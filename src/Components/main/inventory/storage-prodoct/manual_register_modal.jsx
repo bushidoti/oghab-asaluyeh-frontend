@@ -127,7 +127,7 @@ const ManualModal = (props) => {
               systemID: documents === 'فاکتور' ? handleAutoIncrementFactor() : null,
               document_type: formikStatic.values.document_type,
               document_code: formikStatic.values.document_code,
-              factor: formik.values.factor,
+              factor: props.scan,
               receiver:formikStatic.values.receiver,
               buyer:formikStatic.values.buyer,
               product: handleAutoIncrement(),
@@ -188,7 +188,7 @@ const ManualModal = (props) => {
               document_code: formikStatic.values.document_code,
               systemID: documents === 'فاکتور' ? handleAutoIncrementFactor() : null,
               product: formik.values.code,
-              factor: formik.values.factor,
+              factor: props.scan,
          }, {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
@@ -212,7 +212,7 @@ const ManualModal = (props) => {
               document_type: formikStatic.values.document_type,
               document_code: documents === 'حواله' ? handleAutoIncrementCheck() : formikStatic.values.document_code,
               product: formik.values.code,
-              checkBill: formik.values.checkBill,
+              checkBill: props.scan,
          }, {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
@@ -485,6 +485,10 @@ const ManualModal = (props) => {
                     })
                 })()
 
+          function scanImage() {
+           window.ws.send("1100");
+       }
+
   return (
       <Fragment>
          <div className="modal fade"  id="manualModal" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="manualModalLabel" aria-hidden="true">
@@ -612,13 +616,17 @@ const ManualModal = (props) => {
                                {(() => {
                                     if (((registerType === 'ورود' || registerType === 'ثبت اولیه') && documents === 'فاکتور') || (registerType === 'خروج' && documents === 'حواله')){
                                         return(
-                                            <div className='d-flex mx-2'>
-                                            <div className="input-group">
-                                                <label className="input-group-text"
-                                                       htmlFor="factor-check">فایل {documents}</label>
-                                                <input type="file" className="form-control" accept="application/pdf" id="factor-check" onChange={documents === 'حواله' ? checkBill : factor}/>
-                                            </div>
-                                            </div>
+                                            <Fragment>
+                                                <div className='d-flex mx-2'>
+                                                <div className="input-group h-25">
+                                                    <label className="input-group-text"
+                                                           htmlFor="factor-check">فایل {documents}</label>
+                                                    <button className="btn btn-warning" type="button" id="firstPageBtn" onClick={scanImage}>اسکن</button>
+                                                </div>
+                                                   <img width={'250px'} height={'250px'} src={props.scan} alt={'تصویری اسکن نشده است'}/>
+                                                </div>
+                                            </Fragment>
+
                                         )
                                     }
                                 })()}

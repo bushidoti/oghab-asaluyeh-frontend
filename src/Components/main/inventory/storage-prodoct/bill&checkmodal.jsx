@@ -43,15 +43,12 @@ const BillCheckModal = () => {
        }
    }
 
-     const onButtonClick = () => {
+  const onButtonClick = () => {
         fetch(`${handleOpenFile()}`).then(response => {
-            response.blob().then(blob => {
-                // Creating new object of PDF file
-                const fileURL = window.URL.createObjectURL(blob);
-                // Setting various property values
+            response.blob().then(() => {
                 let alink = document.createElement('a');
-                alink.href = fileURL;
-                alink.download = FileNameHandler();
+                alink.href = handleOpenFile();
+                alink.download = `${FileNameHandler()}.jpg`
                 alink.click();
             })
         })
@@ -94,7 +91,8 @@ const BillCheckModal = () => {
                             <div className="modal-body">
                                  <div className= 'd-flex mx-4 my-2 gap-2'>
                                 <button className= 'btn btn-primary'  id='export&print' onClick={generatePDF}><PrinterOutlined /></button>
-                                     {context.modalTitle === 'handling' ? '' : <button className= 'btn btn-warning' id='export&print' onClick={onButtonClick}><DownloadOutlined /></button> }
+                                     {context.modalTitle === 'handling' ? '' :
+                                         <button className= 'btn btn-warning' id='export&print' onClick={onButtonClick}><DownloadOutlined /></button>}
                                 </div>
                                 <hr className='bg-primary mx-4'/>
                                   <div className= 'mx-4 table-responsive text-nowrap rounded-3' style={{maxHeight : '50vh'}}>

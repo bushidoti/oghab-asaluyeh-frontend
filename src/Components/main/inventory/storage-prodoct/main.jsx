@@ -99,7 +99,7 @@ const WarHouse = () => {
         setIdNumberProduct={setIdNumberProduct} setIdNumber={setIdNumber} formik={context.formikProductSearch} />
         <Modal modalTitle={context.modalTitle} idNumber={idNumber} office={office} setIdNumber={setIdNumber}
         products={products} setIdNumberProduct={setIdNumberProduct} idNumberProduct={idNumberProduct}/>
-        <ManualModal modalTitle={context.modalTitle} idNumber={idNumber} office={office} setIdNumber={setIdNumber}
+        <ManualModal modalTitle={context.modalTitle} idNumber={idNumber} office={office} setIdNumber={setIdNumber} scan={context.scan}
         products={products} setIdNumberProduct={setIdNumberProduct} idNumberProduct={idNumberProduct}/>
         <div className= 'plater m-2 rounded-3 shadow-lg'>
             <div className= 'd-flex justify-content-between m-4' >
