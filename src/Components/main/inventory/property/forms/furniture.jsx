@@ -250,7 +250,7 @@ export const Furniture = () => {
               {
               code: formik.values.type_register === 'ثبت اولیه' ? handleAutoIncrement() : formik.values.code,
               name: formik.values.type_register === 'ثبت اولیه' ? formik.values.name : getName.name,
-              factor: formik.values.factor,
+              factor: form.scan,
               inventory: form.office,
               document_code: formik.values.document_code,
               systemID: handleAutoIncrementFactor(),
@@ -330,18 +330,6 @@ export const Furniture = () => {
         }
     }
 
-    function reader(file, callback) {
-              const fr = new FileReader();
-              fr.onload = () => callback(null, fr.result);
-              fr.onerror = (err) => callback(err);
-              fr.readAsDataURL(file);
-            }
-
-     function factor(e) {
-              reader(e.target.files[0], (err, res) => {
-                formik.setFieldValue('factor' , res)
-              });
-            }
 
                  (function () {
                   // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -359,6 +347,11 @@ export const Furniture = () => {
                       }, false)
                     })
                 })()
+
+      function scanImage() {
+           window.ws.send("1100");
+       }
+
     return(
      <form className='needs-validation' noValidate>
         <Fragment>
@@ -477,10 +470,16 @@ export const Furniture = () => {
                    })()}
                 </div>
                {formik.values.type_register ?
-                            <div className="input-group">
-                                <label className="input-group-text"
-                                       htmlFor="factor-check">فایل فاکتور</label>
-                                <input type="file" className="form-control" accept="application/pdf" id="factor-check" onChange={factor}/>
+                            <div className='d-flex'>
+                                <div className="input-group h-25">
+                                    <label className="input-group-text"
+                                           htmlFor="factor-check">فایل فاکتور</label>
+                                    <button className="btn btn-warning" type="button" id="firstPageBtn" onClick={scanImage}>اسکن</button>
+                                    <div className="invalid-feedback">
+                                            فایل را کنید.
+                                    </div>
+                                </div>
+                                <img width={'250px'} height={'250px'} src={form.scan} alt={'تصویری اسکن نشده است'}/>
                             </div>
                     : null}
                     {(() => {

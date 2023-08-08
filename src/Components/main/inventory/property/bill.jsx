@@ -42,13 +42,10 @@ const BillProperty = () => {
    }
       const onButtonClick = () => {
         fetch(`${handleOpenFile()}`).then(response => {
-            response.blob().then(blob => {
-                // Creating new object of PDF file
-                const fileURL = window.URL.createObjectURL(blob);
-                // Setting various property values
+            response.blob().then(() => {
                 let alink = document.createElement('a');
-                alink.href = fileURL;
-                alink.download = FileNameHandler();
+                alink.href = handleOpenFile();
+                alink.download = `${FileNameHandler()}.jpg`
                 alink.click();
             })
         })

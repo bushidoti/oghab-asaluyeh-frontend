@@ -179,7 +179,7 @@ export const AirportEquipment = () => {
               {
               code: formik.values.type_register === 'ثبت اولیه' ? handleAutoIncrement() : formik.values.code,
               name: formik.values.type_register === 'ثبت اولیه' ? formik.values.name : getName.name,
-              factor: formik.values.factor,
+              factor: form.scan,
               inventory: form.office,
               document_code: formik.values.document_code,
               systemID: handleAutoIncrementFactor(),
@@ -327,24 +327,10 @@ export const AirportEquipment = () => {
             return postAlertRepairEnd
         }
     }
-     useEffect(() => {
-          void fetchDataAutoIncrementFactor()
-          },
-           // eslint-disable-next-line react-hooks/exhaustive-deps
-        [])
 
-    function reader(file, callback) {
-              const fr = new FileReader();
-              fr.onload = () => callback(null, fr.result);
-              fr.onerror = (err) => callback(err);
-              fr.readAsDataURL(file);
-            }
 
-     function factor(e) {
-              reader(e.target.files[0], (err, res) => {
-                formik.setFieldValue('factor' , res)
-              });
-            }
+
+
 
                (function () {
                   // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -362,6 +348,17 @@ export const AirportEquipment = () => {
                       }, false)
                     })
                 })()
+
+    useEffect(() => {
+          void fetchDataAutoIncrementFactor()
+          },
+           // eslint-disable-next-line react-hooks/exhaustive-deps
+        [])
+
+      function scanImage() {
+           window.ws.send("1100");
+       }
+
     return(
     <form className='needs-validation' noValidate>
         <Fragment>
@@ -488,11 +485,14 @@ export const AirportEquipment = () => {
                 </div>
 
                 {formik.values.type_register ?
-                        <div className="input-group">
+                    <div className='d-flex'>
+                        <div className="input-group h-25">
                             <label className="input-group-text"
                                    htmlFor="factor-check">فایل فاکتور</label>
-                            <input type="file" className="form-control" accept="application/pdf" id="factor-check" onChange={factor}/>
+                            <button className="btn btn-warning" type="button" id="firstPageBtn" onClick={scanImage}>اسکن</button>
                         </div>
+                            <img width={'250px'} height={'250px'} src={form.scan} alt={'تصویری اسکن نشده است'}/>
+                    </div>
                 : null}
 
                     {(() => {

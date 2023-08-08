@@ -56,6 +56,7 @@ export const Forms =  (props) => {
                     isRepair:form.isRepair,
                     setTypeDigital:setTypeDigital,
                     typeDigital:typeDigital,
+                    scan:props.scan,
                     setIsRepair:form.setIsRepair,
                     typeCommunication:typeCommunication,
                     setTypeCommunication:setTypeCommunication,

@@ -172,7 +172,7 @@ export const SupportItems = () => {
               code: handleAutoIncrement(),
               name: formik.values.name,
               inventory: form.office,
-              factor: formik.values.factor,
+              factor: form.scan,
               document_code: formik.values.document_code,
               systemID: handleAutoIncrementFactor(),
               date: today.replaceAll('/' , '-'),
@@ -217,18 +217,6 @@ export const SupportItems = () => {
             })
       }
 
-     function reader(file, callback) {
-              const fr = new FileReader();
-              fr.onload = () => callback(null, fr.result);
-              fr.onerror = (err) => callback(err);
-              fr.readAsDataURL(file);
-            }
-
-     function factor(e) {
-              reader(e.target.files[0], (err, res) => {
-                formik.setFieldValue('factor' , res)
-              });
-            }
            (function () {
                   // Fetch all the forms we want to apply custom Bootstrap validation styles to
                 const forms = document.querySelectorAll('form');
@@ -245,6 +233,11 @@ export const SupportItems = () => {
                       }, false)
                     })
                 })()
+
+      function scanImage() {
+           window.ws.send("1100");
+       }
+
     return(
      <form className='needs-validation' noValidate>
         <Fragment>
@@ -319,11 +312,17 @@ export const SupportItems = () => {
                      </div>
                 </div>
                     {form.viewOnly ? null :
-                <div className="input-group">
+                    <div className='d-flex'>
+                        <div className="input-group h-25">
                             <label className="input-group-text"
                                    htmlFor="factor-check">فایل فاکتور</label>
-                            <input type="file" className="form-control" accept="application/pdf" id="factor-check" onChange={factor}/>
-                </div>}
+                            <button className="btn btn-warning" type="button" id="firstPageBtn" onClick={scanImage}>اسکن</button>
+                            <div className="invalid-feedback">
+                                    فایل را کنید.
+                            </div>
+                        </div>
+                        <img width={'250px'} height={'250px'} src={form.scan} alt={'تصویری اسکن نشده است'}/>
+                    </div>}
                 <hr className='bg-primary mb-5'/>
                 <div className='d-flex col gap-2'>
                       <div className="col-2 form-floating mb-3">
