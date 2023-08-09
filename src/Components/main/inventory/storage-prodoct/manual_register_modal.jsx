@@ -127,8 +127,6 @@ const ManualModal = (props) => {
                     } catch (e) {
                         if (data.status === 201) {
                             postAlert()
-                            setTimeout(
-                                refreshPages, 3000)
                         }
                     }
 
@@ -703,7 +701,7 @@ const ManualModal = (props) => {
                                                      گروه  را انتخاب کنید.
                                                  </div>
                                               </div>
-                                  <div className="col-1 form-floating">
+                                  <div className="col-2 form-floating">
                                             <input type="number" className="form-control" id="count" value={formik.values.input || formik.values.output}
                                                    onChange={formik.handleChange}
                                                    name={registerType === 'ورود' || formik.values.operator === 'ورود' || registerType === 'ثبت اولیه' || formik.values.operator === 'ثبت اولیه'? "input" : "output"}
@@ -794,8 +792,6 @@ const ManualModal = (props) => {
 
 
 const ChildComponent = ({registerType , formik ,listProduct , office , productList}) => {
-
-
 
   return (
       <Fragment>
