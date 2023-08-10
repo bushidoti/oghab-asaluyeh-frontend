@@ -28,6 +28,7 @@ const Modal = (props) => {
       consumable: props.modalTitle === 'edit' ? products.consumable || "" : '',
       date: props.modalTitle === 'edit' ? products.date || "" : '',
       buyer: props.modalTitle === 'edit' ? products.buyer || "" : '',
+      seller: props.modalTitle === 'edit' ? products.seller || "" : '',
       receiver: props.modalTitle === 'edit' ? products.receiver || "" : '',
       product: null,
       amendment: products.amendment || "",
@@ -139,6 +140,7 @@ const Modal = (props) => {
                       receiver:formik.values.receiver,
                       operator:'ورود',
                       buyer:formik.values.buyer,
+                      seller:formik.values.seller,
                       document_type: products.document_type,
                       document_code: products.document_code,
                       product: formik.values.code,
@@ -162,6 +164,7 @@ const Modal = (props) => {
                       date: today.replaceAll('/' , '-'),
                       receiver:formik.values.receiver,
                       buyer:formik.values.buyer,
+                      seller:formik.values.seller,
                       operator:'خروج',
                       document_type: products.document_type,
                       document_code: products.document_code,
@@ -234,6 +237,7 @@ const Modal = (props) => {
               {
               date: today.replaceAll('/' , '-'),
               buyer:formik.values.buyer,
+              seller:formik.values.seller,
               receiver:formik.values.receiver,
               document_type: products.document_type,
               document_code: formik.values.document_code,
@@ -385,7 +389,7 @@ const Modal = (props) => {
 
       const fetchDataAllProducts = async () => {
         if (props.idNumberProduct !== null) {
-            const response = await fetch(`${Url}/api/allproducts/${props.idNumberProduct}/?fields=product,input,output,document_code,document_type,date,operator,afterOperator,obsolete,consumable,buyer,receiver,amendment,id` , {
+            const response = await fetch(`${Url}/api/allproducts/${props.idNumberProduct}/?fields=product,seller,input,output,document_code,document_type,date,operator,afterOperator,obsolete,consumable,buyer,receiver,amendment,id` , {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -477,6 +481,7 @@ const Modal = (props) => {
         formik.setFieldValue('consumable' , '')
         formik.setFieldValue('date' , '')
         formik.setFieldValue('buyer' , '')
+        formik.setFieldValue('seller' , '')
         formik.setFieldValue('receiver' , '')
         formik.setFieldValue('product' , '')
         formik.setFieldValue('operator' , '')
@@ -684,6 +689,14 @@ const Modal = (props) => {
                                                                                 <label htmlFor="buyer">خریدار</label>
                                                                              <div className="invalid-feedback">
                                                                                  خریدار  را وارد کنید.
+                                                                             </div>
+                                                                        </div>
+                                                                       <div className="col form-floating">
+                                                                            <input type="text" className="form-control" id="seller" name='seller' value={formik.values.seller} onChange={formik.handleChange}
+                                                                                   placeholder="560" required/>
+                                                                                <label htmlFor="seller">فروشنده</label>
+                                                                             <div className="invalid-feedback">
+                                                                                 فروشنده  را وارد کنید.
                                                                              </div>
                                                                         </div>
                                                                 </Fragment>
