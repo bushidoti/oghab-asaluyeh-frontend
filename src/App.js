@@ -270,12 +270,19 @@ function App() {
       })()
     }, [systemIDFactorProperty]);
 
+ function refreshPages() {
+     window.location.reload()
+    }
+
   const alert = () => {
             Swal.fire({
                   icon: 'error',
                   title: 'عدم اتصال به سرور',
                   text: 'اتصال شما قطع شده است لطفا از اتصال اینترنت خود اطمینان حاصل بفرمایید',
+                    refreshPages,
                 })
+           setTimeout(
+                    refreshPages, 3000)
     }
 
 
