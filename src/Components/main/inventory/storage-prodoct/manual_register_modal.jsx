@@ -38,6 +38,7 @@ const ManualModal = (props) => {
           consumable: '',
           date:  '',
           buyer: '',
+          seller: '',
           receiver:  '',
           product: '',
           amendment:  "",
@@ -55,6 +56,7 @@ const ManualModal = (props) => {
           document_code:  "",
           consumable: '',
           buyer: '',
+          seller: '',
           receiver:  '',
         },
         enableReinitialize: true,
@@ -112,6 +114,7 @@ const ManualModal = (props) => {
               factor: props.scan,
               receiver:formikStatic.values.receiver,
               buyer:formikStatic.values.buyer,
+              seller:formikStatic.values.seller,
               product: handleAutoIncrement(),
          }, {
                  headers: {
@@ -163,6 +166,7 @@ const ManualModal = (props) => {
               date: today.replaceAll('/' , '-'),
               receiver:formikStatic.values.receiver,
               buyer:formikStatic.values.buyer,
+              seller:formikStatic.values.seller,
               operator:'ورود',
               document_type: formikStatic.values.document_type,
               document_code: formikStatic.values.document_code,
@@ -477,28 +481,28 @@ const ManualModal = (props) => {
                               <form className='needs-validation' noValidate onSubmit={handleSubmit}>
                                 <div className='d-flex gap-2 m-2'>
                                 {repeatedProduct === false ?
-                                        <div className="form-floating justify-content-center col">
+                                        <div className="form-floating justify-content-center col-1">
                                             <input type="text" id="idNumberManualModal" className="form-control"
                                                value={repeatedProduct === false ? handleAutoIncrement() : formik.values.code}
                                                aria-label="idNumberManualModal"  disabled required/>
                                             <label  htmlFor="idNumberManualModal">کد کالا</label>
                                         </div>
                                     :  null}
-                                     <div className="form-floating col">
-                                        <select className="form-select" id="operator" name='operator' aria-label="Register Type" value={registerType} onChange={(e) => {
+                                     <div className="form-floating col-2">
+                                        <select className="form-select" id="operator" name='operator' aria-label="Register Type" required value={registerType} onChange={(e) => {
                                         setRegisterType(e.target.value)
                                         setDocument('')
                                         formikStatic.setFieldValue('document_type' , '')
                                         formik.setFieldValue('code' , '')
                                         formik.setFieldValue('operator' , e.target.value)}}>
                                                     <option  value='' disabled>انتخاب کنید</option>
-                                                    <option value="ورود">ورود</option>
+                                                    <option value="ورود">ثبت اولیه/ورود</option>
                                                     <option value="خروج">خروج</option>
                                                 </select>
                                         <label htmlFor="operator">عملیات</label>
                                       </div>
-                                <div className="form-floating col">
-                                <select className="form-select" id="documentTypeManual" name='document_type' aria-label="Document Type" value={formikStatic.values.document_type} onChange={(e) => {
+                                <div className="form-floating col-2">
+                                <select className="form-select" required id="documentTypeManual" name='document_type' aria-label="Document Type" value={formikStatic.values.document_type} onChange={(e) => {
                                 setDocument(e.target.value)
                                 formikStatic.setFieldValue('document_type' , e.target.value)}}>
                                             <option  value='' disabled>انتخاب کنید</option>
@@ -536,8 +540,8 @@ const ManualModal = (props) => {
                                         </select>
                                         <label htmlFor="documentTypeManual">مدرک</label>
                               </div>
-                             <div className="form-floating col-4">
-                                <input type="text" className="form-control" name='document_code'
+                             <div className="form-floating col">
+                                <input type="text" className="form-control" name='document_code' required
                                 id="documentIdManual" value={documents === 'حواله' ?  handleAutoIncrementCheck() : null} disabled={documents === 'حواله'}
                                 onChange={formikStatic.handleChange}
                                        placeholder="560"/>
@@ -547,7 +551,7 @@ const ManualModal = (props) => {
                                  </div>
                                </div>
                                     {documents === 'فاکتور'  ?
-                                            <div className="form-floating col-4">
+                                            <div className="form-floating col">
                                                     <input type="text" className="form-control" name='systemID' value={handleAutoIncrementFactor()}
                                                     id="systemID" disabled placeholder="560"/>
                                                     <label htmlFor="systemID">شماره ثبت رایانه</label>
@@ -568,6 +572,7 @@ const ManualModal = (props) => {
                                                                      </div>
                                                                   </div>
                                                                 {documents === 'فاکتور' ?
+                                                                    <Fragment>
                                                                       <div className="col form-floating">
                                                                             <input type="text" className="form-control" id="buyer" value={formikStatic.values.buyer}
                                                                                onChange={formikStatic.handleChange} name='buyer' placeholder="560" required/>
@@ -576,6 +581,15 @@ const ManualModal = (props) => {
                                                                                  خریدار  را وارد کنید.
                                                                              </div>
                                                                         </div>
+                                                                        <div className="col form-floating">
+                                                                            <input type="text" className="form-control" id="seller" value={formikStatic.values.seller}
+                                                                               onChange={formikStatic.handleChange} name='seller' placeholder="560" required/>
+                                                                                <label htmlFor="buyer">فروشنده</label>
+                                                                             <div className="invalid-feedback">
+                                                                                 فروشنده  را وارد کنید.
+                                                                             </div>
+                                                                        </div>
+                                                                    </Fragment>
                                                                     :  null}
                                                             </Fragment>
                                                         )
