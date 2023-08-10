@@ -36,7 +36,7 @@ const ReportProducts = () => {
     const context = useContext(Context)
 
       const fetchData = async () => {
-        const response = await fetch(`${Url}/api/allproducts/?fields=product,input,output,systemID,document_code,document_type,date,operator,inventory,afterOperator,obsolete,consumable,buyer,receiver,amendment,id`, {
+        const response = await fetch(`${Url}/api/allproducts/?fields=product,input,seller,output,systemID,document_code,document_type,date,operator,inventory,afterOperator,obsolete,consumable,buyer,receiver,amendment,id`, {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -46,7 +46,7 @@ const ReportProducts = () => {
       }
 
     const fetchDataProducts = async () => {
-        const response = await fetch(`${Url}/api/allproducts/?fields=product,input,name,category,systemID,scale,inventory,output,document_code,document_type,date,operator,afterOperator,obsolete,consumable,buyer,receiver,amendment,id`, {
+        const response = await fetch(`${Url}/api/allproducts/?fields=product,seller,input,name,category,systemID,scale,inventory,output,document_code,document_type,date,operator,afterOperator,obsolete,consumable,buyer,receiver,amendment,id`, {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -165,6 +165,7 @@ const ReportProducts = () => {
                             context.formikProductSearch.setFieldValue('category' , '')
                             context.formikProductSearch.setFieldValue('receiver' , '')
                             context.formikProductSearch.setFieldValue('buyer' , '')
+                            context.formikProductSearch.setFieldValue('seller' , '')
                             context.formikProductSearch.setFieldValue('consumable' , '')
                             context.formikProductSearch.setFieldValue('date' , '')
                             context.formikProductSearch.setFieldValue('operator' , '')
@@ -178,6 +179,7 @@ const ReportProducts = () => {
                             <option value="نام کالا">نام کالا</option>
                             <option value="نام گیرنده">نام گیرنده</option>
                             <option value="نام خریدار">نام خریدار</option>
+                            <option value="نام فروشنده">نام فروشنده</option>
                             <option value="مورد مصرف">مورد مصرف</option>
                             <option value="تاریخ ثبت">تاریخ ثبت</option>
                         </select>
@@ -276,6 +278,8 @@ const ReportProducts = () => {
                                                   context.formikProductSearch.setFieldValue('buyer' , e.target.value)
                                             }else  if (search === 'نام گیرنده'){
                                                   context.formikProductSearch.setFieldValue('receiver' , e.target.value)
+                                            }else  if (search === 'نام فروشنده'){
+                                                  context.formikProductSearch.setFieldValue('seller' , e.target.value)
                                             }
                                         }} placeholder={`جستجو براساس ${search}`}
                                         aria-label="searchBox" aria-describedby="search" />
@@ -303,6 +307,7 @@ const ReportProducts = () => {
                             <th scope="col">موجودی</th>
                             <th scope="col">مورد مصرف</th>
                             <th scope="col">خریدار</th>
+                            <th scope="col">فروشنده</th>
                             <th scope="col">گیرنده</th>
                             <th scope="col">اصلاحیه</th>
                      </tr>
@@ -319,6 +324,8 @@ const ReportProducts = () => {
                                                         return value.name === String(context.formikProductSearch.values.name)
                                                     }else if (context.formikProductSearch.values.buyer){
                                                         return value.buyer === String(context.formikProductSearch.values.buyer)
+                                                    }else if (context.formikProductSearch.values.seller){
+                                                        return value.seller === String(context.formikProductSearch.values.seller)
                                                     }else if (context.formikProductSearch.values.receiver){
                                                         return value.receiver === String(context.formikProductSearch.values.receiver)
                                                     }else if (context.formikProductSearch.values.operator){
@@ -339,6 +346,8 @@ const ReportProducts = () => {
                                                         return value.inventory === context.office && value.name === String(context.formikProductSearch.values.name)
                                                 }else if (context.formikProductSearch.values.buyer){
                                                         return value.inventory === context.office && value.buyer === String(context.formikProductSearch.values.buyer)
+                                                }else if (context.formikProductSearch.values.seller){
+                                                        return value.inventory === context.office && value.seller === String(context.formikProductSearch.values.seller)
                                                 }else if (context.formikProductSearch.values.receiver){
                                                         return value.inventory === context.office && value.receiver === String(context.formikProductSearch.values.receiver)
                                                 }else if (context.formikProductSearch.values.operator){
@@ -363,6 +372,7 @@ const ReportProducts = () => {
                                 <td>{data.afterOperator}</td>
                                 <td>{data.consumable}</td>
                                 <td>{data.buyer}</td>
+                                <td>{data.seller}</td>
                                 <td>{data.receiver}</td>
                                 <td>{data.amendment}</td>
                             </tr>

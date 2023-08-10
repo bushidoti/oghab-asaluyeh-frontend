@@ -30,7 +30,7 @@ const ObserveModal = (props) => {
   }
 
   const fetchDataProducts = async () => {
-        const response = await fetch(`${Url}/api/allproducts/?fields=product,input,output,document_code,document_type,date,operator,afterOperator,obsolete,consumable,buyer,receiver,amendment,id,scale&date=${fixNumbers(props.formik.values.date)}&consumable=${props.formik.values.consumable}&operator=${props.formik.values.operator}`, {
+        const response = await fetch(`${Url}/api/allproducts/?fields=product,seller,input,output,document_code,document_type,date,operator,afterOperator,obsolete,consumable,buyer,receiver,amendment,id,scale&date=${fixNumbers(props.formik.values.date)}&consumable=${props.formik.values.consumable}&operator=${props.formik.values.operator}`, {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -171,6 +171,7 @@ const ObserveModal = (props) => {
                             <th scope="col">موجودی</th>
                             <th scope="col">مورد مصرف</th>
                             <th scope="col">خریدار</th>
+                            <th scope="col">فروشنده</th>
                             <th scope="col">گیرنده</th>
                             <th scope="col">اصلاحیه</th>
                             <th scope="col" className='d-print-none'></th>
@@ -190,6 +191,7 @@ const ObserveModal = (props) => {
                             <td>{data.afterOperator}</td>
                             <td>{data.consumable}</td>
                             <td>{data.buyer}</td>
+                            <td>{data.seller}</td>
                             <td>{data.receiver}</td>
                             <td>{data.amendment}</td>
                             <td className='d-print-none'>

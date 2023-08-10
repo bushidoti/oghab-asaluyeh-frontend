@@ -90,6 +90,7 @@ function App() {
                   date: '',
                   consumable: '',
                   buyer: '',
+                  seller: '',
                   product: '',
                   receiver: '',
                   inventory: '',
