@@ -724,13 +724,12 @@ const UploadDocuments = () => {
                                                         </select>
                                                     </div>
                                                  </div>
-                                  </div>
-
+                                         </div>
+                                     <img width={'500px'} height={'350px'} src={context.scan} alt={'تصویری اسکن نشده است'}/>
                                     </Fragment>
                                 )
                             }
                          })()}
-                         <img width={'500px'} height={'350px'} src={context.scan} alt={'تصویری اسکن نشده است'}/>
                     </div>
                  </div>
         </Fragment>

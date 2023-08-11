@@ -116,6 +116,7 @@ const AddPropertyDoc = (props) => {
                             <tr>
                                 <th scope="col">شماره ثبت</th>
                                 <th scope="col">نوع</th>
+                                <th scope="col">شماره سند</th>
                                 {context.propertyToggle ?
                                          <Fragment>
                                             <th scope="col">نام</th>
@@ -135,6 +136,7 @@ const AddPropertyDoc = (props) => {
                             <tr key={data.id} style={{backgroundColor:`${(data.soldStatus ? 'hsl(0, 100%, 80%)' : null) }`}}>
                                 <th scope="row">{data.id}</th>
                                 <td>{data.typeProperty}</td>
+                                <td>{data.docNumber}</td>
                                 <td>{data.name}</td>
                                 <td>{!context.propertyToggle ? data.descriptionLocation : data.addressChassis }</td>
                                 <td>

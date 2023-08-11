@@ -90,10 +90,10 @@ const ObserveModal = () => {
                             <hr className='bg-primary my-5'/>
                             <div className='row'>
                                 <div className="input-group mb-3">
-                                    <Link className='text-decoration-none link-dark' download='document.pdf'
-                                                  rel="noreferrer" to={handleOpenFile()} >
-                                            <button className="btn btn-outline-success"  type="button">
-                                            نمایش</button></Link>
+                                    <Link className='text-decoration-none link-dark' download='document.jpg'
+                                          rel="noreferrer" to={handleOpenFile()} >
+                                    <button className="btn btn-outline-success"  type="button">
+                                    نمایش</button></Link>
                                     <select className="form-select" id="checkFileSelector" defaultValue='' onChange={e => setSelectedFile(e.target.value)}
                                     aria-label="checkFileBtn">
                                         <option value='' disabled>فایل مورد نظر را انتخاب کنید</option>

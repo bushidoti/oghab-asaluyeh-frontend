@@ -123,11 +123,11 @@ const ObserveModal = () => {
 
                                                     <div className='row'>
                                                             <div className="input-group mb-3">
-                                                                <Link className='text-decoration-none link-dark' download='document.pdf'
-                                                                              rel="noreferrer" to={handleOpenFile()} >
-                                                                        <button className="btn btn-outline-success"  type="button">
-                                                                        نمایش</button></Link>
-                                                                <select className="form-select" id="checkFileList" onChange={e => setSelectedFile(e.target.value)} defaultValue=''
+                                                                <Link className='text-decoration-none link-dark' download='document.jpg'
+                                                                      rel="noreferrer" to={handleOpenFile()} >
+                                                                <button className="btn btn-outline-success"  type="button">
+                                                                نمایش</button></Link>
+                                                                        <select className="form-select" id="checkFileList" onChange={e => setSelectedFile(e.target.value)} defaultValue=''
                                                                 aria-label="checkFileList">
                                                                 <option value='' disabled>فایل مورد نظر را انتخاب کنید</option>
                                                                   {(() => {

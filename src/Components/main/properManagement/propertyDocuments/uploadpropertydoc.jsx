@@ -1,7 +1,9 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React, {Fragment, useContext, useEffect, useState} from "react";
 import {useFormik} from "formik";
 import axios from "axios";
 import Url from "../../../config";
+import {Context} from "../../../../context";
+import Swal from "sweetalert2";
 
 const UploadPropertyDoc = () => {
     const [search , setSearch] = useState('')
@@ -9,7 +11,8 @@ const UploadPropertyDoc = () => {
     const [allContract, setAllContract] = useState([])
     const [contractId, setContractId] = useState('')
     const [partitionSelect , setPartitionSelect] = useState('')
-
+    const [selectedFile, setSelectedFile] = useState('')
+    const context = useContext(Context)
     const formik = useFormik({
     initialValues: {
       id: property.id,
@@ -81,7 +84,8 @@ const UploadPropertyDoc = () => {
       },
           // eslint-disable-next-line react-hooks/exhaustive-deps
           [contractId])
-    const putHandler = async () => {
+
+    const putHandler1 = async () => {
        await axios.put(
             `${Url}/api/properties/${contractId}/`,
               {
@@ -106,67 +110,251 @@ const UploadPropertyDoc = () => {
               soldDate: formik.values.soldDate,
               buyer: formik.values.buyer,
               soldStatus: formik.values.soldStatus,
-              saleFactorFile: formik.values.saleFactorFile,
-              insurancePaperFile: formik.values.insurancePaperFile,
-              carCardFile: formik.values.carCardFile,
-              greenCardFile: formik.values.greenCardFile,
-              gasCardFile: formik.values.gasCardFile,
+              saleFactorFile: context.scan,
          }, {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-              })
+              }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('فاکتور فروش')
+                            context.setScan('')
+
+                        }
+                    }
+
+                })
         }
 
-    function reader(file, callback) {
-              const fr = new FileReader();
-              fr.onload = () => callback(null, fr.result);
-              fr.onerror = (err) => callback(err);
-              fr.readAsDataURL(file);
-            }
+        const putHandler2 = async () => {
+       await axios.put(
+            `${Url}/api/properties/${contractId}/`,
+              {
+              typeProperty: formik.values.typeProperty,
+              name: formik.values.name,
+              docNumber: formik.values.docNumber,
+              plateMotor: formik.values.plateMotor,
+              addressChassis: formik.values.addressChassis,
+              landlord: formik.values.landlord,
+              modelMeter: formik.values.modelMeter,
+              madeOf: formik.values.madeOf,
+              part1plate: formik.values.part1plate,
+              part2plate: formik.values.part2plate,
+              part3plate: formik.values.part3plate,
+              cityPlate: formik.values.cityPlate,
+              descriptionLocation: formik.values.descriptionLocation,
+              paperDoc: formik.values.paperDoc,
+              insurancePaper: formik.values.insurancePaper,
+              gasCard: formik.values.gasCard,
+              carCard: formik.values.carCard,
+              description: formik.values.description,
+              soldDate: formik.values.soldDate,
+              buyer: formik.values.buyer,
+              soldStatus: formik.values.soldStatus,
+              insurancePaperFile: context.scan,
+         }, {
+                headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+              }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('برگ بیمه')
+                            context.setScan('')
 
-        function saleFactorFile(e) {
-              reader(e.target.files[0], (err, res) => {
-                formik.setFieldValue('saleFactorFile' , res)
-              });
-            }
+                        }
+                    }
 
-        function insurancePaperFile(e) {
-              reader(e.target.files[0], (err, res) => {
-                formik.setFieldValue('insurancePaperFile' , res)
-              });
-            }
-
-        function carCardFile(e) {
-              reader(e.target.files[0], (err, res) => {
-                formik.setFieldValue('carCardFile' , res)
-              });
-            }
-
-        function greenCardFile(e) {
-          reader(e.target.files[0], (err, res) => {
-            formik.setFieldValue('greenCardFile' , res)
-          });
+                })
         }
 
-        function gasCardFile(e) {
-          reader(e.target.files[0], (err, res) => {
-            formik.setFieldValue('gasCardFile' , res)
-          });
+        const putHandler3 = async () => {
+       await axios.put(
+            `${Url}/api/properties/${contractId}/`,
+              {
+              typeProperty: formik.values.typeProperty,
+              name: formik.values.name,
+              docNumber: formik.values.docNumber,
+              plateMotor: formik.values.plateMotor,
+              addressChassis: formik.values.addressChassis,
+              landlord: formik.values.landlord,
+              modelMeter: formik.values.modelMeter,
+              madeOf: formik.values.madeOf,
+              part1plate: formik.values.part1plate,
+              part2plate: formik.values.part2plate,
+              part3plate: formik.values.part3plate,
+              cityPlate: formik.values.cityPlate,
+              descriptionLocation: formik.values.descriptionLocation,
+              paperDoc: formik.values.paperDoc,
+              insurancePaper: formik.values.insurancePaper,
+              gasCard: formik.values.gasCard,
+              carCard: formik.values.carCard,
+              description: formik.values.description,
+              soldDate: formik.values.soldDate,
+              buyer: formik.values.buyer,
+              soldStatus: formik.values.soldStatus,
+              carCardFile: context.scan,
+         }, {
+                headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+              }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('کارت ماشین')
+                            context.setScan('')
+
+                        }
+                    }
+
+                })
         }
+
+        const putHandler4 = async () => {
+       await axios.put(
+            `${Url}/api/properties/${contractId}/`,
+              {
+              typeProperty: formik.values.typeProperty,
+              name: formik.values.name,
+              docNumber: formik.values.docNumber,
+              plateMotor: formik.values.plateMotor,
+              addressChassis: formik.values.addressChassis,
+              landlord: formik.values.landlord,
+              modelMeter: formik.values.modelMeter,
+              madeOf: formik.values.madeOf,
+              part1plate: formik.values.part1plate,
+              part2plate: formik.values.part2plate,
+              part3plate: formik.values.part3plate,
+              cityPlate: formik.values.cityPlate,
+              descriptionLocation: formik.values.descriptionLocation,
+              paperDoc: formik.values.paperDoc,
+              insurancePaper: formik.values.insurancePaper,
+              gasCard: formik.values.gasCard,
+              carCard: formik.values.carCard,
+              description: formik.values.description,
+              soldDate: formik.values.soldDate,
+              buyer: formik.values.buyer,
+              soldStatus: formik.values.soldStatus,
+              greenCardFile: context.scan,
+         }, {
+                headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+              }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('کارت سبز')
+                            context.setScan('')
+
+                        }
+                    }
+
+                })
+        }
+
+        const putHandler5 = async () => {
+       await axios.put(
+            `${Url}/api/properties/${contractId}/`,
+              {
+              typeProperty: formik.values.typeProperty,
+              name: formik.values.name,
+              docNumber: formik.values.docNumber,
+              plateMotor: formik.values.plateMotor,
+              addressChassis: formik.values.addressChassis,
+              landlord: formik.values.landlord,
+              modelMeter: formik.values.modelMeter,
+              madeOf: formik.values.madeOf,
+              part1plate: formik.values.part1plate,
+              part2plate: formik.values.part2plate,
+              part3plate: formik.values.part3plate,
+              cityPlate: formik.values.cityPlate,
+              descriptionLocation: formik.values.descriptionLocation,
+              paperDoc: formik.values.paperDoc,
+              insurancePaper: formik.values.insurancePaper,
+              gasCard: formik.values.gasCard,
+              carCard: formik.values.carCard,
+              description: formik.values.description,
+              soldDate: formik.values.soldDate,
+              buyer: formik.values.buyer,
+              soldStatus: formik.values.soldStatus,
+              gasCardFile: context.scan,
+         }, {
+                headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+              }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('کارت سوخت')
+                            context.setScan('')
+
+                        }
+                    }
+
+                })
+        }
+
+       const postAlert = (file) => {
+                Swal.fire(
+                  'ثبت شد!',
+                  `${file} ثبت شد.`,
+                  'success',
+                  'ok',
+                )
+      }
+
+      function scanImage() {
+           window.ws.send("1100");
+       }
+
+       const handleSubmit = () => {
+        if (selectedFile === 'saleFactorFile'){
+            return putHandler1
+        }else if (selectedFile === 'insurancePaperFile'){
+            return putHandler2
+        }else if (selectedFile === 'carCardFile'){
+            return putHandler3
+        }else if (selectedFile === 'greenCardFile'){
+            return putHandler4
+        }else if (selectedFile === 'gasCardFile'){
+            return putHandler5
+        }
+    }
 
     return (
         <Fragment>
             <div className= 'plater  m-2 rounded-3 shadow-lg '>
-                     <div className="form-floating m-4" style={{maxWidth:'255px'}}>
-                            <select className="form-select" defaultValue='' id="partitionSelect" style={{maxWidth:'20vw' , minWidth:'200px'}}
-                            aria-label="Partition Select" onChange={(e) => setPartitionSelect(e.target.value)}>
-                                <option value='' disabled>یک مورد انتخاب کنید</option>
-                                <option value={'منقول'}>منقول</option>
-                                <option value={'غیر منقول'}>غیر منقول</option>
-                            </select>
-                            <label htmlFor="partitionSelect">بارگذاری اسناد بخش</label>
-                     </div>
                      <div className='m-4'>
                         <div className="input-group mb-3">
                                 <input type="text" className="form-control" value={search} onChange={e => {
@@ -183,44 +371,35 @@ const UploadPropertyDoc = () => {
                          {(() => {
                              if (allContract.filter(contract => contract.docNumber === search && contract.type_form === (partitionSelect === 'منقول')).length !== 0){
                                  return (
+                                     <Fragment>
+                                           <div className="form-floating m-4" style={{maxWidth:'255px'}}>
+                                                <select className="form-select" defaultValue='' id="partitionSelect" style={{maxWidth:'20vw' , minWidth:'200px'}}
+                                                aria-label="Partition Select" onChange={(e) => setPartitionSelect(e.target.value)}>
+                                                    <option value='' disabled>یک مورد انتخاب کنید</option>
+                                                    <option value={'منقول'}>منقول</option>
+                                                    <option value={'غیر منقول'}>غیر منقول</option>
+                                                </select>
+                                                <label htmlFor="partitionSelect">بارگذاری اسناد بخش</label>
+                                         </div>
                                          <div className= 'mt-5'>
-                                               <div className="input-group mb-3">
-                                                   <label className='me-4'>فاکتور فروش</label>
-                                                   <button className="btn btn-outline-secondary" type="button"
-                                                   id="saleFactorBtn" onClick={putHandler}>بارگذاری
-                                                   </button>
-                                                   <input type="file" className="form-control" name='saleFactorFile'  accept="application/pdf" id="saleFactorInp"
-                                                   aria-describedby="saleFactorBtn" aria-label="Upload" onChange={saleFactorFile}/>
-                                               </div>
-                                               <div className="input-group mb-3 align-items-center">
-                                                   <label className='me-5'>بیمه نامه</label>
-                                                   <button className="btn btn-outline-secondary" type="button"
-                                                   id="insurancePaperBtn" onClick={putHandler}>بارگذاری
-                                                   </button>
-                                                   <input type="file" className="form-control" name='insurancePaperFile'  accept="application/pdf" id="insurancePaperInp"
-                                                   aria-describedby="insurancePaperBtn" aria-label="Upload" onChange={insurancePaperFile}/>
-                                               </div>
-                                               <div className="input-group mb-3 align-items-center">
-                                                   <label className='me-4'>کارت ماشین</label>
-                                                   <button className="btn btn-outline-secondary" type="button" id="carCardBtn" onClick={putHandler}>بارگذاری</button>
-                                                   <input type="file" className="form-control" id="carCardInp" name='carCardFile'  accept="application/pdf"
-                                                   aria-describedby="carCardBtn" aria-label="Upload" onChange={carCardFile}/>
-                                               </div>
-                                               <div className="input-group mb-3 align-items-center">
-                                                   <label className='me-5'>کارت سبز</label>
-                                                   <button className="btn btn-outline-secondary" type="button"
-                                                   id="greenCardBtn" onClick={putHandler}>بارگذاری
-                                                   </button>
-                                                   <input type="file" className="form-control" id="greenCardInp" name='greenCardFile'  accept="application/pdf"
-                                                   aria-describedby="greenCardBtn" aria-label="Upload" onChange={greenCardFile}/>
-                                               </div>
-                                               <div className="input-group mb-3 align-items-center">
-                                                   <label className='me-4'>کارت سوخت</label>
-                                                   <button className="btn btn-outline-secondary" type="button" id="gasCardBtn" onClick={putHandler}>بارگذاری</button>
-                                                   <input type="file" className="form-control" id="gasCardInp" name='gasCardFile'  accept="application/pdf"
-                                                   aria-describedby="gasCardBtn" aria-label="Upload" onChange={gasCardFile}/>
-                                               </div>
+                                             <div className='row'>
+                                                    <div className="input-group mb-3">
+                                                        <button className="btn btn-warning" type="button" id="firstPageBtn" onClick={scanImage}>اسکن</button>
+                                                        <button className="btn btn-success" type="button" id="firstPageBtn" disabled={!context.scan} onClick={handleSubmit()}>بارگذاری</button>
+                                                        <select className="form-select" defaultValue='' id="checkFileBtn" onChange={e => setSelectedFile(e.target.value)}
+                                                        aria-label="checkFileBtn">
+                                                            <option value=''>فایل مورد نظر را انتخاب کنید</option>
+                                                            <option value="saleFactorFile">فاکتور فروش</option>
+                                                            <option value="insurancePaperFile">برگه بیمه</option>
+                                                            <option value="carCardFile">کارت ماشین</option>
+                                                            <option value="gasCardFile">کارت سوخت</option>
+                                                            <option value="greenCardFile">کارت سبز</option>
+                                                        </select>
+                                                    </div>
+                                                 </div>
                                             </div>
+                                        <img width={'500px'} height={'350px'} src={context.scan} alt={'تصویری اسکن نشده است'}/>
+                                         </Fragment>
                                  )
                              }
                          })()}
