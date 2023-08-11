@@ -358,7 +358,7 @@ const Modal = (props) => {
 
                             <div className='d-flex gap-2'>
                                     <div className="form-floating  col">
-                                            <select className="form-select" id="typePropertySelector"
+                                            <select className="form-select" id="typePropertySelector" required
                                                     aria-label="Type Property Selector" name='typeProperty' value={formik.values.typeProperty}
                                                     onChange={formik.handleChange} disabled={props.editProperty}>
                                                 <option value='' disabled>یک مورد انتخاب کنید</option>
@@ -450,14 +450,14 @@ const Modal = (props) => {
 
                                           <div className="mt-2 input-group">
                                             <input className="form-control c-form__input c-form__car-plate-input__section4" name='cityPlate' value={formik.values.cityPlate} disabled={props.ModalTitle === 'done' ? false : props.editProperty}
-                                            onChange={formik.handleChange} type="tel" maxLength='2' placeholder="⚊ ⚊"
+                                            onChange={formik.handleChange} type="tel" maxLength='2' placeholder="⚊ ⚊" required
                                             id="carPlateSection4"/>
                                             <span className="c-form__car-plate-input__iran">ایران</span>
                                             <input type="tel"  id="carPlateSection3" name='part3plate' value={formik.values.part3plate} disabled={props.ModalTitle === 'done' ? false : props.editProperty}
                                             onChange={formik.handleChange} placeholder="⚊ ⚊ ⚊" aria-label="First name"
-                                            maxLength='3' className="c-form__input form-control"/>
+                                            maxLength='3' className="c-form__input form-control" required/>
                                             <select id="carPlateSection2" className="c-form__combo c-form__car-plate-input__section2" disabled={props.ModalTitle === 'done' ? false : props.editProperty}
-                                            name='part2plate' value={formik.values.part2plate} onChange={formik.handleChange}>
+                                            name='part2plate' value={formik.values.part2plate} onChange={formik.handleChange} required>
                                                 <option value="" disabled>انتخاب</option>
                                                 <option value="الف">الف</option>
                                                 <option value="ب">ب</option>
@@ -487,7 +487,7 @@ const Modal = (props) => {
                                                 <option value="D">D</option>
                                                 <option value="S">S</option>
                                             </select>
-                                            <input type="tel" placeholder="⚊ ⚊"  id="carPlateSection1" disabled={props.ModalTitle === 'done' ? false : props.editProperty}
+                                            <input type="tel" placeholder="⚊ ⚊"  id="carPlateSection1" disabled={props.ModalTitle === 'done' ? false : props.editProperty} required
                                             name='part1plate' value={formik.values.part1plate} onChange={formik.handleChange}
                                             maxLength='2' className="c-form__input form-control"/>
                                             <span className="input-group-text c-form__car-plate-input rounded-8"></span>
