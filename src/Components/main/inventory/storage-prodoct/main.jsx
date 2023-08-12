@@ -64,7 +64,7 @@ const WarHouse = () => {
                  handleSystem()
           },
            // eslint-disable-next-line react-hooks/exhaustive-deps
-        [idNumberProduct , context.factor , context.systemIDFactor , context.billCheck , context.handling])
+        [idNumberProduct , context.factor , context.systemIDFactor , context.billCheck , context.handling ])
 
 
     const handleCheckFactor = () => {
@@ -148,7 +148,24 @@ const WarHouse = () => {
             </div>
 
             <div className='m-4'>
-                <div className="form-floating my-2" style={{maxWidth:'255px'}}>
+                     <div className='d-flex my-2 gap-4'>
+                {rank === 'مدیر' ?
+                           <div className="form-floating">
+                                <select className="form-select" id="branch" defaultValue='' onChange={e => context.formikProductSearch.setFieldValue('inventory' , e.target.value)}
+                                    aria-label="branch">
+                                    <option value=''>همه</option>
+                                    <option value="دفتر مرکزی">دفتر مرکزی</option>
+                                    <option value="چابهار">چابهار</option>
+                                    <option value="دزفول">دزفول</option>
+                                    <option value="جاسک">جاسک</option>
+                                    <option value="بیشه کلا">بیشه کلا</option>
+                                    <option value="اورهال تهران">اورهال تهران</option>
+                                    <option value="اورهال اصفهان">اورهال اصفهان</option>
+                                </select>
+                                <label htmlFor="branch">شعبه</label>
+                           </div>
+                :  null}
+                <div className="form-floating" style={{maxWidth:'255px'}}>
                         <select className="form-select" defaultValue='' id="searchSelector" style={{maxWidth:'20vw' , minWidth:'200px'}}  onChange={(e) => {
                             context.formikProductSearch.setFieldValue('code' , '')
                             context.formikProductSearch.setFieldValue('name' , '')
@@ -163,6 +180,7 @@ const WarHouse = () => {
                         </select>
                         <label htmlFor="searchSelector">جستجو براساس</label>
                 </div>
+            </div>
                 {search === 'گروه' ?
                         <div className="form-floating" style={{maxWidth:'255px'}}>
                             <input className="form-control" type='search' value={context.formikProductSearch.values.category}
@@ -211,11 +229,27 @@ const WarHouse = () => {
                     <tbody>
                     {(product.length > 0 && product.filter(product => {if (rank === 'مدیر'){
                                            if (context.formikProductSearch.values.code){
-                                                    return product.code === Number(context.formikProductSearch.values.code)
+                                               if (context.formikProductSearch.values.inventory){
+                                                   return  product.code === Number(context.formikProductSearch.values.code) && product.inventory === String(context.formikProductSearch.values.inventory)
+                                               }else{
+                                                return product.code === Number(context.formikProductSearch.values.code)
+                                               }
                                             }else if (context.formikProductSearch.values.category){
-                                                    return product.category === String(context.formikProductSearch.values.category)
+                                                 if (context.formikProductSearch.values.inventory){
+                                                   return product.category === String(context.formikProductSearch.values.category) && product.inventory === String(context.formikProductSearch.values.inventory)
+                                               }else{
+                                                 return product.category === String(context.formikProductSearch.values.category)
+                                               }
+
                                             }else if (context.formikProductSearch.values.name) {
-                                           return product.name === String(context.formikProductSearch.values.name)
+                                                 if (context.formikProductSearch.values.inventory){
+                                                   return product.name === String(context.formikProductSearch.values.name) && product.inventory === String(context.formikProductSearch.values.inventory)
+                                               }else{
+                                                  return product.name === String(context.formikProductSearch.values.name)
+                                               }
+
+                                           }else if (context.formikProductSearch.values.inventory) {
+                                             return product.inventory === String(context.formikProductSearch.values.inventory)
                                            }else {
                                                   return product.inventory
                                            }
