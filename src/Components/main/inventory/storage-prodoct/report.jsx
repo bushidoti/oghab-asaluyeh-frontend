@@ -335,60 +335,60 @@ const ReportProducts = () => {
                         {(products.length > 0 && products.filter((value) => {if (rank === 'مدیر'){
                                                     if (context.formikProductSearch.values.product){
                                                          if (context.formikProductSearch.values.inventory){
-                                                               return value.product === Number(context.formikProductSearch.values.product) && product.inventory === String(context.formikProductSearch.values.inventory)
+                                                               return value.product === Number(context.formikProductSearch.values.product) && value.inventory === String(context.formikProductSearch.values.inventory)
                                                            }else{
                                                                 return value.product === Number(context.formikProductSearch.values.product)
                                                            }
                                                     }else if (context.formikProductSearch.values.category){
                                                             if (context.formikProductSearch.values.inventory){
-                                                               return value.category === String(context.formikProductSearch.values.category) && product.inventory === String(context.formikProductSearch.values.inventory)
+                                                               return value.category === String(context.formikProductSearch.values.category) && value.inventory === String(context.formikProductSearch.values.inventory)
                                                            }else{
                                                                 return value.category === String(context.formikProductSearch.values.category)
                                                            }
                                                     }else if (context.formikProductSearch.values.consumable){
                                                             if (context.formikProductSearch.values.inventory){
-                                                               return value.consumable === String(context.formikProductSearch.values.consumable) && product.inventory === String(context.formikProductSearch.values.inventory)
+                                                               return value.consumable === String(context.formikProductSearch.values.consumable) && value.inventory === String(context.formikProductSearch.values.inventory)
                                                            }else{
                                                                return value.consumable === String(context.formikProductSearch.values.consumable)
                                                            }
                                                     }else if (context.formikProductSearch.values.name){
                                                              if (context.formikProductSearch.values.inventory){
-                                                               return value.name === String(context.formikProductSearch.values.name) && product.inventory === String(context.formikProductSearch.values.inventory)
+                                                               return value.name === String(context.formikProductSearch.values.name) && value.inventory === String(context.formikProductSearch.values.inventory)
                                                            }else{
                                                                return value.name === String(context.formikProductSearch.values.name)
                                                            }
 
                                                     }else if (context.formikProductSearch.values.buyer){
                                                            if (context.formikProductSearch.values.inventory){
-                                                               return value.buyer === String(context.formikProductSearch.values.buyer) && product.inventory === String(context.formikProductSearch.values.inventory)
+                                                               return value.buyer === String(context.formikProductSearch.values.buyer) && value.inventory === String(context.formikProductSearch.values.inventory)
                                                            }else{
                                                                return value.buyer === String(context.formikProductSearch.values.buyer)
                                                            }
 
                                                     }else if (context.formikProductSearch.values.seller){
                                                             if (context.formikProductSearch.values.inventory){
-                                                               return value.seller === String(context.formikProductSearch.values.seller) && product.inventory === String(context.formikProductSearch.values.inventory)
+                                                               return value.seller === String(context.formikProductSearch.values.seller) && value.inventory === String(context.formikProductSearch.values.inventory)
                                                            }else{
                                                                return value.seller === String(context.formikProductSearch.values.seller)
                                                            }
 
                                                     }else if (context.formikProductSearch.values.receiver){
                                                           if (context.formikProductSearch.values.inventory){
-                                                               return value.receiver === String(context.formikProductSearch.values.receiver) && product.inventory === String(context.formikProductSearch.values.inventory)
+                                                               return value.receiver === String(context.formikProductSearch.values.receiver) && value.inventory === String(context.formikProductSearch.values.inventory)
                                                            }else{
                                                                return value.receiver === String(context.formikProductSearch.values.receiver)
                                                            }
 
                                                     }else if (context.formikProductSearch.values.operator){
                                                         if (context.formikProductSearch.values.inventory){
-                                                               return value.operator === String(context.formikProductSearch.values.operator) && product.inventory === String(context.formikProductSearch.values.inventory)
+                                                               return value.operator === String(context.formikProductSearch.values.operator) && value.inventory === String(context.formikProductSearch.values.inventory)
                                                            }else{
                                                                return value.operator === String(context.formikProductSearch.values.operator)
                                                            }
 
                                                     }else if (context.formikProductSearch.values.date){
                                                           if (context.formikProductSearch.values.inventory){
-                                                               return value.date === fixNumbers(context.formikProductSearch.values.date)&& product.inventory === String(context.formikProductSearch.values.inventory)
+                                                               return value.date === fixNumbers(context.formikProductSearch.values.date) && value.inventory === String(context.formikProductSearch.values.inventory)
                                                            }else{
                                                                  return value.date === fixNumbers(context.formikProductSearch.values.date)
                                                            }
