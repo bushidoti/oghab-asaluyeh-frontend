@@ -496,7 +496,7 @@ const ManualModal = (props) => {
                                         formik.setFieldValue('code' , '')
                                         formik.setFieldValue('operator' , e.target.value)}}>
                                                     <option  value='' disabled>انتخاب کنید</option>
-                                                    <option value="ورود">ثبت اولیه/ورود</option>
+                                                    <option value="ورود">ثبت اولیه / ورود</option>
                                                     <option value="خروج">خروج</option>
                                                 </select>
                                         <label htmlFor="operator">عملیات</label>
@@ -539,6 +539,9 @@ const ManualModal = (props) => {
 
                                         </select>
                                         <label htmlFor="documentTypeManual">مدرک</label>
+                                        <div className="invalid-feedback">
+                                             مدرک را انتخاب کنید.
+                                         </div>
                               </div>
                              <div className="form-floating col">
                                 <input type="text" className="form-control" name='document_code' required
@@ -716,7 +719,7 @@ const ManualModal = (props) => {
                                                  </div>
                                               </div>
                                   <div className="col-2 form-floating">
-                                            <input type="number" className="form-control" id="count" value={formik.values.input || formik.values.output}
+                                            <input type="number" className="form-control" min="0" id="count" value={formik.values.input || formik.values.output}
                                                    onChange={formik.handleChange}
                                                    name={registerType === 'ورود' || formik.values.operator === 'ورود' || registerType === 'ثبت اولیه' || formik.values.operator === 'ثبت اولیه'? "input" : "output"}
                                                    placeholder="560" required/>
@@ -902,7 +905,7 @@ const ChildComponent = ({registerType , formik ,listProduct , office , productLi
                                           : null}
 
                                   <div className="col-2 form-floating">
-                                            <input type="number" className="form-control" id={`count${i}`} value={data.input || data.output} disabled
+                                            <input type="number" className="form-control" min="0" id={`count${i}`} value={data.input || data.output} disabled
                                                    name={registerType === 'ورود' || formik.values.operator === 'ورود' || registerType === 'ثبت اولیه' || formik.values.operator === 'ثبت اولیه'? "input" : "output"}
                                                    placeholder="560" required/>
                                                 <label htmlFor={`count${i}`}>تعداد</label>
