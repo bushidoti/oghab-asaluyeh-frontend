@@ -305,7 +305,7 @@ function App() {
                    f.name = "File" + i;
                    const reader = new FileReader();
                    reader.onload = function (e) {
-                   setScan(e.target.result.replace('data:application/octet-stream;base64,' ,  'data:image/jpg;base64,' ))
+                          setScan(e.target.result.replace('data:application/octet-stream;base64,' ,  'data:image/jpg;base64,' ))
                    }
                    reader.readAsDataURL(f);
                }

@@ -64,6 +64,7 @@ const ManualModal = (props) => {
 
 
      const postHandler = async () => {
+         postAlertLoading()
            await axios.post(
             `${Url}/api/product/`,
               {
@@ -90,13 +91,11 @@ const ManualModal = (props) => {
                         }
                     } catch (e) {
                         if (data.status === 201) {
-                            postAlert()
                               await putHandlerAutoIncrement()
                               await putHandlerAutoIncrementFactor()
                               await fetchDataAutoIncrement()
                         }
                     }
-
                 })
          await axios.post(
             `${Url}/api/allproducts/`,
@@ -130,6 +129,7 @@ const ManualModal = (props) => {
                     } catch (e) {
                         if (data.status === 201) {
                             postAlert()
+                            props.setScan('')
                         }
                     }
 
@@ -154,7 +154,18 @@ const ManualModal = (props) => {
             )
       }
 
+     const postAlertLoading = () => {
+            Swal.fire({
+                  title: 'در حال ثبت کردن!',
+                  icon: 'warning',
+                  html:   `<div class="spinner-border text-danger" role="status">
+                     <span class="visually-hidden">Loading...</span>
+                    </div>`,
+                  showConfirmButton: false,
+            })}
+
     const postHandlerProductInput = async () => {
+         postAlertLoading()
            await axios.post(
             `${Url}/api/allproducts/`,
               {
@@ -177,10 +188,25 @@ const ManualModal = (props) => {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            })
+            }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                            postAlert()
+                              await putHandlerAutoIncrementFactor()
+                              props.setScan('')
+                        }
+                    }
+                })
         }
 
     const postHandlerProductOutput = async () => {
+         postAlertLoading()
            await axios.post(
             `${Url}/api/allproducts/`,
               {
@@ -201,31 +227,26 @@ const ManualModal = (props) => {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            })
+            }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                            postAlert()
+                              await putHandlerAutoIncrementCheck()
+                              props.setScan('')
+                        }
+                    }
+                })
            
         }
 
-    const postAlertProductsInput = () => {
-                Swal.fire(
-                  'ثبت شد!',
-                  'کالا ثبت شد.',
-                  'success',
-                  'ok',
-                  postHandlerProductInput(),
-                  putHandlerAutoIncrementFactor(),
-                )
-      }
 
-    const postAlertProductsOutput = () => {
-                Swal.fire(
-                  'ثبت شد!',
-                  'کالا ثبت شد.',
-                  'success',
-                  'ok',
-                  postHandlerProductOutput(),
-                  putHandlerAutoIncrementCheck(),
-                )
-      }
+
 
     const fetchData = async () => {
             if (formik.values.name){
@@ -382,12 +403,13 @@ const ManualModal = (props) => {
         if (repeatedProduct === false){
             return postHandler()
         }else if (registerType === 'خروج'){
-            return postAlertProductsOutput()
+            return postHandlerProductOutput()
         }else if (registerType === 'ورود'){
-            return postAlertProductsInput()
+            return postHandlerProductInput()
         }
 
     }
+
 
 
     const handleAutoIncrement = () => {
@@ -620,7 +642,8 @@ const ManualModal = (props) => {
                                                            htmlFor="factor-check">فایل {documents}</label>
                                                     <button className="btn btn-warning" type="button" id="firstPageBtn" onClick={scanImage}>اسکن</button>
                                                 </div>
-                                                   <img width={'250px'} height={'250px'} src={props.scan} alt={'تصویری اسکن نشده است'}/>
+
+                                                   <img width={'250px'} height={'250px'} class="figure-img img-fluid rounded" src={props.scan} alt={'تصویری اسکن نشده است'}/>
                                                 </div>
                                             </Fragment>
 
