@@ -84,7 +84,18 @@ const UploadDocuments = () => {
 
 
 
+     const postAlertLoading = () => {
+            Swal.fire({
+                  title: 'در حال ثبت کردن!',
+                  icon: 'warning',
+                  html:   `<div class="spinner-border text-danger" role="status">
+                     <span class="visually-hidden">Loading...</span>
+                    </div>`,
+                  showConfirmButton: false,
+            })}
+
         const putHandler1 = async () => {
+              postAlertLoading()
             await axios.put(
                 `${Url}/api/documents/${contractId}/`,
                   {
@@ -128,6 +139,7 @@ const UploadDocuments = () => {
         }
 
          const putHandler2 = async () => {
+              postAlertLoading()
             await axios.put(
                 `${Url}/api/documents/${contractId}/`,
                   {
@@ -171,6 +183,7 @@ const UploadDocuments = () => {
         }
 
          const putHandler3 = async () => {
+              postAlertLoading()
             await axios.put(
                 `${Url}/api/documents/${contractId}/`,
                   {
@@ -214,6 +227,7 @@ const UploadDocuments = () => {
         }
 
          const putHandler4 = async () => {
+              postAlertLoading()
             await axios.put(
                 `${Url}/api/documents/${contractId}/`,
                   {
@@ -257,6 +271,7 @@ const UploadDocuments = () => {
         }
 
          const putHandler5 = async () => {
+              postAlertLoading()
             await axios.put(
                 `${Url}/api/documents/${contractId}/`,
                   {
@@ -300,6 +315,7 @@ const UploadDocuments = () => {
         }
 
          const putHandler6 = async () => {
+              postAlertLoading()
             await axios.put(
                 `${Url}/api/documents/${contractId}/`,
                   {
@@ -343,6 +359,7 @@ const UploadDocuments = () => {
         }
 
          const putHandler7 = async () => {
+              postAlertLoading()
             await axios.put(
                 `${Url}/api/documents/${contractId}/`,
                   {
@@ -386,6 +403,7 @@ const UploadDocuments = () => {
         }
 
          const putHandler8 = async () => {
+              postAlertLoading()
             await axios.put(
                 `${Url}/api/documents/${contractId}/`,
                   {
@@ -429,6 +447,7 @@ const UploadDocuments = () => {
         }
 
          const putHandler9 = async () => {
+              postAlertLoading()
             await axios.put(
                 `${Url}/api/documents/${contractId}/`,
                   {
@@ -472,6 +491,7 @@ const UploadDocuments = () => {
         }
 
          const putHandler10 = async () => {
+              postAlertLoading()
             await axios.put(
                 `${Url}/api/documents/${contractId}/`,
                   {
@@ -515,6 +535,7 @@ const UploadDocuments = () => {
                 })
         }
          const putHandler11 = async () => {
+              postAlertLoading()
             await axios.put(
                 `${Url}/api/documents/${contractId}/`,
                   {
@@ -552,11 +573,11 @@ const UploadDocuments = () => {
                             context.setScan('')
                         }
                     }
-
                 })
         }
 
          const putHandler12 = async () => {
+              postAlertLoading()
             await axios.put(
                 `${Url}/api/documents/${contractId}/`,
                   {

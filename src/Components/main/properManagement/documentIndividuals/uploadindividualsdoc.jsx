@@ -85,7 +85,18 @@ const UploadIndividualsDoc = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [contractId])
 
+    const postAlertLoading = () => {
+            Swal.fire({
+                  title: 'در حال ثبت کردن!',
+                  icon: 'warning',
+                  html:   `<div class="spinner-border text-danger" role="status">
+                     <span class="visually-hidden">Loading...</span>
+                    </div>`,
+                  showConfirmButton: false,
+            })}
+
     const putHandler1 = async () => {
+        postAlertLoading()
             await axios.put(
                 `${Url}/api/persons/${contractId}/`,
                   {
@@ -126,6 +137,7 @@ const UploadIndividualsDoc = () => {
         }
 
         const putHandler2 = async () => {
+             postAlertLoading()
             await axios.put(
                 `${Url}/api/persons/${contractId}/`,
                   {
@@ -166,6 +178,7 @@ const UploadIndividualsDoc = () => {
         }
 
       const putHandler3 = async () => {
+         postAlertLoading()
             await axios.put(
                 `${Url}/api/persons/${contractId}/`,
                   {
@@ -206,6 +219,7 @@ const UploadIndividualsDoc = () => {
         }
 
       const putHandler4 = async () => {
+           postAlertLoading()
             await axios.put(
                 `${Url}/api/persons/${contractId}/`,
                   {
@@ -246,6 +260,7 @@ const UploadIndividualsDoc = () => {
         }
 
          const putHandler5 = async () => {
+                postAlertLoading()
             await axios.put(
                 `${Url}/api/persons/${contractId}/`,
                   {
@@ -286,6 +301,7 @@ const UploadIndividualsDoc = () => {
         }
 
          const putHandler6 = async () => {
+            postAlertLoading()
             await axios.put(
                 `${Url}/api/persons/${contractId}/`,
                   {
@@ -326,6 +342,7 @@ const UploadIndividualsDoc = () => {
         }
 
          const putHandler7 = async () => {
+            postAlertLoading()
             await axios.put(
                 `${Url}/api/persons/${contractId}/`,
                   {
@@ -366,6 +383,7 @@ const UploadIndividualsDoc = () => {
         }
 
          const putHandler8 = async () => {
+            postAlertLoading()
             await axios.put(
                 `${Url}/api/persons/${contractId}/`,
                   {
@@ -406,6 +424,7 @@ const UploadIndividualsDoc = () => {
         }
 
          const putHandler9 = async () => {
+            postAlertLoading()
             await axios.put(
                 `${Url}/api/persons/${contractId}/`,
                   {
@@ -446,6 +465,7 @@ const UploadIndividualsDoc = () => {
         }
 
          const putHandler10 = async () => {
+                postAlertLoading()
             await axios.put(
                 `${Url}/api/persons/${contractId}/`,
                   {
@@ -486,6 +506,7 @@ const UploadIndividualsDoc = () => {
         }
 
          const putHandler11 = async () => {
+            postAlertLoading()
             await axios.put(
                 `${Url}/api/persons/${contractId}/`,
                   {
@@ -526,6 +547,7 @@ const UploadIndividualsDoc = () => {
         }
 
          const putHandler12 = async () => {
+            postAlertLoading()
             await axios.put(
                 `${Url}/api/persons/${contractId}/`,
                   {
@@ -566,6 +588,7 @@ const UploadIndividualsDoc = () => {
         }
 
          const putHandler13 = async () => {
+            postAlertLoading()
             await axios.put(
                 `${Url}/api/persons/${contractId}/`,
                   {

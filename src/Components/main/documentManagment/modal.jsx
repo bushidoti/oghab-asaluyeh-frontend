@@ -43,6 +43,7 @@ const Modal = (props) => {
     });
 
      const postHandler = async () => {
+             postAlertLoading()
                 await axios.post(
                 `${Url}/api/documents/`,
                   {
@@ -84,6 +85,17 @@ const Modal = (props) => {
 
                 })
         }
+
+
+     const postAlertLoading = () => {
+            Swal.fire({
+                  title: 'در حال ثبت کردن!',
+                  icon: 'warning',
+                  html:   `<div class="spinner-border text-danger" role="status">
+                     <span class="visually-hidden">Loading...</span>
+                    </div>`,
+                  showConfirmButton: false,
+            })}
 
      const alert= (code) => {
             Swal.fire({

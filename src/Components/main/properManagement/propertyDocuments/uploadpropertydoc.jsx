@@ -85,7 +85,18 @@ const UploadPropertyDoc = () => {
           // eslint-disable-next-line react-hooks/exhaustive-deps
           [contractId])
 
+        const postAlertLoading = () => {
+            Swal.fire({
+                  title: 'در حال ثبت کردن!',
+                  icon: 'warning',
+                  html:   `<div class="spinner-border text-danger" role="status">
+                     <span class="visually-hidden">Loading...</span>
+                    </div>`,
+                  showConfirmButton: false,
+            })}
+
     const putHandler1 = async () => {
+        postAlertLoading()
        await axios.put(
             `${Url}/api/properties/${contractId}/`,
               {
@@ -133,7 +144,8 @@ const UploadPropertyDoc = () => {
                 })
         }
 
-        const putHandler2 = async () => {
+    const putHandler2 = async () => {
+        postAlertLoading()
        await axios.put(
             `${Url}/api/properties/${contractId}/`,
               {
@@ -181,7 +193,8 @@ const UploadPropertyDoc = () => {
                 })
         }
 
-        const putHandler3 = async () => {
+    const putHandler3 = async () => {
+        postAlertLoading()
        await axios.put(
             `${Url}/api/properties/${contractId}/`,
               {
@@ -229,7 +242,8 @@ const UploadPropertyDoc = () => {
                 })
         }
 
-        const putHandler4 = async () => {
+    const putHandler4 = async () => {
+        postAlertLoading()
        await axios.put(
             `${Url}/api/properties/${contractId}/`,
               {
@@ -277,7 +291,8 @@ const UploadPropertyDoc = () => {
                 })
         }
 
-        const putHandler5 = async () => {
+     const putHandler5 = async () => {
+        postAlertLoading()
        await axios.put(
             `${Url}/api/properties/${contractId}/`,
               {
