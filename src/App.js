@@ -31,11 +31,13 @@ import BillProperty from "./Components/main/inventory/property/bill";
 import {Detector} from "react-detect-offline";
 import Swal from "sweetalert2";
 import PendingRecycle from "./Components/main/inventory/property/pending-recycle";
+import {Maintenance} from "./Components/maintenance/maintenance";
 
 function App() {
     const [modalTitle , setModalTitle] = useState('')
     const [isAuth, setIsAuth] = useState(false);
     const [permission, setPermission] = useState('');
+    const [maintenance, setMaintenance] = useState(false);
     const [office, setOffice] = useState('');
     const [scan, setScan] = useState('');
     const [factor, setFactor] = useState('');
@@ -47,7 +49,6 @@ function App() {
     const [dateProperty, setDateProperty] = useState([])
     const [factorNumberProperty, setFactorNumberProperty] = useState([])
     const [factorNumber, setFactorNumber] = useState([])
-
     const formikDocumentSearch = useFormik({
             initialValues: {
                   employer: '',
@@ -191,6 +192,19 @@ function App() {
         })()
     }, [isAuth]);
 
+
+
+   useEffect(() => {
+            setInterval( async () => {
+                const {data} = await (await axios.get(`${Url}/api/maintenance/1`, {
+                headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+              }));
+              setMaintenance(data.status);
+        } , 10000)
+    }, []);
+
      useEffect(() => {
             (async () => {
                 if (isAuth){
@@ -317,6 +331,9 @@ function App() {
 
   return (
        <Fragment>
+           {maintenance  ?
+               <Maintenance/>
+               : null}
            <Detector
                 polling={{url:"https://ipv4.icanhazip.com"}}
               render={({ online }) => (
