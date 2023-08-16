@@ -114,6 +114,22 @@ export const Thead = (props) => {
                                                  <th scope="col" className='d-print-none'></th>
                                            </Fragment>
                                         )
+                                    }else if (props.typeProperty === 'airplane'){
+                                        return (
+                                           <Fragment>
+                                                <th scope="col">ردیف</th>
+                                                <th scope="col">کد ثبت</th>
+                                                <th scope="col">نام هواپیما</th>
+                                                <th scope="col">مدل</th>
+                                                <th scope="col">یوزر</th>
+                                                <th scope="col">شماره موتور</th>
+                                                <th scope="col">شماره شاسی</th>
+                                                <th scope="col">سال ساخت</th>
+                                                <th scope="col">مالکیت</th>
+                                               {props.newth}
+                                                 <th scope="col" className='d-print-none'></th>
+                                           </Fragment>
+                                        )
                                     }else if (props.typeProperty === 'noneindustrialtool'){
                                         return (
                                            <Fragment>

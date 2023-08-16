@@ -24,6 +24,7 @@
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.28",
     "lz-string": "^1.5.0",
+    "lzma": "^2.3.2",
     "micro-persian-fonts": "^0.6.0",
     "moment": "^2.29.4",
     "react": "^18.2.0",

@@ -157,7 +157,9 @@ const AddPropertyDoc = (props) => {
                             </tr>
                                    ))) ||
                                 <tr>
-                                    <td colSpan="5" className='h3'>داده ای یافت نشد .....</td>
+                                    <td colSpan="6" className='h3'><div className="spinner-border text-primary" role="status">
+                                        <span className="visually-hidden">Loading...</span>
+                                    </div></td>
                                 </tr>
                                     }
                             </tbody>

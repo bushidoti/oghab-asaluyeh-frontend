@@ -208,7 +208,7 @@ export const PropertyHandling = (props) => {
                 </div>
                 <div className='d-flex'>
                     <div className= 'm-4 table-responsive rounded-3 col' style={{maxHeight : '35vh'}}>
-                          <table className="table table-hover text-center align-middle table-bordered border-primary" ref={componentPDF} style={{direction:'rtl' , fontSize:'1vw'}}>
+                          <table className="table table-hover text-center align-middle table-bordered border-primary bg-light" ref={componentPDF} style={{direction:'rtl' , fontSize:'1vw'}}>
                                 <thead className= 'bg-light'>
                                 <tr>
                                     <th scope="col">کد</th>
@@ -252,7 +252,9 @@ export const PropertyHandling = (props) => {
                                     </tr>
                                          ))) ||
                                          <tr>
-                                            <td colSpan="6" className='h3'>داده ای یافت نشد .....</td>
+                                            <td colSpan="6" className='h3'><div className="spinner-border text-primary" role="status">
+                                                <span className="visually-hidden">Loading...</span>
+                                            </div></td>
                                         </tr>
                                     }
                                 </tbody>

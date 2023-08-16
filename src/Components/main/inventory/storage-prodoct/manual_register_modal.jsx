@@ -642,9 +642,14 @@ const ManualModal = (props) => {
                                                            htmlFor="factor-check">فایل {documents}</label>
                                                     <button className="btn btn-warning" type="button" id="firstPageBtn" onClick={scanImage}>اسکن</button>
                                                 </div>
-
                                                    <img width={'250px'} height={'250px'} class="figure-img img-fluid rounded" src={props.scan} alt={'تصویری اسکن نشده است'}/>
                                                 </div>
+                                                {props.scan.length > 5000000 ?
+                                                    <div className="alert alert-danger mx-2" role="alert">
+                                                       حجم فایل بیشتر از 5 مگابایت است (در رابط اسکنر DPI را 100 قرار دهید).
+                                                    </div>
+                                                : null}
+
                                             </Fragment>
 
                                         )
@@ -801,7 +806,7 @@ const ManualModal = (props) => {
                                                         )
                                                     }
                                         })()}
-                                <button type="button" className="btn btn-success" onClick={() => {
+                                <button type="button" className="btn btn-success" disabled={props.scan.length > 5000000} onClick={() => {
                                       handleSubmit()
                                       addComponent()
                                       handleClick()

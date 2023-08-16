@@ -441,7 +441,10 @@ const ReportProducts = () => {
                             </tr>
                                    ))) ||
                             <tr>
-                                <td colSpan="15" className='h3'>داده ای یافت نشد .....</td>
+                                <td colSpan="16" className='h3'>
+                                    <div className="spinner-border text-primary" role="status">
+                                        <span className="visually-hidden">Loading...</span>
+                                    </div></td>
                             </tr>
                         }
                     </tbody>

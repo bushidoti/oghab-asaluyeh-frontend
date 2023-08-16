@@ -681,8 +681,6 @@ const UploadDocuments = () => {
     return (
         <Fragment>
             <div className= 'plater  m-2 rounded-3 shadow-lg '>
-
-
                      <div className='m-4'>
                             <div className="input-group mb-3">
                                 <input type="text" id='documentNumber' className="form-control" value={search} onChange={e => {
@@ -713,7 +711,7 @@ const UploadDocuments = () => {
                                                   <div className='row'>
                                                     <div className="input-group mb-3">
                                                         <button className="btn btn-warning" type="button" id="firstPageBtn" onClick={scanImage}>اسکن</button>
-                                                        <button className="btn btn-success" type="button" id="firstPageBtn" disabled={!context.scan} onClick={handleSubmit()}>بارگذاری</button>
+                                                        <button className="btn btn-success" type="button" id="firstPageBtn" disabled={!context.scan || context.scan.length > 5000000} onClick={handleSubmit()}>بارگذاری</button>
                                                         <select className="form-select" defaultValue='' id="checkFileBtn" onChange={e => setSelectedFile(e.target.value)}
                                                         aria-label="checkFileBtn">
                                                             <option value=''>فایل مورد نظر را انتخاب کنید</option>
@@ -745,6 +743,11 @@ const UploadDocuments = () => {
                                                         </select>
                                                     </div>
                                                  </div>
+                                                     {context.scan.length > 5000000 ?
+                                                        <div className="alert alert-danger my-2" role="alert">
+                                                           حجم فایل بیشتر از 5 مگابایت است (در رابط اسکنر DPI را 100 قرار دهید).
+                                                        </div>
+                                                    : null}
                                          </div>
                                      <img width={'500px'} height={'350px'} src={context.scan} alt={'تصویری اسکن نشده است'}/>
                                     </Fragment>

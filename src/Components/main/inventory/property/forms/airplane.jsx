@@ -345,9 +345,7 @@ export const AirPlane = () => {
                 // Loop over them and prevent submission
                   Array.prototype.slice.call(forms)
                     .forEach(function (form) {
-                      form.addEventListener('click', function (event) {
-
-
+                      form.addEventListener('click', function () {
                         form.classList.add('was-validated')
                       }, false)
                     })
@@ -490,6 +488,7 @@ export const AirPlane = () => {
                    })()}
                 </div>
                    {formik.values.type_register ?
+                       <Fragment>
                              <div className='d-flex'>
                                     <div className="input-group h-25">
                                         <label className="input-group-text"
@@ -501,6 +500,13 @@ export const AirPlane = () => {
                                     </div>
                                     <img width={'250px'} height={'250px'} src={form.scan} alt={'تصویری اسکن نشده است'}/>
                             </div>
+                                  {form.scan.length > 5000000 ?
+                                                <div className="alert alert-danger my-2" role="alert">
+                                                       حجم فایل بیشتر از 5 مگابایت است (در رابط اسکنر DPI را 100 قرار دهید).
+                                                    </div>
+                                  : null}
+                           </Fragment>
+
                     : null}
                      {(() => {
                        if (form.isRepair === 'تعمیرات') {
@@ -599,8 +605,8 @@ export const AirPlane = () => {
                   {form.viewOnly || !formik.values.type_register ? null :
                       <div className='d-flex flex-column mt-2'>
                           <div className='d-flex gap-2 align-self-end'>
-                            <button type="button" className="btn btn-primary" onClick={handleSubmit()}>بعدی</button>
-                            <button type="button" className="btn btn-success" onClick={handleSubmitEnd()}>اتمام</button>
+                            <button type="button" className="btn btn-primary" onClick={handleSubmit()} disabled={form.scan.length > 5000000}>بعدی</button>
+                            <button type="button" className="btn btn-success" onClick={handleSubmitEnd()} disabled={form.scan.length > 5000000}>اتمام</button>
                           </div>
 
                      </div>

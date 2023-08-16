@@ -15,6 +15,7 @@ import {DigitalFurniture} from "./forms/digital-furniture";
 import {useFormik} from "formik";
 import Url from "../../../config";
 import {OfficeCar} from "./forms/office-car";
+import {AirPlane} from "./forms/airplane";
 
 const Modal = (props) => {
   const [isRepair , setIsRepair] = useState('')
@@ -91,6 +92,7 @@ const Modal = (props) => {
                     typeCommunication:props.typeCommunication,
                     setTypeCommunication:props.setTypeCommunication,
                     viewOnly:props.viewOnly,
+                    scan:props.scan,
         }}>
       <Fragment>
              <div className="modal fade " data-bs-backdrop="static" data-bs-keyboard="false" id="modalMain" tabIndex="-1" aria-labelledby="modalMainLabel"
@@ -123,6 +125,8 @@ const Modal = (props) => {
                                     return <Furniture/>
                                 }else if (props.typeProperty === 'airportfurniture'){
                                     return <AirportFurniture/>
+                                }else if (props.typeProperty === 'airplane'){
+                                    return <AirPlane/>
                                 }else if (props.typeProperty === 'airportvehicle'){
                                     return <AirportCar/>
                                 }else if (props.typeProperty === 'officevehicle'){

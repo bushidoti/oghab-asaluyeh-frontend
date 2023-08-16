@@ -145,7 +145,7 @@ const ReportProperty = () => {
     return (
         <Fragment>
             <Permission setRank={setRank} setOffice={setOffice}/>
-            <Modal setTypeCommunication={setTypeCommunication} typeCommunication={typeCommunication} viewOnly={viewOnly} setViewOnly={setViewOnly}  typeProperty={typeProperty} editStatus={editStatus} setEditStatus={setEditStatus} idNumber={idNumber} setIdNumber={setIdNumber} setTypeDigital={setTypeDigital} typeDigital={typeDigital}/>
+            <Modal setTypeCommunication={setTypeCommunication} scan={context.scan} typeCommunication={typeCommunication} viewOnly={viewOnly} setViewOnly={setViewOnly}  typeProperty={typeProperty} editStatus={editStatus} setEditStatus={setEditStatus} idNumber={idNumber} setIdNumber={setIdNumber} setTypeDigital={setTypeDigital} typeDigital={typeDigital}/>
             <MoveModal setTypeCommunication={setTypeCommunication} typeCommunication={typeCommunication}  typeProperty={typeProperty} editStatus={editStatus} setEditStatus={setEditStatus} idNumber={idNumber} setIdNumber={setIdNumber} setTypeDigital={setTypeDigital} typeDigital={typeDigital}/>
             <RecycleModal setTypeCommunication={setTypeCommunication} typeCommunication={typeCommunication}  typeProperty={typeProperty} editStatus={editStatus} setEditStatus={setEditStatus} idNumber={idNumber} setIdNumber={setIdNumber} setTypeDigital={setTypeDigital} typeDigital={typeDigital}/>
             <ObserveModal setTypeCommunication={setTypeCommunication} typeCommunication={typeCommunication}  typeProperty={typeProperty} editStatus={editStatus} setEditStatus={setEditStatus} idNumber={idNumber} setIdNumber={setIdNumber} setTypeDigital={setTypeDigital} typeDigital={typeDigital}/>
@@ -173,6 +173,7 @@ const ReportProperty = () => {
                                         <option value="digitalfurniture">اثاثه دیجیتالی</option>
                                         <option value="airportvehicle">خودرو فرودگاهی</option>
                                         <option value="officevehicle">خودرو اداری</option>
+                                        <option value="airplane">هواپیما</option>
                                         <option value="noneindustrialtool">ابزار آلات غیر صنعتی</option>
                                         <option value="industrialtool">ابزار آلات صنعتی</option>
                                         <option value="supportitem">اقلام پشتیبانی</option>
@@ -302,6 +303,19 @@ const ReportProperty = () => {
                                                     <option value="نام خودرو">نام خودرو</option>
                                                     <option value="مدل">مدل</option>
                                                     <option value="پلاک">پلاک</option>
+                                                    <option value="یوزر">یوزر</option>
+                                                    <option value="شماره موتور">شماره موتور</option>
+                                                    <option value="شماره شاسی">شماره شاسی</option>
+                                                    <option value="سال ساخت">سال ساخت</option>
+                                                    <option value="مالکیت">مالکیت</option>
+                                                  </Fragment>
+                                            )
+                                        }else if (typeProperty === 'airplane' ){
+                                            return(
+                                                  <Fragment>
+                                                    <option value="کد ثبت">کد ثبت</option>
+                                                    <option value="نام هواپیما">نام هواپیما</option>
+                                                    <option value="مدل">مدل</option>
                                                     <option value="یوزر">یوزر</option>
                                                     <option value="شماره موتور">شماره موتور</option>
                                                     <option value="شماره شاسی">شماره شاسی</option>
@@ -447,7 +461,7 @@ const ReportProperty = () => {
                         <span className="dot bg-danger"></span><span> به معنی جا به جا شده و قفل شده</span>
                         <span className="dot bg-warning ms-4"></span><span> به معنی ارسال شده برای تعمیر و موقتاً قفل شده</span>
                         <span className="dot bg-success ms-4"></span><span> به معنی در انتظار تایید جا به جایی در مقصد</span>
-                        <span className="dot ms-4" style={{backgroundColor:'hsla(240,38%,63%,0.59)'}}></span><span> به معنی در بایگانه شده</span>
+                        <span className="dot ms-4" style={{backgroundColor:'hsla(240,38%,63%,0.59)'}}></span><span> به معنی بایگانه شده</span>
                     </div>
                 <div className= 'm-4 table-responsive text-nowrap rounded-3' style={{maxHeight : '35vh'}}>
                     <table className="table table-hover table-fixed text-center align-middle table-bordered border-primary bg-light" style={{direction:'rtl' , fontSize:'1vw'}} ref={componentPDF}>
@@ -492,7 +506,10 @@ const ReportProperty = () => {
                                              ))) ||
 
                                               <tr>
-                                                <td colSpan="9" className='h3'>داده ای یافت نشد .....</td>
+                                                <td colSpan="9" className='h3'>
+                                                    <div className="spinner-border text-primary" role="status">
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </div></td>
                                               </tr>
                                         )
                                     }else if (typeProperty === 'safetyequipment'){
@@ -531,7 +548,10 @@ const ReportProperty = () => {
                                                      ))) ||
 
                                               <tr>
-                                                <td colSpan="7" className='h3'>داده ای یافت نشد .....</td>
+                                                <td colSpan="7" className='h3'>
+                                                    <div className="spinner-border text-primary" role="status">
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </div></td>
                                               </tr>
                                         )
                                     }else if (typeProperty === 'digitalfurniture'){
@@ -570,7 +590,10 @@ const ReportProperty = () => {
                                                      ))) ||
 
                                               <tr>
-                                                <td colSpan="5" className='h3'>داده ای یافت نشد .....</td>
+                                                <td colSpan="5" className='h3'>
+                                                    <div className="spinner-border text-primary" role="status">
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </div></td>
                                               </tr>
                                         )
                                     }else if (typeProperty === 'electronicfurniture' || typeProperty === 'facilityfurniture'){
@@ -607,7 +630,13 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
-                                             )))
+                                             ))) ||
+                                              <tr>
+                                                <td colSpan="8" className='h3'>
+                                                    <div className="spinner-border text-primary" role="status">
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </div></td>
+                                              </tr>
                                         )
                                     }else if (typeProperty === 'officefurniture'){
                                         return (
@@ -642,7 +671,13 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
-                                           )))
+                                           ))) ||
+                                              <tr>
+                                                <td colSpan="7" className='h3'>
+                                                    <div className="spinner-border text-primary" role="status">
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </div></td>
+                                              </tr>
                                         )
                                     }else if (typeProperty === 'airportfurniture'){
                                         return (
@@ -676,7 +711,13 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
-                                           )))
+                                           ))) ||
+                                              <tr>
+                                                <td colSpan="6" className='h3'>
+                                                    <div className="spinner-border text-primary" role="status">
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </div></td>
+                                              </tr>
                                         )
                                     }else if (typeProperty === 'airportvehicle' || typeProperty === 'officevehicle' ){
                                         return (
@@ -715,7 +756,57 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
-                                           )))
+                                           ))) ||
+                                              <tr>
+                                                <td colSpan="11" className='h3'>
+                                                    <div className="spinner-border text-primary" role="status">
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </div></td>
+                                              </tr>
+                                        )
+                                    }else if (typeProperty === 'airplane'){
+                                        return (
+                                           (property.length > 0 && property.filter(property => {if (rank === 'مدیر'){
+                                              return property.inventory
+                                          }else{
+                                              return (property.inventory === office)
+                                          }}).map((data,i) => (
+                                                <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
+                                                    <th scope="row">{i}</th>
+                                                    <td>{data.code}</td>
+                                                    <td>{data.name}</td>
+                                                    <td>{data.model}</td>
+                                                    <td>{data.user}</td>
+                                                    <td>{data.motor}</td>
+                                                    <td>{data.chassis}</td>
+                                                    <td>{data.year_made}</td>
+                                                    <td>{data.owner}</td>
+                                                    <td className='d-print-none'>
+                                                        <button className='btn btn-primary material-symbols-outlined' data-bs-toggle="modal" data-bs-target="#observeModal" onClick={() => {
+                                                        setIdNumber(data.code)
+                                                          }}>
+                                                        construction</button>
+                                                        <button className= 'btn btn-warning mx-2' data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
+                                                            setEditStatus(true)
+                                                            setIdNumber(data.code)
+                                                            setViewOnly(true)
+                                                        }}><InfoOutlined /></button>
+                                                        <button className='btn btn-secondary' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#moveModal" onClick={() => {
+                                                            setIdNumber(data.code)
+                                                        }}>
+                                                            <SwapOutlined /></button>
+                                                        <button className='btn btn-danger  ms-2' disabled={data.movement_status === 'received' || data.cancel_status === 'agreed'} data-bs-toggle="modal" data-bs-target="#recycleModal" onClick={() => {
+                                                            setIdNumber(data.code)
+                                                        }}><DeleteOutlined /></button>
+                                                    </td>
+                                                </tr>
+                                           ))) ||
+                                              <tr>
+                                                <td colSpan="10" className='h3'>
+                                                    <div className="spinner-border text-primary" role="status">
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </div></td>
+                                              </tr>
                                         )
                                     }else if (typeProperty === 'noneindustrialtool'){
                                         return (
@@ -746,7 +837,13 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
-                                           )))
+                                           ))) ||
+                                              <tr>
+                                                <td colSpan="7" className='h3'>
+                                                    <div className="spinner-border text-primary" role="status">
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </div></td>
+                                              </tr>
                                         )
                                     }else if (typeProperty === 'industrialtool'){
                                         return (
@@ -782,7 +879,13 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
-                                           )))
+                                           ))) ||
+                                              <tr>
+                                                <td colSpan="8" className='h3'>
+                                                    <div className="spinner-border text-primary" role="status">
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </div></td>
+                                              </tr>
                                         )
                                     }else if (typeProperty === 'supportitem'){
                                         return (
@@ -814,7 +917,13 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
-                                           )))
+                                           ))) ||
+                                              <tr>
+                                                <td colSpan="8" className='h3'>
+                                                    <div className="spinner-border text-primary" role="status">
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </div></td>
+                                              </tr>
                                         )
                                     }else if (typeProperty === 'benefit'){
                                         return (
@@ -840,7 +949,13 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
-                                           )))
+                                           )))  ||
+                                              <tr>
+                                                <td colSpan="6" className='h3'>
+                                                    <div className="spinner-border text-primary" role="status">
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </div></td>
+                                              </tr>
                                         )
                                     }
                                 })()}
