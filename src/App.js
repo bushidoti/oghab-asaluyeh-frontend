@@ -257,7 +257,7 @@ function App() {
      useEffect(() => {
             (async () => {
         if (systemIDFactor){
-              const response = await fetch(`${Url}/api/allproducts/?fields=date,document_code&systemID=${systemIDFactor}`, {
+              const response = await fetch(`${Url}/api/allproducts/?fields=date,document_code&systemID=${systemIDFactor}&inventory=${office}`, {
                          headers: {
                           'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                         }
@@ -267,22 +267,23 @@ function App() {
                 setFactorNumber(data[0].document_code)
         }
       })()
-    }, [systemIDFactor]);
+    }, [systemIDFactor , office]);
 
      useEffect(() => {
             (async () => {
         if (systemIDFactorProperty){
-              const response = await fetch(`${Url}/api/factors/?systemID=${systemIDFactorProperty}`, {
+              const response = await fetch(`${Url}/api/factors/?fields=document_code,inventory,systemID,date&systemID=${systemIDFactorProperty}&inventory=${office}`, {
                          headers: {
                           'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                         }
                     })
                 const data = await response.json()
                 setDateProperty(data[0].date)
+
                 setFactorNumberProperty(data[0].document_code)
         }
       })()
-    }, [systemIDFactorProperty]);
+    }, [systemIDFactorProperty , office]);
 
  function refreshPages() {
      window.location.reload()
@@ -331,8 +332,8 @@ function App() {
 
   return (
        <Fragment>
-           {maintenance  ?
-               <Maintenance/>
+                {maintenance  ?
+                 <Maintenance/>
                : null}
            <Detector
                 polling={{url:"https://ipv4.icanhazip.com"}}

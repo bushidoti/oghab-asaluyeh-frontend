@@ -124,7 +124,7 @@ const ReportProperty = () => {
     }
 
      const fetchDataFactors = async () => {
-        const response = await fetch(`${Url}/api/factors/`, {
+        const response = await fetch(`${Url}/api/factors/?fields=document_code,inventory,systemID,date`, {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }

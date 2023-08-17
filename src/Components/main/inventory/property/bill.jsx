@@ -19,7 +19,7 @@ const BillProperty = () => {
     });
 
   const fetchData = async () => {
-        const response = await fetch(`${Url}/api/factors/?document_code=${context.factor}&systemID=${context.systemIDFactorProperty}&document_type=فاکتور`, {
+        const response = await fetch(`${Url}/api/factors/?document_code=${context.factor}&systemID=${context.systemIDFactorProperty}&document_type=فاکتور&inventory=${context.office}`, {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -40,6 +40,7 @@ const BillProperty = () => {
            return product[0].factor || ''
        }
    }
+
       const onButtonClick = () => {
         fetch(`${handleOpenFile()}`).then(response => {
             response.blob().then(() => {
@@ -84,7 +85,7 @@ const BillProperty = () => {
                                         <tr>
                                             <td colSpan='8'>
                                                 {(() => {
-                                                        return  `${context.systemIDFactorProperty ? `فاکتور با شماره ثبت رایانه ${context.systemIDFactorProperty} و شماره فاکتور ${context.factorNumberProperty} در مورخه ${context.dateProperty.replaceAll('-' , '/')} ثبت شده است ` : `شماره فاکتور ${context.factor}` }`
+                                                        return  `${context.systemIDFactorProperty ? `فاکتور با شماره ثبت رایانه ${context.systemIDFactorProperty} و شماره فاکتور ${context.factorNumberProperty || context.factorNumberProperty} در مورخه ${context.dateProperty.replaceAll('-' , '/')} ثبت شده است ` : `شماره فاکتور ${context.factor}` }`
                                                 })()}
                                             </td>
                                         </tr>
