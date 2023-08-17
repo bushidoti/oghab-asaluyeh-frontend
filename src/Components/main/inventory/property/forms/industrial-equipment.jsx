@@ -32,6 +32,7 @@ export const IndustrialEquipment = () => {
 
 
     const postHandler = async () => {
+        postAlertLoading()
            await axios.post(
             `${Url}/api/noneindustrialtool/`,
               {
@@ -50,9 +51,56 @@ export const IndustrialEquipment = () => {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            })
-           setTimeout(
-                    refreshPages, 3000)
+            }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                             await postHandlerFactor()
+
+                        }
+                    }
+                })
+        }
+
+    const postHandlerEnd = async () => {
+        postAlertLoading()
+           await axios.post(
+            `${Url}/api/noneindustrialtool/`,
+              {
+              code: handleAutoIncrement(),
+              name: formik.values.name,
+              user: formik.values.user,
+              document_code: formik.values.document_code,
+              systemID: handleAutoIncrementFactor(),
+              property_number: formik.values.property_number,
+              year_buy: formik.values.year_buy,
+              using_location: formik.values.using_location,
+              inventory: form.office,
+              type_register: 'ثبت اولیه',
+              date: today.replaceAll('/' , '-'),
+         }, {
+                 headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+            }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                             await postHandlerFactorEnd()
+
+                        }
+                    }
+                })
         }
 
     const putHandlerAutoIncrement = async () => {
@@ -74,28 +122,12 @@ export const IndustrialEquipment = () => {
         }
 
     const postAlert = () => {
-          Swal.fire({
-              title: 'مطمئنید?',
-              text: "آیا از ثبت این اموال مطمئنید ؟",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              cancelButtonText: 'انصراف',
-              confirmButtonText: 'بله, ثبت کن!'
-            }).then((result) => {
-              if (result.isConfirmed) {
                 Swal.fire(
                   'ثبت شد!',
                   'اموال ثبت شد.',
                   'success',
                   'ok',
-                  postHandler(),
-                  putHandlerAutoIncrement(),
-                  postHandlerFactor(),
                 )
-              }
-            })
       }
       
     const handleAutoIncrement = () => {
@@ -116,7 +148,18 @@ export const IndustrialEquipment = () => {
         }
     }
 
-      const fetchDataAutoIncrementFactor = async () => {
+
+    const postAlertLoading = () => {
+            Swal.fire({
+                  title: 'در حال ثبت کردن!',
+                  icon: 'warning',
+                  html:   `<div class="spinner-border text-danger" role="status">
+                     <span class="visually-hidden">Loading...</span>
+                    </div>`,
+                  showConfirmButton: false,
+            })}
+
+    const fetchDataAutoIncrementFactor = async () => {
         const response = await fetch(`${Url}/api/autoincrementfactorproperty/1`, {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
@@ -162,6 +205,7 @@ export const IndustrialEquipment = () => {
         }
 
         const postHandlerFactor = async () => {
+           postAlertLoading()
            await axios.post(
             `${Url}/api/factors/`,
               {
@@ -176,43 +220,58 @@ export const IndustrialEquipment = () => {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            })
-           setTimeout(
-                    refreshPages, 3000)
+            }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                            postAlert()
+                            await putHandlerAutoIncrement()
+                               setTimeout(
+                                     refreshPages, 3000)
+                        }
+                    }
+                })
         }
 
-     useEffect(() => {
-          void fetchDataAutoIncrementFactor()
-          },
-           // eslint-disable-next-line react-hooks/exhaustive-deps
-        [])
-
-      const postAlertEnd = () => {
-          Swal.fire({
-              title: 'مطمئنید?',
-              text: "آیا از ثبت این اموال مطمئنید ؟",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              cancelButtonText: 'انصراف',
-              confirmButtonText: 'بله, ثبت کن!'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                Swal.fire(
-                  'ثبت شد!',
-                  'اموال ثبت شد.',
-                  'success',
-                  'ok',
-                  postHandler(),
-                  postHandlerFactor(),
-                  putHandlerAutoIncrement(),
-                  putHandlerAutoIncrementFactor(),
-                )
-              }
-            })
-      }
-
+     const postHandlerFactorEnd = async () => {
+         postAlertLoading()
+           await axios.post(
+            `${Url}/api/factors/`,
+              {
+              code: handleAutoIncrement(),
+              name: formik.values.name,
+              factor: form.scan,
+              inventory: form.office,
+              document_code: formik.values.document_code,
+              systemID: handleAutoIncrementFactor(),
+              date: today.replaceAll('/' , '-'),
+         }, {
+                 headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+            }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                            postAlert()
+                            await putHandlerAutoIncrement()
+                            await putHandlerAutoIncrementFactor()
+                               setTimeout(
+                                     refreshPages, 3000)
+                        }
+                    }
+                })
+        }
 
 
              (function () {
@@ -226,6 +285,14 @@ export const IndustrialEquipment = () => {
                       }, false)
                     })
                 })()
+
+
+     useEffect(() => {
+          void fetchDataAutoIncrementFactor()
+          },
+           // eslint-disable-next-line react-hooks/exhaustive-deps
+        [])
+
 
        function scanImage() {
            window.ws.send("1100");
@@ -331,8 +398,8 @@ export const IndustrialEquipment = () => {
                 {form.viewOnly ? null :
                       <div className='d-flex flex-column mt-2'>
                           <div className='d-flex gap-2 align-self-end'>
-                            <button type="button" className="btn btn-primary" onClick={postAlert} disabled={form.scan.length > 5000000}>بعدی</button>
-                            <button type="button" className="btn btn-success" onClick={postAlertEnd} disabled={form.scan.length > 5000000}>اتمام</button>
+                            <button type="button" className="btn btn-primary" onClick={postHandler} disabled={form.scan.length > 5000000}>بعدی</button>
+                            <button type="button" className="btn btn-success" onClick={postHandlerEnd} disabled={form.scan.length > 5000000}>اتمام</button>
                           </div>
 
                      </div>

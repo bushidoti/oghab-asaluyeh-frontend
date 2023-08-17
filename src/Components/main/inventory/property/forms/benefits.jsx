@@ -29,8 +29,19 @@ export const Benefits = () => {
         window.location.reload()
     }
 
+        const postAlertLoading = () => {
+            Swal.fire({
+                  title: 'در حال ثبت کردن!',
+                  icon: 'warning',
+                  html:   `<div class="spinner-border text-danger" role="status">
+                     <span class="visually-hidden">Loading...</span>
+                    </div>`,
+                  showConfirmButton: false,
+            })}
+
 
     const postHandler = async () => {
+        postAlertLoading()
            await axios.post(
             `${Url}/api/benefit/`,
               {
@@ -48,9 +59,55 @@ export const Benefits = () => {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            })
-           setTimeout(
-                    refreshPages, 3000)
+            }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                             await postHandlerFactor()
+
+                        }
+                    }
+                })
+        }
+
+    const postHandlerEnd = async () => {
+        postAlertLoading()
+           await axios.post(
+            `${Url}/api/benefit/`,
+              {
+              code: handleAutoIncrement(),
+              number_type: formik.values.number_type,
+              number: formik.values.number,
+              document_code: formik.values.document_code,
+              systemID: handleAutoIncrementFactor(),
+              property_number: formik.values.property_number,
+              using_location: formik.values.using_location,
+              inventory: form.office,
+              type_register: 'ثبت اولیه',
+              date: today.replaceAll('/' , '-'),
+         }, {
+                 headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+            }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                             await postHandlerFactorEnd()
+
+                        }
+                    }
+                })
         }
 
     const putHandlerAutoIncrement = async () => {
@@ -72,28 +129,12 @@ export const Benefits = () => {
         }
 
     const postAlert = () => {
-          Swal.fire({
-              title: 'مطمئنید?',
-              text: "آیا از ثبت این اموال مطمئنید ؟",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              cancelButtonText: 'انصراف',
-              confirmButtonText: 'بله, ثبت کن!'
-            }).then((result) => {
-              if (result.isConfirmed) {
                 Swal.fire(
                   'ثبت شد!',
                   'اموال ثبت شد.',
                   'success',
                   'ok',
-                  postHandler(),
-                  putHandlerAutoIncrement(),
-                  postHandlerFactor(),
                 )
-              }
-            })
       }
 
     const handleAutoIncrement = () => {
@@ -159,7 +200,8 @@ export const Benefits = () => {
                 })
         }
 
-        const postHandlerFactor = async () => {
+    const postHandlerFactor = async () => {
+        postAlertLoading()
            await axios.post(
             `${Url}/api/factors/`,
               {
@@ -174,42 +216,61 @@ export const Benefits = () => {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            })
-           setTimeout(
-                    refreshPages, 3000)
+            }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                            postAlert()
+                            await putHandlerAutoIncrement()
+                               setTimeout(
+                                     refreshPages, 3000)
+                        }
+                    }
+                })
         }
 
-    useEffect(() => {
-          void fetchDataAutoIncrementFactor()
-          },
-           // eslint-disable-next-line react-hooks/exhaustive-deps
-        [])
+     const postHandlerFactorEnd = async () => {
+        postAlertLoading()
+           await axios.post(
+            `${Url}/api/factors/`,
+              {
+              code: handleAutoIncrement(),
+              name: formik.values.number,
+              inventory: form.office,
+              factor: form.scan,
+              document_code: formik.values.document_code,
+              systemID: handleAutoIncrementFactor(),
+              date: today.replaceAll('/' , '-'),
+         }, {
+                 headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+            }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                            postAlert()
+                            await putHandlerAutoIncrement()
+                            await putHandlerAutoIncrementFactor()
+                               setTimeout(
+                                     refreshPages, 3000)
+                        }
+                    }
+                })
+        }
 
-      const postAlertEnd = () => {
-          Swal.fire({
-              title: 'مطمئنید?',
-              text: "آیا از ثبت این اموال مطمئنید ؟",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              cancelButtonText: 'انصراف',
-              confirmButtonText: 'بله, ثبت کن!'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                Swal.fire(
-                  'ثبت شد!',
-                  'اموال ثبت شد.',
-                  'success',
-                  'ok',
-                  postHandler(),
-                  postHandlerFactor(),
-                  putHandlerAutoIncrement(),
-                  putHandlerAutoIncrementFactor(),
-                )
-              }
-            })
-      }
+
+
 
 
             (function () {
@@ -227,6 +288,12 @@ export const Benefits = () => {
     function scanImage() {
                window.ws.send("1100");
            }
+
+    useEffect(() => {
+          void fetchDataAutoIncrementFactor()
+          },
+           // eslint-disable-next-line react-hooks/exhaustive-deps
+        [])
 
     return(
      <form className='needs-validation' noValidate>
@@ -317,8 +384,8 @@ export const Benefits = () => {
                {form.viewOnly ? null :
                       <div className='d-flex flex-column mt-2'>
                           <div className='d-flex gap-2 align-self-end'>
-                            <button type="button" className="btn btn-primary" onClick={postAlert} disabled={form.scan.length > 5000000}>بعدی</button>
-                            <button type="button" className="btn btn-success" onClick={postAlertEnd} disabled={form.scan.length > 5000000}>اتمام</button>
+                            <button type="button" className="btn btn-primary" onClick={postHandler} disabled={form.scan.length > 5000000}>بعدی</button>
+                            <button type="button" className="btn btn-success" onClick={postHandlerEnd} disabled={form.scan.length > 5000000}>اتمام</button>
                           </div>
 
                      </div>

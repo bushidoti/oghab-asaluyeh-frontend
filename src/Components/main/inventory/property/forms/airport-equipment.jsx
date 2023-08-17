@@ -235,7 +235,9 @@ export const AirportEquipment = () => {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            }).then(async data => {
+            }).then(response => {
+     return response
+          }).then(async data => {
                     try {
                         if (data.response.status === 400) {
                                 alert(data.response.status)
@@ -268,7 +270,9 @@ export const AirportEquipment = () => {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            }).then(async data => {
+            }).then(response => {
+     return response
+          }).then(async data => {
                     try {
                         if (data.response.status === 400) {
                                 alert(data.response.status)

@@ -44,6 +44,16 @@ export const OfficeCar = () => {
         window.location.reload()
     }
 
+    const postAlertLoading = () => {
+            Swal.fire({
+                  title: 'در حال ثبت کردن!',
+                  icon: 'warning',
+                  html:   `<div class="spinner-border text-danger" role="status">
+                     <span class="visually-hidden">Loading...</span>
+                    </div>`,
+                  showConfirmButton: false,
+            })}
+
     const fetchDataName = async () => {
             const response = await fetch(`${Url}/api/officevehicle/${formik.values.code}`, {
                  headers: {
@@ -72,6 +82,7 @@ export const OfficeCar = () => {
             [])
 
     const postHandler = async () => {
+        postAlertLoading()
             await axios.post(
                 `${Url}/api/officevehicle/`,
                   {
@@ -97,10 +108,63 @@ export const OfficeCar = () => {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            })
+            }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                             await postHandlerFactor()
 
-           setTimeout(
-                    refreshPages, 3000)
+                        }
+                    }
+                })
+        }
+
+    const postHandlerEnd = async () => {
+        postAlertLoading()
+            await axios.post(
+                `${Url}/api/officevehicle/`,
+                  {
+                  code: handleAutoIncrement(),
+                  name: formik.values.name,
+                  user: formik.values.user,
+                  model: formik.values.model,
+                  year_made: formik.values.year_made,
+                  property_number: formik.values.property_number,
+                  motor: formik.values.motor,
+                  plate1: formik.values.plate1,
+                  document_code: formik.values.document_code,
+                  systemID: handleAutoIncrementFactor(),
+                  plate2: formik.values.plate2,
+                  plate3: formik.values.plate3,
+                  plate4: formik.values.plate4,
+                  chassis: formik.values.chassis,
+                  owner: formik.values.owner,
+                  inventory: form.office,
+                  type_register: 'ثبت اولیه',
+                  date: today.replaceAll('/' , '-'),
+             }, {
+                 headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+            }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                             await postHandlerFactorEnd()
+
+                        }
+                    }
+                })
         }
 
     const putHandlerAutoIncrement = async () => {
@@ -122,31 +186,16 @@ export const OfficeCar = () => {
     }
 
     const postAlert = () => {
-          Swal.fire({
-              title: 'مطمئنید?',
-              text: "آیا از ثبت این اموال مطمئنید ؟",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              cancelButtonText: 'انصراف',
-              confirmButtonText: 'بله, ثبت کن!'
-            }).then((result) => {
-              if (result.isConfirmed) {
                 Swal.fire(
                   'ثبت شد!',
                   'اموال ثبت شد.',
                   'success',
                   'ok',
-                  postHandler(),
-                  putHandlerAutoIncrement(),
-                  postHandlerFactor(),
                 )
-              }
-            })
       }
 
     const postHandlerRepair = async () => {
+        postAlertLoading()
             await axios.post(
             `${Url}/api/repairedofficevehicle/`,
               {
@@ -163,34 +212,57 @@ export const OfficeCar = () => {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            })
-           setTimeout(
-                    refreshPages, 3000)
+            }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                             await postHandlerFactor()
+
+                        }
+                    }
+                })
         }
 
-    const postAlertRepair = () => {
-          Swal.fire({
-              title: 'مطمئنید?',
-              text: "آیا از ثبت تعمیر این اموال مطمئنید ؟",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              cancelButtonText: 'انصراف',
-              confirmButtonText: 'بله, ثبت کن!'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                Swal.fire(
-                  'ثبت شد!',
-                  'اموال ثبت شد.',
-                  'success',
-                  'ok',
-                  postHandlerRepair(),
-                  postHandlerFactor(),
-                )
-              }
-            })
-      }
+    const postHandlerRepairEnd = async () => {
+        postAlertLoading()
+            await axios.post(
+            `${Url}/api/repairedofficevehicle/`,
+              {
+              office_vehicle: formik.values.code,
+              year_changed: formik.values.year_changed,
+              repaired_type: formik.values.repaired_type,
+              document_code: formik.values.document_code,
+              systemID: handleAutoIncrementFactor(),
+              kilometer: formik.values.kilometer,
+              name: getName.name,
+              description: formik.values.description,
+              date: today.replaceAll('/' , '-'),
+         }, {
+                 headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+            }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                             await postHandlerFactorEnd()
+
+                        }
+                    }
+                })
+        }
+
+
 
     const handleAutoIncrement = () => {
         if (form.office === 'دفتر مرکزی') {
@@ -219,9 +291,9 @@ export const OfficeCar = () => {
 
      const handleSubmit = () => {
         if (formik.values.type_register === 'ثبت اولیه'){
-            return postAlert
+            return postHandler
         }else  if (formik.values.type_register === 'تعمیرات'){
-            return postAlertRepair
+            return postHandlerRepair
         }
     }
        const fetchDataAutoIncrementFactor = async () => {
@@ -270,7 +342,8 @@ export const OfficeCar = () => {
                 })
         }
 
-        const postHandlerFactor = async () => {
+    const postHandlerFactor = async () => {
+          postAlertLoading()
            await axios.post(
             `${Url}/api/factors/`,
               {
@@ -285,67 +358,66 @@ export const OfficeCar = () => {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            })
-           setTimeout(
-                    refreshPages, 3000)
+            }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                            postAlert()
+                            await putHandlerAutoIncrement()
+                               setTimeout(
+                                     refreshPages, 3000)
+                        }
+                    }
+                })
         }
 
-    const postAlertEnd = () => {
-          Swal.fire({
-              title: 'مطمئنید?',
-              text: "آیا از ثبت این اموال مطمئنید ؟",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              cancelButtonText: 'انصراف',
-              confirmButtonText: 'بله, ثبت کن!'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                Swal.fire(
-                  'ثبت شد!',
-                  'اموال ثبت شد.',
-                  'success',
-                  'ok',
-                  postHandler(),
-                  postHandlerFactor(),
-                  putHandlerAutoIncrement(),
-                  putHandlerAutoIncrementFactor(),
-                )
-              }
-            })
-      }
+     const postHandlerFactorEnd = async () => {
+        postAlertLoading()
+           await axios.post(
+            `${Url}/api/factors/`,
+              {
+              code: formik.values.type_register === 'ثبت اولیه' ? handleAutoIncrement() : formik.values.code,
+              name: formik.values.type_register === 'ثبت اولیه' ? formik.values.name : getName.name,
+              factor: form.scan,
+              inventory: form.office,
+              document_code: formik.values.document_code,
+              systemID: handleAutoIncrementFactor(),
+              date: today.replaceAll('/' , '-'),
+         }, {
+                 headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+            }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 201) {
+                            postAlert()
+                            await putHandlerAutoIncrement()
+                            await putHandlerAutoIncrementFactor()
+                               setTimeout(
+                                     refreshPages, 3000)
+                        }
+                    }
+                })
+        }
 
-    const postAlertRepairEnd = () => {
-          Swal.fire({
-              title: 'مطمئنید?',
-              text: "آیا از ثبت تعمیر این اموال مطمئنید ؟",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              cancelButtonText: 'انصراف',
-              confirmButtonText: 'بله, ثبت کن!'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                Swal.fire(
-                  'ثبت شد!',
-                  'اموال ثبت شد.',
-                  'success',
-                  'ok',
-                  postHandlerRepair(),
-                  postHandlerFactor(),
-                  putHandlerAutoIncrementFactor(),
-                )
-              }
-            })
-      }
+
 
        const handleSubmitEnd = () => {
         if (formik.values.type_register === 'ثبت اولیه'){
-            return postAlertEnd
+            return postHandlerEnd
         }else  if (formik.values.type_register === 'تعمیرات'){
-            return postAlertRepairEnd
+            return postHandlerRepairEnd
         }
     }
 
