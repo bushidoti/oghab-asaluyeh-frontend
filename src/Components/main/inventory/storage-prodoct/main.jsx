@@ -86,7 +86,7 @@ const WarHouse = () => {
     }
 
      const handleSystem = () => {
-        if (products.filter(product => product.systemID ===fixNumbers(context.systemIDFactor) && product.document_type === 'فاکتور' && product.inventory === context.office)[0]){
+        if (products.filter(product => product.systemID === fixNumbers(context.systemIDFactor) && product.document_type === 'فاکتور' && product.inventory === context.office)[0]){
             return setSystemIDBtn(false)
         }else return setSystemIDBtn(true)
     }
