@@ -213,7 +213,7 @@ const Report = (props) => {
                                                     }
                                           }).map((data,i) => (
                                     <tr key={data.id}>
-                                        <th scope="row">{i}</th>
+                                        <th scope="row">{i+1}</th>
                                         <td>{data.id}</td>
                                         <td>{data.contractNumber}</td>
                                         <td>{data.employer}</td>

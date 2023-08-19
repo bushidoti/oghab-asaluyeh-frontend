@@ -252,7 +252,7 @@ const ObserveModal = (props) => {
                                     return (
                                      (repaired.length > 0 && repaired.filter(property => property.airport_vehicle ===  props.idNumber).map((data,i) => (
                                                 <tr key={data.id}>
-                                                    <th scope="row">{i}</th>
+                                                    <th scope="row">{i+1}</th>
                                                     <td>{data.name}</td>
                                                     <td>{data.repaired_type}</td>
                                                     <td>{data.kilometer}</td>

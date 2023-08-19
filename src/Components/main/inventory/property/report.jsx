@@ -476,7 +476,7 @@ const ReportProperty = () => {
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
                                            <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
-                                                <th scope="row">{i}</th>
+                                                <th scope="row">{i+1}</th>
                                                 <td>{data.code}</td>
                                                 <td>{data.name}</td>
                                                 <td>{data.model}</td>
@@ -520,7 +520,7 @@ const ReportProperty = () => {
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
                                             <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
-                                                <th scope="row">{i}</th>
+                                                <th scope="row">{i+1}</th>
                                                 <td>{data.code}</td>
                                                 <td>{data.name}</td>
                                                 <td>{data.use_for}</td>
@@ -562,7 +562,7 @@ const ReportProperty = () => {
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
                                             <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
-                                                <th scope="row">{i}</th>
+                                                <th scope="row">{i+1}</th>
                                                 <td>{data.code}</td>
                                                 <td>{data.name}</td>
                                                 <td>{data.model}</td>
@@ -604,7 +604,7 @@ const ReportProperty = () => {
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
                                                 <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
-                                                    <th scope="row">{i}</th>
+                                                    <th scope="row">{i+1}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.name}</td>
                                                     <td>{data.model}</td>
@@ -646,7 +646,7 @@ const ReportProperty = () => {
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
                                                 <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
-                                                    <th scope="row">{i}</th>
+                                                    <th scope="row">{i+1}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.name}</td>
                                                     <td>{data.year_made}</td>
@@ -687,7 +687,7 @@ const ReportProperty = () => {
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
                                                 <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
-                                                    <th scope="row">{i}</th>
+                                                    <th scope="row">{i+1}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.name}</td>
                                                     <td>{data.year_buy}</td>
@@ -727,7 +727,7 @@ const ReportProperty = () => {
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
                                                 <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
-                                                    <th scope="row">{i}</th>
+                                                    <th scope="row">{i+1}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.name}</td>
                                                     <td>{data.model}</td>
@@ -772,7 +772,7 @@ const ReportProperty = () => {
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
                                                 <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
-                                                    <th scope="row">{i}</th>
+                                                    <th scope="row">{i+1}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.name}</td>
                                                     <td>{data.model}</td>
@@ -816,7 +816,7 @@ const ReportProperty = () => {
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
                                                 <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
-                                                    <th scope="row">{i}</th>
+                                                    <th scope="row">{i+1}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.name}</td>
                                                     <td>{data.user}</td>
@@ -853,7 +853,7 @@ const ReportProperty = () => {
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
                                                 <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
-                                                    <th scope="row">{i}</th>
+                                                    <th scope="row">{i+1}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.name}</td>
                                                     <td>{data.model}</td>
@@ -895,7 +895,7 @@ const ReportProperty = () => {
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
                                                 <tr style={{backgroundColor:`${(data.movement_status === 'received' ? 'hsl(0, 100%, 80%)' : null) || (data.movement_status === 'pending' ? 'hsl(120, 59%, 70%)' : null) || (data.cancel_status === 'agreed' ? 'hsla(240,38%,63%,0.59)' : null) }`}} key={data.code}>
-                                                    <th scope="row">{i}</th>
+                                                    <th scope="row">{i+1}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.type_item}</td>
                                                     <td>{data.name}</td>
@@ -933,7 +933,7 @@ const ReportProperty = () => {
                                               return (property.inventory === office)
                                           }}).map((data,i) => (
                                                 <tr key={data.code}>
-                                                    <th scope="row">{i}</th>
+                                                    <th scope="row">{i+1}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.number_type}</td>
                                                     <td>{data.using_location}</td>

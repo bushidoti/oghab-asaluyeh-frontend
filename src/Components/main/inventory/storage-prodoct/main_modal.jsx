@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import {useFormik} from "formik";
 import Url from "../../../config";
 import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
+import fixNumbers from "../../persianNumbers";
 
 const Modal = (props) => {
      const [product, setProduct] = useState([])
@@ -88,7 +89,7 @@ const Modal = (props) => {
               date: today.replaceAll('/' , '-'),
               operator:'ثبت اولیه',
               document_type: formik.values.document_type,
-              document_code: formik.values.document_code,
+              document_code: fixNumbers(formik.values.document_code),
               factor: formik.values.factor,
               receiver:formik.values.receiver,
               buyer:formik.values.buyer,
@@ -142,7 +143,7 @@ const Modal = (props) => {
                       buyer:formik.values.buyer,
                       seller:formik.values.seller,
                       document_type: products.document_type,
-                      document_code: products.document_code,
+                      document_code: fixNumbers(products.document_code),
                       product: formik.values.code,
                       factor: products.factor,
                       amendment: formik.values.amendment,
@@ -167,7 +168,7 @@ const Modal = (props) => {
                       seller:formik.values.seller,
                       operator:'خروج',
                       document_type: products.document_type,
-                      document_code: products.document_code,
+                      document_code: fixNumbers(products.document_code),
                       product: formik.values.code,
                       factor: products.factor,
                       amendment: formik.values.amendment,
@@ -190,7 +191,7 @@ const Modal = (props) => {
                       date: today.replaceAll('/' , '-'),
                       operator:'ورود',
                       document_type: products.document_type,
-                      document_code: products.document_code,
+                      document_code: fixNumbers(products.document_code),
                       product: formik.values.code,
                       checkBill: products.checkBill,
                       amendment: formik.values.amendment,
@@ -213,7 +214,7 @@ const Modal = (props) => {
                       date: today.replaceAll('/' , '-'),
                       operator:'خروج',
                       document_type: products.document_type,
-                      document_code: products.document_code,
+                      document_code: fixNumbers(products.document_code),
                       product: formik.values.code,
                       checkBill: products.checkBill,
                       amendment: formik.values.amendment,
@@ -240,7 +241,7 @@ const Modal = (props) => {
               seller:formik.values.seller,
               receiver:formik.values.receiver,
               document_type: products.document_type,
-              document_code: formik.values.document_code,
+              document_code: fixNumbers(formik.values.document_code),
               checkBill: products.checkBill,
               factor: products.factor,
               product: formik.values.code,
@@ -290,7 +291,7 @@ const Modal = (props) => {
               buyer:formik.values.buyer,
               operator:'ورود',
               document_type: formik.values.document_type,
-              document_code: formik.values.document_code,
+              document_code: fixNumbers(formik.values.document_code),
               product: formik.values.code,
               factor: formik.values.factor,
          }, {
@@ -316,7 +317,7 @@ const Modal = (props) => {
               operator:'خروج',
               receiver:formik.values.receiver,
               document_type: formik.values.document_type,
-              document_code: formik.values.document_code,
+              document_code: fixNumbers(formik.values.document_code),
               product: formik.values.code,
               checkBill: formik.values.checkBill,
          }, {

@@ -5,6 +5,7 @@ import {useFormik} from "formik";
 import Url from "../../../config";
 import { Select , ConfigProvider } from 'antd';
 import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
+import fixNumbers from "../../persianNumbers";
 
 const ManualModal = (props) => {
      const [listProduct, setListProduct] = useState([])
@@ -109,7 +110,7 @@ const ManualModal = (props) => {
               operator:'ثبت اولیه',
               systemID: documents === 'فاکتور' ? handleAutoIncrementFactor() : null,
               document_type: formikStatic.values.document_type,
-              document_code: formikStatic.values.document_code,
+              document_code: fixNumbers(formikStatic.values.document_code),
               factor: props.scan,
               receiver:formikStatic.values.receiver,
               buyer:formikStatic.values.buyer,
@@ -180,7 +181,7 @@ const ManualModal = (props) => {
               seller:formikStatic.values.seller,
               operator:'ورود',
               document_type: formikStatic.values.document_type,
-              document_code: formikStatic.values.document_code,
+              document_code: fixNumbers(formikStatic.values.document_code),
               systemID: documents === 'فاکتور' ? handleAutoIncrementFactor() : null,
               product: formik.values.code,
               factor: props.scan,
@@ -220,7 +221,7 @@ const ManualModal = (props) => {
               operator:'خروج',
               receiver:formikStatic.values.receiver,
               document_type: formikStatic.values.document_type,
-              document_code: documents === 'حواله' ? handleAutoIncrementCheck() : formikStatic.values.document_code,
+              document_code: documents === 'حواله' ? handleAutoIncrementCheck() : fixNumbers(formikStatic.values.document_code),
               product: formik.values.code,
               checkBill: props.scan,
          }, {

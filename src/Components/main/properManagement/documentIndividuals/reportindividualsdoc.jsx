@@ -232,7 +232,7 @@ const ReportIndividualsDoc = () => {
                         <tbody>
                             {(contract.length > 0 && contract.map((data,i) => (
                                 <tr key={data.id} style={{backgroundColor:`${(data.clearedStatus ? 'hsl(0, 100%, 80%)' : null) }`}}>
-                                    <th scope="row">{i}</th>
+                                    <th scope="row">{i+1}</th>
                                     <td>{data.id}</td>
                                     <td>{data.type}</td>
                                     <td>{data.full_name}</td>

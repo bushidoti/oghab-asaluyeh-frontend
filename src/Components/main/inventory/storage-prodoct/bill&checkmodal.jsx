@@ -137,7 +137,7 @@ const BillCheckModal = () => {
                                     {(product.length > 0 &&
                                     product.filter(product => product.inventory === context.office).map((data , i) => (
                                         <tr key={data.id}>
-                                                <th scope="row">{i}</th>
+                                                <th scope="row">{i+1}</th>
                                                 <td>{data.product}</td>
                                                 <td>{data.name}</td>
                                                 <td>{data.scale}</td>

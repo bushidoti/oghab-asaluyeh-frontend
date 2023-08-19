@@ -299,9 +299,9 @@ const ReportPropertyDoc = (props) => {
                             </tr>
                          </thead>
                         <tbody>
-                            {(property.length > 0 && property.filter(property => property.type_form === !context.propertyToggle).map((data) => (
+                            {(property.length > 0 && property.filter(property => property.type_form === !context.propertyToggle).map((data , i) => (
                                 <tr key={data.id} style={{backgroundColor:`${(data.soldStatus ? 'hsl(0, 100%, 80%)' : null) }`}}>
-                                    <th scope="row">1</th>
+                                    <th scope="row">{i+1}</th>
                                     <td>{data.id}</td>
                                     <td>{data.typeProperty}</td>
                                     <td>{data.name}</td>
