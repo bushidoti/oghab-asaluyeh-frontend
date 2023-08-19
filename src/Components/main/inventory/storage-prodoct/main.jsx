@@ -9,6 +9,7 @@ import {Context} from "../../../../context";
 import ManualModal from "./manual_register_modal";
 import {Link} from "react-router-dom";
 import {InfoOutlined, PrinterOutlined} from "@ant-design/icons";
+import fixNumbers from "../../persianNumbers";
 
 const WarHouse = () => {
     const [product, setProduct] = useState([])
@@ -68,24 +69,24 @@ const WarHouse = () => {
 
 
     const handleCheckFactor = () => {
-        if (products.filter(product => product.document_code === context.factor && product.document_code !== '' && product.document_type === 'فاکتور' && product.inventory === context.office)[0]){
+        if (products.filter(product => product.document_code === fixNumbers(context.factor) && product.document_code !== '' && product.document_type === 'فاکتور' && product.inventory === context.office)[0]){
             return setFactorBtn(false)
         }else return setFactorBtn(true)
     }
     const handleCheck = () => {
-        if (products.filter(product => product.document_code === context.billCheck && product.document_code !== '' && product.document_type ===  'حواله'  && product.inventory === context.office)[0]){
+        if (products.filter(product => product.document_code === fixNumbers(context.billCheck) && product.document_code !== '' && product.document_type ===  'حواله'  && product.inventory === context.office)[0]){
             return setCheckBtn(false)
         }else return setCheckBtn(true)
     }
 
      const handleHandling = () => {
-        if (products.filter(product => product.document_code === context.handling && product.document_code !== '' && product.document_type === 'انبارگردانی')[0]){
+        if (products.filter(product => product.document_code === fixNumbers(context.handling) && product.document_code !== '' && product.document_type === 'انبارگردانی')[0]){
             return setHandleBtn(false)
         }else return setHandleBtn(true)
     }
 
      const handleSystem = () => {
-        if (products.filter(product => product.systemID === context.systemIDFactor && product.document_type === 'فاکتور' && product.inventory === context.office)[0]){
+        if (products.filter(product => product.systemID ===fixNumbers(context.systemIDFactor) && product.document_type === 'فاکتور' && product.inventory === context.office)[0]){
             return setSystemIDBtn(false)
         }else return setSystemIDBtn(true)
     }

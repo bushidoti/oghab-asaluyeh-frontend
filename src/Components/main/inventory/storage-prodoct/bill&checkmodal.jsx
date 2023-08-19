@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import Url from "../../../config";
 import {Context} from "../../../../context";
 import {DownloadOutlined, PrinterOutlined} from "@ant-design/icons";
+import fixNumbers from "../../persianNumbers";
 
 const BillCheckModal = () => {
   const [product, setProduct] = useState([])
@@ -194,11 +195,11 @@ const BillCheckModal = () => {
 
     function filterDocument() {
         if (context.modalTitle === 'factor') {
-            return context.factor
+            return fixNumbers(context.factor)
         } else if (context.modalTitle === 'check') {
-            return context.billCheck
+            return  fixNumbers(context.billCheck)
         } else if (context.modalTitle === 'handling') {
-            return context.handling
+            return fixNumbers(context.handling)
         }
     }
 
