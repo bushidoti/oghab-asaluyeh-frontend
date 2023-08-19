@@ -4,6 +4,7 @@ import axios from "axios";
 import Url from "../../../config";
 import {Context} from "../../../../context";
 import Swal from "sweetalert2";
+import fixNumbers from "../../persianNumbers";
 
 const UploadIndividualsDoc = () => {
     const [typeDocument , setTypeDocument] = useState('')
@@ -73,7 +74,7 @@ const UploadIndividualsDoc = () => {
       }
 
     const handleId = (e) => {
-            allContract.filter(contract => contract.national_id === e.target.value).map((data) => (
+            allContract.filter(contract => contract.national_id === fixNumbers(e.target.value)).map((data) => (
                 setContractId(data.id)
             ))
       }
@@ -104,7 +105,7 @@ const UploadIndividualsDoc = () => {
                           type: formik.values.type,
                           full_name: formik.values.full_name,
                           date: formik.values.date,
-                          national_id: formik.values.national_id,
+                          national_id: fixNumbers(formik.values.national_id),
                           sex: formik.values.sex,
                           office: formik.values.office,
                           job: formik.values.job,
@@ -145,7 +146,7 @@ const UploadIndividualsDoc = () => {
                           type: formik.values.type,
                           full_name: formik.values.full_name,
                           date: formik.values.date,
-                          national_id: formik.values.national_id,
+                          national_id: fixNumbers(formik.values.national_id),
                           sex: formik.values.sex,
                           office: formik.values.office,
                           job: formik.values.job,
@@ -186,7 +187,7 @@ const UploadIndividualsDoc = () => {
                           type: formik.values.type,
                           full_name: formik.values.full_name,
                           date: formik.values.date,
-                          national_id: formik.values.national_id,
+                          national_id: fixNumbers(formik.values.national_id),
                           sex: formik.values.sex,
                           office: formik.values.office,
                           job: formik.values.job,
@@ -227,7 +228,7 @@ const UploadIndividualsDoc = () => {
                           type: formik.values.type,
                           full_name: formik.values.full_name,
                           date: formik.values.date,
-                          national_id: formik.values.national_id,
+                          national_id: fixNumbers(formik.values.national_id),
                           sex: formik.values.sex,
                           office: formik.values.office,
                           job: formik.values.job,
@@ -268,7 +269,7 @@ const UploadIndividualsDoc = () => {
                           type: formik.values.type,
                           full_name: formik.values.full_name,
                           date: formik.values.date,
-                          national_id: formik.values.national_id,
+                          national_id: fixNumbers(formik.values.national_id),
                           sex: formik.values.sex,
                           office: formik.values.office,
                           job: formik.values.job,
@@ -309,7 +310,7 @@ const UploadIndividualsDoc = () => {
                           type: formik.values.type,
                           full_name: formik.values.full_name,
                           date: formik.values.date,
-                          national_id: formik.values.national_id,
+                          national_id: fixNumbers(formik.values.national_id),
                           sex: formik.values.sex,
                           office: formik.values.office,
                           job: formik.values.job,
@@ -350,7 +351,7 @@ const UploadIndividualsDoc = () => {
                           type: formik.values.type,
                           full_name: formik.values.full_name,
                           date: formik.values.date,
-                          national_id: formik.values.national_id,
+                          national_id: fixNumbers(formik.values.national_id),
                           sex: formik.values.sex,
                           office: formik.values.office,
                           job: formik.values.job,
@@ -391,7 +392,7 @@ const UploadIndividualsDoc = () => {
                           type: formik.values.type,
                           full_name: formik.values.full_name,
                           date: formik.values.date,
-                          national_id: formik.values.national_id,
+                          national_id: fixNumbers(formik.values.national_id),
                           sex: formik.values.sex,
                           office: formik.values.office,
                           job: formik.values.job,
@@ -432,7 +433,7 @@ const UploadIndividualsDoc = () => {
                           type: formik.values.type,
                           full_name: formik.values.full_name,
                           date: formik.values.date,
-                          national_id: formik.values.national_id,
+                          national_id: fixNumbers(formik.values.national_id),
                           sex: formik.values.sex,
                           office: formik.values.office,
                           job: formik.values.job,
@@ -473,7 +474,7 @@ const UploadIndividualsDoc = () => {
                           type: formik.values.type,
                           full_name: formik.values.full_name,
                           date: formik.values.date,
-                          national_id: formik.values.national_id,
+                          national_id: fixNumbers(formik.values.national_id),
                           sex: formik.values.sex,
                           office: formik.values.office,
                           job: formik.values.job,
@@ -514,7 +515,7 @@ const UploadIndividualsDoc = () => {
                           type: formik.values.type,
                           full_name: formik.values.full_name,
                           date: formik.values.date,
-                          national_id: formik.values.national_id,
+                          national_id: fixNumbers(formik.values.national_id),
                           sex: formik.values.sex,
                           office: formik.values.office,
                           job: formik.values.job,
@@ -555,7 +556,7 @@ const UploadIndividualsDoc = () => {
                           type: formik.values.type,
                           full_name: formik.values.full_name,
                           date: formik.values.date,
-                          national_id: formik.values.national_id,
+                          national_id: fixNumbers(formik.values.national_id),
                           sex: formik.values.sex,
                           office: formik.values.office,
                           job: formik.values.job,
@@ -596,7 +597,7 @@ const UploadIndividualsDoc = () => {
                           type: formik.values.type,
                           full_name: formik.values.full_name,
                           date: formik.values.date,
-                          national_id: formik.values.national_id,
+                          national_id: fixNumbers(formik.values.national_id),
                           sex: formik.values.sex,
                           office: formik.values.office,
                           job: formik.values.job,
@@ -684,13 +685,13 @@ const UploadIndividualsDoc = () => {
                                 aria-label="searchBoxNationalId" aria-describedby="searchDocuments"/>
                                 <button className="btn btn-outline-success material-symbols-outlined" type="button" id="searchNationalIdBtn">search</button>
                             </div>
-                            {allContract.filter(contract => contract.national_id === search).map((data) => (
+                            {allContract.filter(contract => contract.national_id === fixNumbers(search)).map((data) => (
                                 <div className="alert alert-success" role="alert" key={data.id}>
                                     قرارداد با شماره ثبت {data.id} یافت شد.
                                 </div>
                             ))}
                            {(() => {
-                               if (allContract.filter(contract => contract.national_id === search).length !== 0){
+                               if (allContract.filter(contract => contract.national_id === fixNumbers(search)).length !== 0){
                                    return (
                                        <Fragment>
                                         <div className="form-floating m-4" style={{maxWidth:'255px'}}>

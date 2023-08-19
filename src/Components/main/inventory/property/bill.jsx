@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import Url from "../../../config";
 import {Context} from "../../../../context";
 import {DownloadOutlined, PrinterOutlined} from "@ant-design/icons";
+import fixNumbers from "../../persianNumbers";
 
 const BillProperty = () => {
   const [product, setProduct] = useState([])
@@ -19,7 +20,7 @@ const BillProperty = () => {
     });
 
   const fetchData = async () => {
-        const response = await fetch(`${Url}/api/factors/?document_code=${context.factor}&systemID=${context.systemIDFactorProperty}&document_type=فاکتور&inventory=${context.office}`, {
+        const response = await fetch(`${Url}/api/factors/?document_code=${fixNumbers(context.factor)}&systemID=${context.systemIDFactorProperty}&document_type=فاکتور&inventory=${context.office}`, {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -100,7 +101,7 @@ const BillProperty = () => {
                                     {(product.length > 0 &&
                                     product.filter(product => product.inventory === context.office).map((data , i) => (
                                         <tr key={data.id}>
-                                                <th scope="row">{i}</th>
+                                                <th scope="row">{i+1}</th>
                                                 <td>{data.code}</td>
                                                 <td>{data.name}</td>
                                                 <td>{data.date}</td>

@@ -4,6 +4,7 @@ import {useFormik} from "formik";
 import Url from "../../../../config";
 import axios from "axios";
 import Swal from "sweetalert2";
+import fixNumbers from "../../../persianNumbers";
 
 export const OfficeFurniture = () => {
     const form = useContext(Contextform)
@@ -439,7 +440,7 @@ export const OfficeFurniture = () => {
                             </div>
                             <div className="form-floating mb-3">
                                     <input type="text" className="form-control" name='document_code' autoComplete='off' disabled={form.viewOnly}
-                                           value={form.editStatus ? form.formik.values.document_code : formik.values.document_code} id="document_code" onChange={formik.handleChange}
+                                           value={form.editStatus ? form.formik.values.document_code : formik.values.document_code} id="document_code" onChange={e => formik.setFieldValue('document_code' , fixNumbers(e.target.value))}
                                            placeholder="کلاه ایمنی" required/>
                                         <label  htmlFor="document_code">شماره فاکتور</label>
                                      <div className="invalid-feedback">

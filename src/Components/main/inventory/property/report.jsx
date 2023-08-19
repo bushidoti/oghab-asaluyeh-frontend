@@ -11,6 +11,7 @@ import {DeleteOutlined, InfoOutlined, PrinterOutlined, SwapOutlined} from "@ant-
 import {Link} from "react-router-dom";
 import {Context} from "../../../../context";
 import RecycleModal from "./recycle_modal";
+import fixNumbers from "../../persianNumbers";
 
 const ReportProperty = () => {
     const [factors, setFactors] = useState([])
@@ -118,7 +119,7 @@ const ReportProperty = () => {
     }
 
     const handleCheckFactor = () => {
-        if (factors.filter(product => product.document_code === context.factor && product.document_code !== '' && product.inventory === context.office)[0]){
+        if (factors.filter(product => product.document_code === fixNumbers(context.factor) && product.document_code !== '' && product.inventory === context.office)[0]){
             return setFactorBtn(false)
         }else return setFactorBtn(true)
     }

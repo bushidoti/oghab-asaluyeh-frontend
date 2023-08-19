@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import options from "../../date-option";
 import Url from "../../../config";
 import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
+import fixNumbers from "../../persianNumbers";
 
 const Modal = (props) => {
     const [property, setProperties] = useState([])
@@ -78,7 +79,7 @@ const Modal = (props) => {
               typeProperty: formik.values.typeProperty,
               name: formik.values.name,
               type_form: !props.propToggle,
-              docNumber: formik.values.docNumber,
+              docNumber: fixNumbers(formik.values.docNumber),
               plateMotor: formik.values.plateMotor,
               addressChassis: formik.values.addressChassis,
               landlord: formik.values.landlord,
@@ -133,7 +134,7 @@ const Modal = (props) => {
               {
               typeProperty: formik.values.typeProperty,
               name: formik.values.name,
-              docNumber: formik.values.docNumber,
+              docNumber: fixNumbers(formik.values.docNumber),
               plateMotor: formik.values.plateMotor,
               addressChassis: formik.values.addressChassis,
               landlord: formik.values.landlord,
@@ -167,7 +168,7 @@ const Modal = (props) => {
               {
                       typeProperty: formik.values.typeProperty,
                       name: formik.values.name,
-                      docNumber: formik.values.docNumber,
+                      docNumber: fixNumbers(formik.values.docNumber),
                       plateMotor: formik.values.plateMotor,
                       addressChassis: formik.values.addressChassis,
                       landlord: formik.values.landlord,

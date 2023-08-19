@@ -11,6 +11,7 @@ import { NumericFormat } from 'react-number-format';
 import options from "../date-option";
 import Url from "../../config";
 import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
+import fixNumbers from "../persianNumbers";
 
 const Modal = (props) => {
     const [contract, setContracts] = useState([])
@@ -47,7 +48,7 @@ const Modal = (props) => {
                 await axios.post(
                 `${Url}/api/documents/`,
                   {
-                  contractNumber: formik.values.contractNumber,
+                  contractNumber: fixNumbers(formik.values.contractNumber),
                   employer: formik.values.employer,
                   type_form: props.docToggle,
                   dateContract: formik.values.dateContract,
@@ -109,7 +110,7 @@ const Modal = (props) => {
          await axios.put(
             `${Url}/api/documents/${props.idNumber}/`,
               {
-              contractNumber: formik.values.contractNumber,
+              contractNumber: fixNumbers(formik.values.contractNumber),
               employer: formik.values.employer,
               dateContract: formik.values.dateContract,
               contractPrice: formik.values.contractPrice,

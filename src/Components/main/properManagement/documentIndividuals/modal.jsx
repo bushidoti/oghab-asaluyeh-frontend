@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import options from "../../date-option"
 import Url from "../../../config";
 import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
+import fixNumbers from "../../persianNumbers";
 
 const Modal = (props) => {
     const [contract, setContracts] = useState([])
@@ -65,7 +66,7 @@ const Modal = (props) => {
               type: formik.values.type,
               full_name: formik.values.full_name,
               date: formik.values.date,
-              national_id: formik.values.national_id,
+              national_id: fixNumbers(formik.values.national_id),
               sex: formik.values.sex,
               office: formik.values.office,
               job: formik.values.job,
@@ -111,7 +112,7 @@ const Modal = (props) => {
               type: formik.values.type,
               full_name: formik.values.full_name,
               date: formik.values.date,
-              national_id: formik.values.national_id,
+              national_id: fixNumbers(formik.values.national_id),
               sex: formik.values.sex,
               office: formik.values.office,
               job: formik.values.job,
@@ -139,7 +140,7 @@ const Modal = (props) => {
               type: formik.values.type,
               full_name: formik.values.full_name,
               date: formik.values.date,
-              national_id: formik.values.national_id,
+              national_id: fixNumbers(formik.values.national_id),
               sex: formik.values.sex,
               office: formik.values.office,
               job: formik.values.job,

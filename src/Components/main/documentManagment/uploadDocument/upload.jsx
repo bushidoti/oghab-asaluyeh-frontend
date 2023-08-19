@@ -4,6 +4,7 @@ import {useFormik} from "formik";
 import Url from "../../../config";
 import {Context} from "../../../../context";
 import Swal from "sweetalert2";
+import fixNumbers from "../../persianNumbers";
 
 const UploadDocuments = () => {
     const [partitionSelect , setPartitionSelect] = useState('')
@@ -77,7 +78,7 @@ const UploadDocuments = () => {
       }
 
       const handleId = (e) => {
-            allContract.filter(contract => contract.contractNumber === e.target.value).map((data) => (
+            allContract.filter(contract => contract.contractNumber === fixNumbers(e.target.value)).map((data) => (
                 setContractId(data.id)
             ))
       }
@@ -689,13 +690,13 @@ const UploadDocuments = () => {
                                 }} placeholder="شماره قرارداد"
                                 aria-label="searchBox" aria-describedby="searchDocuments"/>
                             </div>
-                            {allContract.filter(contract => contract.contractNumber === search).map((data) => (
+                            {allContract.filter(contract => contract.contractNumber === fixNumbers(search)).map((data) => (
                                 <div className="alert alert-success" role="alert" key={data.id}>
                                     قرارداد با شماره ثبت {data.id} یافت شد.
                                 </div>
                             ))}
                          {(() => {
-                            if (allContract.filter(contract => contract.contractNumber === search).length !== 0){
+                            if (allContract.filter(contract => contract.contractNumber === fixNumbers(search)).length !== 0){
                                 return (
                                     <Fragment>
                                              <div className="form-floating" style={{maxWidth:'255px'}}>

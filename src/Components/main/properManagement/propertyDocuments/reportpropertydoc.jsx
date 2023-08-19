@@ -5,6 +5,7 @@ import {useReactToPrint} from "react-to-print";
 import Url from "../../../config";
 import {Context} from "../../../../context";
 import {CopyOutlined, InfoOutlined, PrinterOutlined} from "@ant-design/icons";
+import fixNumbers from "../../persianNumbers";
 
 const ReportPropertyDoc = (props) => {
     const [property, setProperties] = useState([])
@@ -14,7 +15,7 @@ const ReportPropertyDoc = (props) => {
 
     const fetchData = async () => {
         const response = await
-        fetch(`${Url}/api/properties/?fields=id,typeProperty,type_form,name,docNumber,plateMotor,addressChassis,landlord,modelMeter,madeOf,part1plate,part2plate,part3plate,cityPlate,descriptionLocation,paperDoc,insurancePaper,gasCard,carCard,description,soldDate,buyer,soldStatus&name=${context.formikPropertySearch.values.name}&docNumber=${context.formikPropertySearch.values.docNumber}
+        fetch(`${Url}/api/properties/?fields=id,typeProperty,type_form,name,docNumber,plateMotor,addressChassis,landlord,modelMeter,madeOf,part1plate,part2plate,part3plate,cityPlate,descriptionLocation,paperDoc,insurancePaper,gasCard,carCard,description,soldDate,buyer,soldStatus&name=${context.formikPropertySearch.values.name}&docNumber=${fixNumbers(context.formikPropertySearch.values.docNumber)}
         &landlord=${context.formikPropertySearch.values.landlord}&madeOf=${context.formikPropertySearch.values.madeOf}
         &plateMotor=${context.formikPropertySearch.values.plateMotor}&id=${context.formikPropertySearch.values.id}&typeProperty=${context.formikPropertySearch.values.typeProperty}
         &part1plate=${context.formikPropertySearch.values.part1plate}&part2plate=${context.formikPropertySearch.values.part2plate}&part3plate=${context.formikPropertySearch.values.part3plate}

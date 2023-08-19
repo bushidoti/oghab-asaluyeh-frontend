@@ -163,7 +163,7 @@ const PendingRecycle = () => {
                                         return (
                                           (property.length > 0 && property.filter(property =>  property.cancel_status === "pending").map((data,i) => (
                                            <tr key={data.code}>
-                                                <th scope="row">{i}</th>
+                                                <th scope="row">{i+1}</th>
                                                 <td>{data.code}</td>
                                                 <td>{data.name}</td>
                                                 <td>{data.model}</td>
@@ -190,7 +190,7 @@ const PendingRecycle = () => {
                                         return (
                                           (property.length > 0 && property.filter(property =>  property.cancel_status === "pending").map((data,i) => (
                                             <tr key={data.code}>
-                                                <th scope="row">{i}</th>
+                                                <th scope="row">{i+1}</th>
                                                 <td>{data.code}</td>
                                                 <td>{data.name}</td>
                                                 <td>{data.use_for}</td>
@@ -215,7 +215,7 @@ const PendingRecycle = () => {
                                         return (
                                           (property.length > 0 && property.filter(property =>  property.cancel_status === "pending").map((data,i) => (
                                             <tr key={data.code}>
-                                                <th scope="row">{i}</th>
+                                                <th scope="row">{i+1}</th>
                                                 <td>{data.code}</td>
                                                 <td>{data.name}</td>
                                                 <td>{data.model}</td>
@@ -240,7 +240,7 @@ const PendingRecycle = () => {
                                         return (
                                           (property.length > 0 && property.filter(property =>  property.cancel_status === "pending").map((data,i) => (
                                                 <tr key={data.code}>
-                                                    <th scope="row">{i}</th>
+                                                    <th scope="row">{i+1}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.name}</td>
                                                     <td>{data.model}</td>
@@ -266,7 +266,7 @@ const PendingRecycle = () => {
                                         return (
                                            (property.length > 0 && property.filter(property =>  property.cancel_status === "pending").map((data,i) => (
                                                 <tr key={data.code}>
-                                                    <th scope="row">{i}</th>
+                                                    <th scope="row">{i+1}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.name}</td>
                                                     <td>{data.year_made}</td>
@@ -291,7 +291,7 @@ const PendingRecycle = () => {
                                         return (
                                            (property.length > 0 && property.filter(property =>  property.cancel_status === "pending").map((data,i) => (
                                                 <tr key={data.code}>
-                                                    <th scope="row">{i}</th>
+                                                    <th scope="row">{i+1}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.name}</td>
                                                     <td>{data.year_buy}</td>
@@ -315,7 +315,7 @@ const PendingRecycle = () => {
                                         return (
                                            (property.length > 0 && property.filter(property =>  property.cancel_status === "pending").map((data,i) => (
                                                 <tr key={data.code}>
-                                                    <th scope="row">{i}</th>
+                                                    <th scope="row">{i+1}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.name}</td>
                                                     <td>{data.model}</td>
@@ -344,7 +344,7 @@ const PendingRecycle = () => {
                                         return (
                                            (property.length > 0 && property.filter(property =>  property.cancel_status === "pending").map((data,i) => (
                                                 <tr key={data.code}>
-                                                    <th scope="row">{i}</th>
+                                                    <th scope="row">{i+1}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.name}</td>
                                                     <td>{data.user}</td>
@@ -369,7 +369,7 @@ const PendingRecycle = () => {
                                         return (
                                            (property.length > 0 && property.filter(property =>  property.cancel_status === "pending").map((data,i) => (
                                                 <tr key={data.code}>
-                                                    <th scope="row">{i}</th>
+                                                    <th scope="row">{i+1}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.name}</td>
                                                     <td>{data.model}</td>
@@ -395,7 +395,7 @@ const PendingRecycle = () => {
                                         return (
                                            (property.length > 0 && property.filter(property =>  property.cancel_status === "pending").map((data,i) => (
                                                 <tr key={data.code}>
-                                                    <th scope="row">{i}</th>
+                                                    <th scope="row">{i+1}</th>
                                                     <td>{data.code}</td>
                                                     <td>{data.type_item}</td>
                                                     <td>{data.name}</td>

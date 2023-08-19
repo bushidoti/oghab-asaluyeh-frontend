@@ -4,6 +4,7 @@ import axios from "axios";
 import Url from "../../../config";
 import {Context} from "../../../../context";
 import Swal from "sweetalert2";
+import fixNumbers from "../../persianNumbers";
 
 const UploadPropertyDoc = () => {
     const [search , setSearch] = useState('')
@@ -72,7 +73,7 @@ const UploadPropertyDoc = () => {
       }
 
       const handleId = (e) => {
-            allContract.filter(contract => contract.docNumber === e.target.value).map((data) => (
+            allContract.filter(contract => contract.docNumber === fixNumbers(e.target.value)).map((data) => (
                 setContractId(data.id)
             ))
       }
@@ -102,7 +103,7 @@ const UploadPropertyDoc = () => {
               {
               typeProperty: formik.values.typeProperty,
               name: formik.values.name,
-              docNumber: formik.values.docNumber,
+              docNumber: fixNumbers(formik.values.docNumber),
               plateMotor: formik.values.plateMotor,
               addressChassis: formik.values.addressChassis,
               landlord: formik.values.landlord,
@@ -151,7 +152,7 @@ const UploadPropertyDoc = () => {
               {
               typeProperty: formik.values.typeProperty,
               name: formik.values.name,
-              docNumber: formik.values.docNumber,
+              docNumber: fixNumbers(formik.values.docNumber),
               plateMotor: formik.values.plateMotor,
               addressChassis: formik.values.addressChassis,
               landlord: formik.values.landlord,
@@ -200,7 +201,7 @@ const UploadPropertyDoc = () => {
               {
               typeProperty: formik.values.typeProperty,
               name: formik.values.name,
-              docNumber: formik.values.docNumber,
+              docNumber: fixNumbers(formik.values.docNumber),
               plateMotor: formik.values.plateMotor,
               addressChassis: formik.values.addressChassis,
               landlord: formik.values.landlord,
@@ -249,7 +250,7 @@ const UploadPropertyDoc = () => {
               {
               typeProperty: formik.values.typeProperty,
               name: formik.values.name,
-              docNumber: formik.values.docNumber,
+              docNumber: fixNumbers(formik.values.docNumber),
               plateMotor: formik.values.plateMotor,
               addressChassis: formik.values.addressChassis,
               landlord: formik.values.landlord,
@@ -298,7 +299,7 @@ const UploadPropertyDoc = () => {
               {
               typeProperty: formik.values.typeProperty,
               name: formik.values.name,
-              docNumber: formik.values.docNumber,
+              docNumber: fixNumbers(formik.values.docNumber),
               plateMotor: formik.values.plateMotor,
               addressChassis: formik.values.addressChassis,
               landlord: formik.values.landlord,
@@ -378,13 +379,13 @@ const UploadPropertyDoc = () => {
                                 }} placeholder="شماره سند"
                                 aria-label="searchBox" aria-describedby="searchDocuments"/>
                             </div>
-                             {allContract.filter(contract => contract.docNumber === search && contract.type_form === (partitionSelect === 'منقول')).map((data) => (
+                             {allContract.filter(contract => contract.docNumber === fixNumbers(search) && contract.type_form === (partitionSelect === 'منقول')).map((data) => (
                                     <div className="alert alert-success" role="alert" key={data.id}>
                                         سند با شماره ثبت {data.id} یافت شد.
                                     </div>
                              ))}
                          {(() => {
-                             if (allContract.filter(contract => contract.docNumber === search && contract.type_form === (partitionSelect === 'منقول')).length !== 0){
+                             if (allContract.filter(contract => contract.docNumber === fixNumbers(search) && contract.type_form === (partitionSelect === 'منقول')).length !== 0){
                                  return (
                                      <Fragment>
                                            <div className="form-floating m-4" style={{maxWidth:'255px'}}>

@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import Url from "../../../config";
 import {Context} from "../../../../context";
 import {CheckOutlined, DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import fixNumbers from "../../persianNumbers";
 
 const AddPropertyDoc = (props) => {
     const [property, setProperties] = useState([])
@@ -14,7 +15,7 @@ const AddPropertyDoc = (props) => {
 
     const fetchData = async () => {
         if (context.formikPropertySearch.values.docNumber !== null){
-            const response = await fetch(`${Url}/api/properties/?fields=id,typeProperty,type_form,name,docNumber,plateMotor,addressChassis,landlord,modelMeter,madeOf,part1plate,part2plate,part3plate,cityPlate,descriptionLocation,paperDoc,insurancePaper,gasCard,carCard,description,soldDate,buyer,soldStatus&docNumber=${context.formikPropertySearch.values.docNumber}` , {
+            const response = await fetch(`${Url}/api/properties/?fields=id,typeProperty,type_form,name,docNumber,plateMotor,addressChassis,landlord,modelMeter,madeOf,part1plate,part2plate,part3plate,cityPlate,descriptionLocation,paperDoc,insurancePaper,gasCard,carCard,description,soldDate,buyer,soldStatus&docNumber=${fixNumbers(context.formikPropertySearch.values.docNumber)}` , {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }

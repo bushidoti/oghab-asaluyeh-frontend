@@ -201,7 +201,7 @@ const Report = (props) => {
                                                     }else if (context.formik.values.id){
                                                         return contract.type_form === context.docToggle && contract.id === Number(context.formik.values.id)
                                                     }else if (context.formik.values.contractNumber){
-                                                        return contract.type_form === context.docToggle && contract.contractNumber === String(context.formik.values.contractNumber)
+                                                        return contract.type_form === context.docToggle && contract.contractNumber === String(fixNumbers(context.formik.values.contractNumber))
                                                     }else if (context.formik.values.topicContract){
                                                         return contract.type_form === context.docToggle && contract.topicContract === String(context.formik.values.topicContract)
                                                     }else if (context.formik.values.clearedStatus){

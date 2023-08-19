@@ -2,6 +2,7 @@ import React, {Fragment, useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import Url from "../../../config";
 import {CloseOutlined} from "@ant-design/icons";
+import fixNumbers from "../../persianNumbers";
 
 const ObserveModal = () => {
     const [search , setSearch] = useState('')
@@ -33,7 +34,7 @@ const ObserveModal = () => {
       }
 
      const handleId = (e) => {
-            allContract.filter(contract => contract.docNumber === e.target.value).map((data) => (
+            allContract.filter(contract => contract.docNumber === fixNumbers(e.target.value)).map((data) => (
                 setContractId(data.id)
             ))
       }
@@ -82,7 +83,7 @@ const ObserveModal = () => {
                                 aria-label="searchBox" aria-describedby="searchDocuments"/>
                             </div>
                             </div>
-                              {allContract.filter(contract => contract.docNumber === search).map((data) => (
+                              {allContract.filter(contract => contract.docNumber === fixNumbers(search)).map((data) => (
                                     <div className="alert alert-success" role="alert" key={data.id}>
                                         سند با شماره ثبت {data.id} یافت شد.
                                     </div>
