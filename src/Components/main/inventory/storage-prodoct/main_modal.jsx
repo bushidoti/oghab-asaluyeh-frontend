@@ -390,7 +390,7 @@ const Modal = (props) => {
 
       const fetchDataAllProducts = async () => {
         if (props.idNumberProduct !== null) {
-            const response = await fetch(`${Url}/api/allproducts/${props.idNumberProduct}/?fields=product,seller,input,output,document_code,document_type,date,operator,afterOperator,obsolete,consumable,buyer,receiver,amendment,id` , {
+            const response = await fetch(`${Url}/api/allproducts/${props.idNumberProduct}/?fields=product,seller,input,output,document_code,document_type,date,operator,afterOperator,obsolete,consumable,buyer,scale,receiver,amendment,id` , {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
