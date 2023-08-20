@@ -14,6 +14,7 @@ const NavBar = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const context = useContext(Context)
+
     const dropdown1: MenuProps['dropdown1'] = [
       {
         key: '1',
@@ -211,6 +212,9 @@ const NavBar = () => {
                 <Nav className="me-auto mb-2 mb-lg-0 gap-3 ms-1">
 
                       <Link className='nav-link active' to='/'>خانه</Link>
+                      <Link className='nav-link text-danger fw-bold'
+                      to='https://s31.picofile.com/d/8467362100/068ffe3c-d362-46e1-8754-bf6d4530f643/ScanApps.zip'>دانلود رابط اسکنر</Link>
+
                      <ConfigProvider  direction="rtl"
                             theme={{
                               token: {
