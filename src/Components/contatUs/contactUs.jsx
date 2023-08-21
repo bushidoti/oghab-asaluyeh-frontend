@@ -1,6 +1,7 @@
 import React, {Fragment} from "react";
 import emailjs from 'emailjs-com';
 import Swal from "sweetalert2";
+import {Helmet} from "react-helmet";
 const SERVICE_ID = "service_cu99qpv";
 const TEMPLATE_ID = "template_27khoqf";
 const USER_ID = "fzWdo3mvBl-JiKkz2";
@@ -26,6 +27,10 @@ export const ContactUS =  () => {
   };
     return (
         <Fragment>
+               <Helmet>
+                    <title>پشتیبانی</title>
+                    <meta name='description' content='پشتیبان سامانه مدیریتی شرکت فرودگاهی عقاب عسلویه' />
+                </Helmet>
             <div className='justify-content-center row m-3'>
                      <div className= 'div-contact shadow-lg col' style={{backgroundColor:'hsl(0, 0%, 90%)' , borderRadius:'10px'}}>
                       <form onSubmit={handleOnSubmit}>

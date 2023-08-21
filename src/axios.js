@@ -1,7 +1,6 @@
 import axios from "axios";
 import Url from "./Components/config";
 
-// axios.defaults.baseURL = 'http://localhost:8000/api/';
 
 let refresh = false;
 
