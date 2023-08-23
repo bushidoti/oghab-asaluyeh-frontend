@@ -13,6 +13,8 @@ const ManualModal = (props) => {
      const [registerType, setRegisterType] = useState('')
      const [repeatedProduct, setRepeatedProduct] = useState(false)
      const [documents , setDocument] = useState('')
+     const [products, setProducts] = useState([])
+
      const [numChildren, setNumChildren] = useState(0)
      const children = []
      const [productList, setProductList] = useState([]);
@@ -50,6 +52,17 @@ const ManualModal = (props) => {
         },
         enableReinitialize: true,
     });
+
+
+    const fetchDataProducts = async () => {
+        const response = await fetch(`${Url}/api/allproducts/?inventor=${props.office}&fields=name,product,input,output,operator,inventory`, {
+                 headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+            })
+        const data = await response.json()
+        setProducts(data)
+      }
 
     const formikStatic = useFormik({
         initialValues: {
@@ -441,6 +454,7 @@ const ManualModal = (props) => {
      useEffect(() => {
           void fetchDataAutoIncrementCheck()
           void fetchDataAutoIncrementFactor()
+          void fetchDataProducts()
           },
            // eslint-disable-next-line react-hooks/exhaustive-deps
         [])
@@ -756,7 +770,17 @@ const ManualModal = (props) => {
                                              <div className="invalid-feedback">
                                                  تعداد  را وارد کنید.
                                              </div>
+                                              {(() => {
+                                                  if (registerType === 'خروج') {
+                                                          return (
+                                                              <p className='text-danger'> موجودی : {(products.filter(products => products.name === formik.values.name).reduce((a, v) => a + v.input, 0))
+                                                               - (products.filter(products => products.name === formik.values.name).reduce((a, v) => a + v.output, 0))}</p>
+                                                          )
+                                                  }
+                                              })()}
+
                                            </div>
+
                                    <div className="col form-floating">
                                         <input type="text" className="form-control" id="scale" value={formik.values.scale} disabled={repeatedProduct}
                                                onChange={formik.handleChange}
@@ -802,12 +826,13 @@ const ManualModal = (props) => {
                                                                          مورد مصرف  را انتخاب کنید.
                                                                      </div>
                                                                     </div>
-
                                                             </Fragment>
                                                         )
                                                     }
                                         })()}
-                                <button type="button" className="btn btn-success" disabled={props.scan.length > 5000000} onClick={() => {
+
+                                <button type="button" className="btn btn-success" disabled={props.scan.length > 5000000 || (products.filter(products => products.name === formik.values.name).reduce((a, v) => a + v.input, 0))
+                                                      - (products.filter(products => products.name === formik.values.name).reduce((a, v) => a + v.output, 0)) < formik.values.output} onClick={() => {
                                       handleSubmit()
                                       addComponent()
                                       handleClick()
@@ -822,6 +847,20 @@ const ManualModal = (props) => {
 
                                   }}><CheckOutlined /></button>
                                       </div>
+                                  {(() => {
+                                          if (registerType === 'خروج') {
+                                              if (formik.values.output) {
+                                                  if ((products.filter(products => products.name === formik.values.name).reduce((a, v) => a + v.input, 0))
+                                                      - (products.filter(products => products.name === formik.values.name).reduce((a, v) => a + v.output, 0)) < formik.values.output) {
+                                                      return (
+                                                          <div className="alert alert-danger" role="alert">
+                                                              موجودی کافی نمی باشد.
+                                                          </div>
+                                                      )
+                                                  }
+                                              }
+                                          }
+                                      })()}
                                   </Fragment>
                         : null}
                     </div>
