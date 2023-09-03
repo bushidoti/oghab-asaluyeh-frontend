@@ -265,12 +265,13 @@ const ManualModal = (props) => {
     const fetchData = async () => {
             if (formik.values.name){
                 try{
-                      const response = await fetch(`${Url}/api/product/?inventor=${props.office}&name=${formik.values.name}`, {
+                      const response = await fetch(`${Url}/api/product/?inventory=${props.office}&name=${formik.values.name}`, {
                      headers: {
                           'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                         }
                     })
                        const data = await response.json()
+                    console.log(data)
                         await formik.setFieldValue('code', data[0].code)
                         await formik.setFieldValue('name', data[0].name)
                         await formik.setFieldValue('category', data[0].category)
