@@ -38,7 +38,7 @@ const BillCheckModal = () => {
 
    const handleOpenFile = () => {
        if (context.modalTitle === 'factor') {
-           return product[0].factor || ''
+           return product.filter(product => product.inventory === context.office)[0].factor || ''
        } else if (context.modalTitle === 'check') {
            return product.filter(product => product.document_code === context.billCheck && product.document_type === 'حواله' && product.inventory === context.office)[0].checkBill || ''
        }

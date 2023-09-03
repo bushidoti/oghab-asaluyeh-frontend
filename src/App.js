@@ -258,14 +258,14 @@ function App() {
      useEffect(() => {
             (async () => {
         if (systemIDFactor){
-              const response = await fetch(`${Url}/api/allproducts/?fields=date,document_code&systemID=${systemIDFactor}&inventory=${office}`, {
+              const response = await fetch(`${Url}/api/allproducts/?fields=date,document_code,inventory&systemID=${systemIDFactor}`, {
                          headers: {
                           'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                         }
                     })
                 const data = await response.json()
-                setDate(data[0].date)
-                setFactorNumber(data[0].document_code)
+                setDate(data.filter(product => product.inventory === office)[0].date)
+                setFactorNumber(data.filter(product => product.inventory === office)[0].document_code)
         }
       })()
     }, [systemIDFactor , office]);
