@@ -113,6 +113,7 @@ function App() {
                   full_name: '',
                   national_id: '',
                   type: '',
+                  expireDate: '',
                   sex: '',
                   office: '',
                   job: '',

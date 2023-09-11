@@ -6,11 +6,16 @@ import Swal from "sweetalert2";
 import Url from "../../../config";
 import {Context} from "../../../../context";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import DateObject from "react-date-object";
+import persian from "react-date-object/calendars/persian";
+
 
 const AddIndividualsDoc = () => {
     const [contract, setContracts] = useState([])
     const [idNumber, setIdNumber] = useState(null)
     const context = useContext(Context)
+    const date = new DateObject({ calendar: persian})
+
 
     const fetchData = async () => {
         const response = await fetch(`${Url}/api/persons/?fields=id,type,full_name,expireDate,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument&full_name=${context.formikPersonalSearch.values.full_name}` , {
@@ -60,6 +65,7 @@ const AddIndividualsDoc = () => {
           },
             // eslint-disable-next-line react-hooks/exhaustive-deps
            [context.formikPersonalSearch.values.full_name])
+
     return (
      <Fragment>
             <Modal ModalTitle={context.modalTitle} setEditDocumentIndividuals={context.setEditDocumentIndividuals} editDocumentIndividuals={context.editDocumentIndividuals} idNumber={idNumber} setIdNumber={setIdNumber}/>
@@ -72,7 +78,16 @@ const AddIndividualsDoc = () => {
                       <button className= 'btn btn-primary' id='modalAddBtn' data-bs-toggle="modal"
                           data-bs-target="#modalMain" onClick={() => context.setModalTitle('add')}>ثبت قرارداد جدید</button>
                     </div>
+
                 </div>
+                  <div className="form-check m-4">
+                        <input className="form-check-input" type="checkbox" name='expireDate' checked={context.formikPersonalSearch.values.expireDate} onChange={e => e.target.checked ?
+                          context.formikPersonalSearch.setFieldValue('expireDate' , true) : context.formikPersonalSearch.setFieldValue('expireDate' , '')}
+                        id="clearedCheck"/>
+                        <label className="form-check-label" htmlFor="expireDate">
+                        قرارداد های پایان یافته
+                        </label>
+                  </div>
 
              <div className='m-4'>
                 <div className="input-group mb-3">
@@ -83,6 +98,7 @@ const AddIndividualsDoc = () => {
              </div>
                <div className='m-4'>
                     <span className="dot" style={{backgroundColor: 'hsl(0, 100%, 80%)'}}></span><span> به معنی تسویه شده و قفل شده</span>
+                    <span className="ms-5 dot" style={{backgroundColor: 'hsla(48,100%,50%,0.6)'}}></span><span> به معنی پایان قرارداد</span>
                </div>
             <div className= 'm-4 table-responsive text-nowrap rounded-3' style={{maxHeight : '50vh'}}>
                 <table className="table table-hover text-center align-middle table-bordered border-primary bg-light" style={{fontSize:'1vw'}}>
@@ -97,8 +113,14 @@ const AddIndividualsDoc = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {(contract.length > 0 && contract.map((data) => (
-                        <tr key={data.id} style={{backgroundColor:`${(data.clearedStatus ? 'hsl(0, 100%, 80%)' : null) }`}}>
+                    {(contract.length > 0 && contract.filter((value) => {
+                                if (context.formikPersonalSearch.values.expireDate){
+                                    return date.format().replaceAll('/' , '-') >  value.expireDate
+                                }else {
+                                    return contract
+                                }
+                                }).map((data) => (
+                        <tr key={data.id} style={{backgroundColor:`${(data.clearedStatus ? 'hsl(0, 100%, 80%)' : null) || ( date.format().replaceAll('/' , '-') >  data.expireDate  ? 'hsla(48,100%,50%,0.6)'  : null) }`}}>
                             <th scope="row">{data.id}</th>
                             <td>{data.type}</td>
                             <td>{data.full_name}</td>

@@ -12,6 +12,7 @@ import fixNumbers from "../../persianNumbers"
 import Url from "../../../config";
 import {Context} from "../../../../context";
 import {CopyOutlined, InfoOutlined, PrinterOutlined} from "@ant-design/icons";
+import DateObject from "react-date-object";
 
 const ReportIndividualsDoc = () => {
     const [search , setSearch] = useState('')
@@ -19,6 +20,7 @@ const ReportIndividualsDoc = () => {
     const [idNumber, setIdNumber] = useState(null)
     const componentPDF= useRef();
     const context = useContext(Context)
+    const date = new DateObject({ calendar: persian })
 
     const fetchData = async () => {
         const response = await
@@ -70,7 +72,6 @@ const ReportIndividualsDoc = () => {
         content: ()=>componentPDF.current,
         documentTitle:"Data",
      });
-
     return (
         <Fragment>
             <ObserveModal/>
@@ -124,6 +125,14 @@ const ReportIndividualsDoc = () => {
                     <label className="form-check-label" htmlFor="clearedCheck">
                     تسویه شده
                     </label>
+                  </div>
+                  <div className="form-check ms-4">
+                        <input className="form-check-input" type="checkbox" name='expireDate' checked={context.formikPersonalSearch.values.expireDate} onChange={e => e.target.checked ?
+                          context.formikPersonalSearch.setFieldValue('expireDate' , true) : context.formikPersonalSearch.setFieldValue('expireDate' , '')}
+                        id="clearedCheck"/>
+                        <label className="form-check-label" htmlFor="expireDate">
+                        قرارداد های پایان یافته
+                        </label>
                   </div>
                 </div>
 
@@ -203,6 +212,7 @@ const ReportIndividualsDoc = () => {
                 </div>
                        <div className='m-4'>
                             <span className="dot" style={{backgroundColor: 'hsl(0, 100%, 80%)'}}></span><span> به معنی تسویه شده و قفل شده</span>
+                            <span className="ms-5 dot" style={{backgroundColor: 'hsla(48,100%,50%,0.6)'}}></span><span> به معنی پایان قرارداد</span>
                        </div>
                 <div className= 'm-4 table-responsive text-nowrap rounded-3' style={{maxHeight : '50vh'}}>
                     <table className="table table-hover table-fixed text-center align-middle table-bordered border-primary bg-light"
@@ -231,8 +241,14 @@ const ReportIndividualsDoc = () => {
                          </thead>
 
                         <tbody>
-                            {(contract.length > 0 && contract.map((data,i) => (
-                                <tr key={data.id} style={{backgroundColor:`${(data.clearedStatus ? 'hsl(0, 100%, 80%)' : null) }`}}>
+                            {(contract.length > 0 && contract.filter((value) => {
+                                if (context.formikPersonalSearch.values.expireDate){
+                                    return date.format().replaceAll('/' , '-') >  value.expireDate
+                                }else {
+                                    return contract
+                                }
+                                }).map((data,i) => (
+                                <tr key={data.id} style={{backgroundColor:`${(data.clearedStatus ? 'hsl(0, 100%, 80%)' : null)  || ( date.format().replaceAll('/' , '-') >  data.expireDate  ? 'hsla(48,100%,50%,0.6)'  : null) }`}}>
                                     <th scope="row">{i+1}</th>
                                     <td>{data.id}</td>
                                     <td>{data.type}</td>
@@ -262,11 +278,13 @@ const ReportIndividualsDoc = () => {
                                 </tr>
                                 ))) ||
                                 <tr>
-                                     <td colSpan="17" className='h3'><div className="spinner-border text-primary" role="status">
+                                     <td colSpan="18" className='h3'><div className="spinner-border text-primary" role="status">
                                         <span className="visually-hidden">Loading...</span>
                                     </div></td>
                                 </tr>
+
                             }
+
                         </tbody>
                     </table>
                 </div>

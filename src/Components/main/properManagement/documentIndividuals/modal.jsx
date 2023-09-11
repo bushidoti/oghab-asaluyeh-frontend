@@ -394,7 +394,6 @@ const Modal = (props) => {
             formik.setFieldValue('expireDate' , date.toDate().toLocaleDateString('fa-IR', options).replaceAll('/' , '-'))
         }
     }
-
     handleLabelBails1()
 
   return (
