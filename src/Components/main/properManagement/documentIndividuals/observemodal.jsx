@@ -68,6 +68,14 @@ const ObserveModal = () => {
             return contract.retired
         }else if (selectedFile === 'retired_card'){
             return contract.retired_card
+        }else if (selectedFile === 'degreeEducation'){
+            return contract.degreeEducation
+        }else if (selectedFile === 'personalPhoto'){
+            return contract.personalPhoto
+        }else if (selectedFile === 'certificateSecurity'){
+            return contract.certificateSecurity
+        }else if (selectedFile === 'retired_insurance'){
+            return contract.retired_insurance
         }
     }
         useEffect(() => {
@@ -113,6 +121,8 @@ const ObserveModal = () => {
                                                             <option value='' disabled>یک مورد انتخاب کنید</option>
                                                             <option value="شناسنامه">شناسنامه</option>
                                                             <option value="کارت ملی">کارت ملی</option>
+                                                            <option value="عکس پرسنلی">عکس پرسنلی</option>
+                                                            <option value="مدرک تحصیلی">مدرک تحصیلی</option>
                                                             <option value="تضمین">تضمین</option>
                                                             <option value="گواهی">گواهی</option>
                                                             <option value="بازنشستگی">بازنشستگی</option>
@@ -161,6 +171,7 @@ const ObserveModal = () => {
                                                                                     <option value="certificateMedic">گواهی پزشکی</option>
                                                                                     <option value="insurance">گواهی بیمه</option>
                                                                                     <option value="police">گواهی پلیس</option>
+                                                                                    <option value="certificateSecurity">گواهی حفاظتی</option>
                                                                                     <option value="driveLicense">گواهینامه</option>
                                                                               </Fragment>
                                                                           )
@@ -169,9 +180,23 @@ const ObserveModal = () => {
                                                                               <Fragment>
                                                                                     <option value="retired">حکم بازنشستگی</option>
                                                                                     <option value="retired_card">کارت بازنشستگی</option>
+                                                                                     <option value="retired_insurance">دفترچه بیمه بازنشستگی</option>
+
                                                                               </Fragment>
                                                                           )
-                                                                      }
+                                                                      }else if (typeDocument === 'عکس پرسنلی') {
+                                                                    return (
+                                                                        <Fragment>
+                                                                            <option value="personalPhoto">عکس پرسنلی</option>
+                                                                        </Fragment>
+                                                                    )
+                                                                }else if (typeDocument === 'مدرک تحصیلی') {
+                                                                    return (
+                                                                        <Fragment>
+                                                                            <option value="degreeEducation">مدرک تحصیلی</option>
+                                                                        </Fragment>
+                                                                    )
+                                                                }
                                                                   })()}
                                                                 </select>
                                                             </div>

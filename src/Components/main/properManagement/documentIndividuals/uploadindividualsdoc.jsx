@@ -628,6 +628,170 @@ const UploadIndividualsDoc = () => {
 
                 })
         }
+
+         const putHandler14 = async () => {
+            postAlertLoading()
+            await axios.put(
+                `${Url}/api/persons/${contractId}/`,
+                  {
+                          id: formik.values.id,
+                          type: formik.values.type,
+                          full_name: formik.values.full_name,
+                          date: formik.values.date,
+                          national_id: fixNumbers(formik.values.national_id),
+                          sex: formik.values.sex,
+                          office: formik.values.office,
+                          job: formik.values.job,
+                          approvedPrice: formik.values.approvedPrice,
+                          commitmentPrice: formik.values.commitmentPrice,
+                          typeBail: formik.values.typeBail,
+                          firstBail: formik.values.firstBail,
+                          secondBail: formik.values.secondBail,
+                          degreeEducation: context.scan,
+             }, {
+                headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+              }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('مدرک تحصیلی')
+                            context.setScan('')
+
+                        }
+                    }
+
+                })
+        }
+
+     const putHandler15 = async () => {
+            postAlertLoading()
+            await axios.put(
+                `${Url}/api/persons/${contractId}/`,
+                  {
+                          id: formik.values.id,
+                          type: formik.values.type,
+                          full_name: formik.values.full_name,
+                          date: formik.values.date,
+                          national_id: fixNumbers(formik.values.national_id),
+                          sex: formik.values.sex,
+                          office: formik.values.office,
+                          job: formik.values.job,
+                          approvedPrice: formik.values.approvedPrice,
+                          commitmentPrice: formik.values.commitmentPrice,
+                          typeBail: formik.values.typeBail,
+                          firstBail: formik.values.firstBail,
+                          secondBail: formik.values.secondBail,
+                          personalPhoto: context.scan,
+             }, {
+                headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+              }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('عکس پرسنلی')
+                            context.setScan('')
+
+                        }
+                    }
+
+                })
+        }
+
+       const putHandler16 = async () => {
+            postAlertLoading()
+            await axios.put(
+                `${Url}/api/persons/${contractId}/`,
+                  {
+                          id: formik.values.id,
+                          type: formik.values.type,
+                          full_name: formik.values.full_name,
+                          date: formik.values.date,
+                          national_id: fixNumbers(formik.values.national_id),
+                          sex: formik.values.sex,
+                          office: formik.values.office,
+                          job: formik.values.job,
+                          approvedPrice: formik.values.approvedPrice,
+                          commitmentPrice: formik.values.commitmentPrice,
+                          typeBail: formik.values.typeBail,
+                          firstBail: formik.values.firstBail,
+                          secondBail: formik.values.secondBail,
+                          certificateSecurity: context.scan,
+             }, {
+                headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+              }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('گواهی حفاظتی')
+                            context.setScan('')
+
+                        }
+                    }
+
+                })
+        }
+
+         const putHandler17 = async () => {
+            postAlertLoading()
+            await axios.put(
+                `${Url}/api/persons/${contractId}/`,
+                  {
+                          id: formik.values.id,
+                          type: formik.values.type,
+                          full_name: formik.values.full_name,
+                          date: formik.values.date,
+                          national_id: fixNumbers(formik.values.national_id),
+                          sex: formik.values.sex,
+                          office: formik.values.office,
+                          job: formik.values.job,
+                          approvedPrice: formik.values.approvedPrice,
+                          commitmentPrice: formik.values.commitmentPrice,
+                          typeBail: formik.values.typeBail,
+                          firstBail: formik.values.firstBail,
+                          secondBail: formik.values.secondBail,
+                          retired_insurance: context.scan,
+             }, {
+                headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+              }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('دفترچه بیمه بازنشستگی')
+                            context.setScan('')
+
+                        }
+                    }
+
+                })
+        }
    const postAlert = (file) => {
                 Swal.fire(
                   'ثبت شد!',
@@ -666,6 +830,14 @@ const UploadIndividualsDoc = () => {
             return putHandler12
         }else if (selectedFile === 'insurance'){
             return putHandler13
+        }else if (selectedFile === 'degreeEducation'){
+            return putHandler14
+        }else if (selectedFile === 'personalPhoto'){
+            return putHandler15
+        }else if (selectedFile === 'certificateSecurity'){
+            return putHandler16
+        }else if (selectedFile === 'retired_insurance'){
+            return putHandler17
         }
     }
 
@@ -699,6 +871,8 @@ const UploadIndividualsDoc = () => {
                                             aria-label="Floating label select example" onChange={(e) => setTypeDocument(e.target.value)}>
                                                 <option value='' disabled>یک مورد انتخاب کنید</option>
                                                 <option value="شناسنامه">شناسنامه</option>
+                                                <option value="عکس پرسنلی">عکس پرسنلی</option>
+                                                <option value="مدرک تحصیلی">مدرک تحصیلی</option>
                                                 <option value="کارت ملی">کارت ملی</option>
                                                 <option value="تضمین">تضمین</option>
                                                 <option value="گواهی">گواهی</option>
@@ -713,7 +887,7 @@ const UploadIndividualsDoc = () => {
                                                         <button className="btn btn-success" type="button" id="firstPageBtn" disabled={!context.scan || context.scan.length > 5000000} onClick={handleSubmit()}>بارگذاری</button>
                                                         <select className="form-select" defaultValue='' id="checkFileBtn" onChange={e => setSelectedFile(e.target.value)}
                                                         aria-label="checkFileBtn">
-                                                            <option value=''>فایل مورد نظر را انتخاب کنید</option>
+                                                            <option value=''>مدرک مورد نظر را که میخواهید اسکن کنید انتخاب کنید</option>
                                                             {(() => {
                                                                 if (typeDocument === 'شناسنامه'){
                                                                     return (
@@ -742,6 +916,7 @@ const UploadIndividualsDoc = () => {
                                                                         <Fragment>
                                                                             <option value="retired">حکم بازنشستگی</option>
                                                                             <option value="retired_card">کارت بازنشستگی</option>
+                                                                            <option value="retired_insurance">دفترچه بیمه بازنشستگی</option>
                                                                         </Fragment>
                                                                     )
                                                                 }else if (typeDocument === 'گواهی') {
@@ -749,8 +924,21 @@ const UploadIndividualsDoc = () => {
                                                                         <Fragment>
                                                                             <option value="driveLicense">گواهینامه</option>
                                                                             <option value="certificateMedic">گواهی پزشکی</option>
+                                                                            <option value="certificateSecurity">گواهی حفاظتی</option>
                                                                             <option value="police">گواهی پلیس</option>
                                                                             <option value="insurance">گواهی بیمه</option>
+                                                                        </Fragment>
+                                                                    )
+                                                                }else if (typeDocument === 'عکس پرسنلی') {
+                                                                    return (
+                                                                        <Fragment>
+                                                                            <option value="personalPhoto">عکس پرسنلی</option>
+                                                                        </Fragment>
+                                                                    )
+                                                                }else if (typeDocument === 'مدرک تحصیلی') {
+                                                                    return (
+                                                                        <Fragment>
+                                                                            <option value="degreeEducation">مدرک تحصیلی</option>
                                                                         </Fragment>
                                                                     )
                                                                 }

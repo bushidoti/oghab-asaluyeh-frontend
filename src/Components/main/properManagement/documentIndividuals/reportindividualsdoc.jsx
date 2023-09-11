@@ -22,7 +22,7 @@ const ReportIndividualsDoc = () => {
 
     const fetchData = async () => {
         const response = await
-        fetch(`${Url}/api/persons/?fields=id,type,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument&full_name=${context.formikPersonalSearch.values.full_name}
+        fetch(`${Url}/api/persons/?fields=id,type,expireDate,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument&full_name=${context.formikPersonalSearch.values.full_name}
         &sex=${context.formikPersonalSearch.values.sex}&id=${context.formikPersonalSearch.values.id}&office=${context.formikPersonalSearch.values.office}
         &date=${fixNumbers(context.formikPersonalSearch.values.date)}&national_id=${fixNumbers(context.formikPersonalSearch.values.national_id)}
         &clearedStatus=${context.formikPersonalSearch.values.clearedStatus}&type=${context.formikPersonalSearch.values.type}&job=${context.formikPersonalSearch.values.job}` , {
@@ -202,7 +202,7 @@ const ReportIndividualsDoc = () => {
                                   })()}
                 </div>
                        <div className='m-4'>
-                            <span className="dot bg-danger"></span><span> به معنی تسویه شده و قفل شده</span>
+                            <span className="dot" style={{backgroundColor: 'hsl(0, 100%, 80%)'}}></span><span> به معنی تسویه شده و قفل شده</span>
                        </div>
                 <div className= 'm-4 table-responsive text-nowrap rounded-3' style={{maxHeight : '50vh'}}>
                     <table className="table table-hover table-fixed text-center align-middle table-bordered border-primary bg-light"
@@ -222,6 +222,7 @@ const ReportIndividualsDoc = () => {
                                 <th scope="col">مبلغ تضمین</th>
                                 <th scope="col">وثیقه تضمین</th>
                                 <th scope="col">مشخصه وثیقه</th>
+                                <th scope="col">تاریخ پایان قرارداد</th>
                                 <th scope="col">وضعیت تسویه</th>
                                 <th scope="col">تاریخ تسویه</th>
                                 <th scope="col">وضعیت مدرک</th>
@@ -245,6 +246,7 @@ const ReportIndividualsDoc = () => {
                                     <td>{data.commitmentPrice}</td>
                                     <td>{data.typeBail}</td>
                                     <td>{data.firstBail} _ {data.secondBail}</td>
+                                    <td>{data.expireDate}</td>
                                     <td>{data.clearedStatus ? 'تسویه شده' : 'تسویه نشده'}</td>
                                     <td>{data.clearedDate}</td>
                                     <td>{data.receivedDocument ? 'تحویل داده شده' : 'تحویل داده نشده'}</td>

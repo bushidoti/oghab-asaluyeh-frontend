@@ -12,10 +12,13 @@ import options from "../../date-option"
 import Url from "../../../config";
 import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
 import fixNumbers from "../../persianNumbers";
+import DateObject from "react-date-object";
 
 const Modal = (props) => {
     const [contract, setContracts] = useState([])
     const [lastID, setLastID] = useState([])
+    const date = new DateObject({ calendar: persian, locale: persian_fa })
+
 
     const formik = useFormik({
     initialValues: {
@@ -23,12 +26,15 @@ const Modal = (props) => {
       type: contract.type || '',
       full_name: contract.full_name || '',
       date: contract.date || '',
+      extension:  '',
+      expireDate: contract.expireDate || '',
       national_id: contract.national_id || '',
       sex: contract.sex || '',
       office: contract.office || '',
       job: contract.job || '',
       approvedPrice: contract.approvedPrice || '',
       commitmentPrice: contract.commitmentPrice || '',
+      caseNumber: contract.caseNumber || '',
       typeBail: contract.typeBail || '',
       firstBail: contract.firstBail || '',
       secondBail: contract.secondBail || '',
@@ -43,12 +49,14 @@ const Modal = (props) => {
         formik.setFieldValue('type' , '')
         formik.setFieldValue('full_name' , '')
         formik.setFieldValue('date' , '')
+        formik.setFieldValue('expireDate' , '')
         formik.setFieldValue('national_id' , '')
         formik.setFieldValue('sex' , '')
         formik.setFieldValue('office' , '')
         formik.setFieldValue('job' , '')
         formik.setFieldValue('approvedPrice' , '')
         formik.setFieldValue('commitmentPrice' , '')
+        formik.setFieldValue('caseNumber' , '')
         formik.setFieldValue('typeBail' , '')
         formik.setFieldValue('firstBail' , '')
         formik.setFieldValue('secondBail' , '')
@@ -65,9 +73,11 @@ const Modal = (props) => {
               {
               type: formik.values.type,
               full_name: formik.values.full_name,
+              caseNumber: formik.values.caseNumber,
               date: formik.values.date,
               national_id: fixNumbers(formik.values.national_id),
               sex: formik.values.sex,
+              expireDate: formik.values.expireDate,
               office: formik.values.office,
               job: formik.values.job,
               approvedPrice: formik.values.approvedPrice,
@@ -111,6 +121,7 @@ const Modal = (props) => {
               {
               type: formik.values.type,
               full_name: formik.values.full_name,
+              caseNumber: formik.values.caseNumber,
               date: formik.values.date,
               national_id: fixNumbers(formik.values.national_id),
               sex: formik.values.sex,
@@ -118,6 +129,7 @@ const Modal = (props) => {
               job: formik.values.job,
               approvedPrice: formik.values.approvedPrice,
               commitmentPrice: formik.values.commitmentPrice,
+              expireDate: formik.values.expireDate,
               typeBail: formik.values.typeBail,
               firstBail: formik.values.firstBail,
               secondBail: formik.values.secondBail,
@@ -132,13 +144,13 @@ const Modal = (props) => {
         setTimeout(
                     refreshPages, 3000)
         }
-
     const putHandlerCleared = async () => {
           await axios.put(
             `${Url}/api/persons/${props.idNumber}/`,
               {
               type: formik.values.type,
               full_name: formik.values.full_name,
+              caseNumber: formik.values.caseNumber,
               date: formik.values.date,
               national_id: fixNumbers(formik.values.national_id),
               sex: formik.values.sex,
@@ -147,11 +159,42 @@ const Modal = (props) => {
               approvedPrice: formik.values.approvedPrice,
               commitmentPrice: formik.values.commitmentPrice,
               typeBail: formik.values.typeBail,
+              expireDate: formik.values.expireDate,
               firstBail: formik.values.firstBail,
               secondBail: formik.values.secondBail,
               clearedStatus: true,
               clearedDate: formik.values.clearedDate,
               receivedDocument: formik.values.receivedDocument,
+
+         }, {
+                headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+              })
+        setTimeout(
+                    refreshPages, 3000)
+        }
+
+      const putHandlerExtension = async () => {
+          await axios.put(
+            `${Url}/api/persons/${props.idNumber}/`,
+              {
+              type: formik.values.type,
+              full_name: formik.values.full_name,
+              caseNumber: formik.values.caseNumber,
+              date: formik.values.date,
+              national_id: fixNumbers(formik.values.national_id),
+              sex: formik.values.sex,
+              office: formik.values.office,
+              job: formik.values.job,
+              approvedPrice: formik.values.approvedPrice,
+              commitmentPrice: formik.values.commitmentPrice,
+              typeBail: formik.values.typeBail,
+              expireDate: formik.values.expireDate,
+              firstBail: formik.values.firstBail,
+              secondBail: formik.values.secondBail,
+              extended: true,
+              extension: formik.values.extension,
 
          }, {
                 headers: {
@@ -185,7 +228,28 @@ const Modal = (props) => {
             })
          }
 
+      const putAlertExtension = () => {
+          Swal.fire({
+              title: 'مطمئنید?',
+              text: ` آیا از تسویه قرارداد ${formik.values.full_name} مطمئنید ؟ `,
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              cancelButtonText: 'انصراف',
+              confirmButtonText: 'بله, تمدید کن!'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                Swal.fire(
+                  'تمدید شد!',
+                  'قرارداد تمدید شد.',
+                  'success',
+                  putHandlerExtension(),
 
+                )
+              }
+            })
+         }
 
       const putAlert = () => {
           Swal.fire({
@@ -224,13 +288,18 @@ const Modal = (props) => {
             formik.setFieldValue('date' , value.toDate().toLocaleDateString('fa-IR', options).replaceAll('/' , '-'))
         }
 
+        function handleChangeExpire(value){
+            formik.setFieldValue('expireDate' , value.toDate().toLocaleDateString('fa-IR', options).replaceAll('/' , '-'))
+
+        }
+
     function handleChangeClear(value){
             formik.setFieldValue('clearedDate' , value.toDate().toLocaleDateString('fa-IR', options).replaceAll('/' , '-'))
         }
 
       const fetchData = async () => {
         if (props.idNumber){
-            const response = await fetch(`${Url}/api/persons/${props.idNumber}/?fields=id,type,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument` , {
+            const response = await fetch(`${Url}/api/persons/${props.idNumber}/?fields=id,type,extension,expireDate,caseNumber,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument` , {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -241,7 +310,7 @@ const Modal = (props) => {
       }
 
       const fetchLastData = async () => {
-        const response = await fetch(`${Url}/api/persons/?fields=id,type,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument`, {
+        const response = await fetch(`${Url}/api/persons/?fields=id,type,full_name,caseNumber,extension,expireDate,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument`, {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -262,12 +331,13 @@ const Modal = (props) => {
             return putAlert
         }else if (props.ModalTitle === 'done'){
             return putAlertCleared
+        }else if (props.ModalTitle === 'extension'){
+            return putAlertExtension
         }else {
             return postHandler
 
         }
     }
-
    function refreshPages() {
         window.location.reload();
       }
@@ -291,7 +361,7 @@ const Modal = (props) => {
             firstBail = 'ضمانت'
             secondBail = 'شماره تضمین'
         }else if (isTypeBail1Empty === 'تعهد'){
-            firstBail = 'متعهد'
+            firstBail = 'موضوع تعهد'
             secondBail = 'شماره تعهد'
         }
 
@@ -312,9 +382,20 @@ const Modal = (props) => {
                       }, false)
                     })
                 })()
+     const handleExtension = (value) => {
+        if (value === 'سه ماه'){
+            date.add(3, "month");
+            formik.setFieldValue('expireDate' , date.toDate().toLocaleDateString('fa-IR', options).replaceAll('/' , '-'))
+        }else  if (value === 'شش ماه'){
+            date.add(6, "month");
+            formik.setFieldValue('expireDate' , date.toDate().toLocaleDateString('fa-IR', options).replaceAll('/' , '-'))
+        }else  if (value === 'یک سال'){
+            date.add(1, "year");
+            formik.setFieldValue('expireDate' , date.toDate().toLocaleDateString('fa-IR', options).replaceAll('/' , '-'))
+        }
+    }
 
     handleLabelBails1()
-
 
   return (
       <Fragment>
@@ -340,6 +421,10 @@ const Modal = (props) => {
                                         }else if (props.ModalTitle === 'visit'){
                                             return (
                                                 'نمایش اطلاعات'
+                                            )
+                                        }else if (props.ModalTitle === 'extension'){
+                                            return (
+                                                'تمدید قرارداد'
                                             )
                                         }
 
@@ -382,12 +467,21 @@ const Modal = (props) => {
                                             </div>
                                             <label htmlFor="fullName">نام و نشان</label>
                                       </div>
+                                      <div className="col form-floating mb-3">
+                                            <input type="text" className="form-control" id="caseNumber" name='caseNumber' value={formik.values.caseNumber}
+                                             onChange={formik.handleChange}
+                                            placeholder="123456" required disabled={props.editDocumentIndividuals}/>
+                                            <div className="invalid-feedback">
+                                            لطفا شماره پرونده  را وارد کنید.
+                                            </div>
+                                            <label htmlFor="caseNumber">شماره پرونده</label>
+                                      </div>
                         </div>
 
 
                             <div className='d-flex gap-2 mb-5'>
-                                      <div className="form-floating" style={{maxWidth:'200px'}}>
-                                            <select className="form-select" id="sexSelector" name='sex' value={formik.values.sex} style={{minWidth:'185px' , maxWidth:'20vw'}}
+                                      <div className="col form-floating" >
+                                            <select className="form-select" id="sexSelector" name='sex' value={formik.values.sex} style={{minWidth:'11vw' , maxWidth:'20vw'}}
                                              onChange={formik.handleChange}
                                             aria-label="sexSelector" disabled={props.editDocumentIndividuals} required>
                                                 <option value='' disabled>یک مورد انتخاب کنید</option>
@@ -404,7 +498,7 @@ const Modal = (props) => {
                                           <DatePicker
                                              animations={[transition()]}
                                              render={<CustomInputDate disabled={props.editDocumentIndividuals}
-                                             ids={"date"} names='clearedDatePicker' label='تاریخ استخدام'/>}
+                                             ids={"date"} names='employedDatePicker' label='تاریخ استخدام'/>}
                                              id="employedDatePicker"
                                              name='date'
                                              value={formik.values.date}
@@ -424,6 +518,22 @@ const Modal = (props) => {
                                           <div className="invalid-feedback">
                                           کد ملی را وارد کنید.
                                           </div>
+                                      </div>
+
+                                  <div className="col-3">
+                                          <DatePicker
+                                             animations={[transition()]}
+                                             render={<CustomInputDate disabled={props.editDocumentIndividuals}
+                                             ids={"expireDate"} names='expireDatePicker' label='تاریخ پایان قرارداد'/>}
+                                             id="expireDatePicker"
+                                             name='expireDate'
+                                             value={formik.values.expireDate}
+                                             onChange={handleChangeExpire}
+                                             onOpenPickNewDate={false}
+                                             calendar={persian}
+                                             locale={persian_fa}
+                                             required
+                                          />
                                       </div>
                                 </div>
 
@@ -505,25 +615,27 @@ const Modal = (props) => {
                                       {(() => {
                                              if (isCommitmentPriceEmpty.length !== 0 || props.editDocumentIndividuals || props.ModalTitle === 'edit') {
                                                 return (
-                                                             <div className="form-floating" style={{maxWidth:'200px'}}>
-                                                                <input className="form-control" type='search' name='typeBail' list="typeBailList" id="typeBail" style={{minWidth:'110px' , maxWidth:'20vw'}}
-                                                                value={formik.values.typeBail} placeholder="بانک"
-                                                                onChange={(e) => {
-                                                                    setIsTypeBail1Empty(e.target.value)
-                                                                    formik.setFieldValue('typeBail', e.target.value)
-                                                                }} disabled={props.editDocumentIndividuals} required/>
-                                                                <label htmlFor="typeBail">نوع ضمانت</label>
-                                                                <datalist id="typeBailList">
-                                                                    <option value="چک"/>
-                                                                    <option value="نقد"/>
-                                                                    <option value="سفته"/>
-                                                                    <option value="بانک"/>
-                                                                    <option value="تعهد"/>
-                                                                </datalist>
-                                                                <div className="invalid-feedback">
-                                                                    نوع ضمانت را انتخاب کنید.
-                                                                </div>
-                                                             </div>
+                                                         <div className="form-floating" style={{maxWidth:'200px'}}>
+                                                             <select className="form-select" name='typeBail' id="typeBail" style={{minWidth:'110px' , maxWidth:'20vw'}}
+                                                            value={formik.values.typeBail} placeholder="بانک"
+                                                            onChange={(e) => {
+                                                                setIsTypeBail1Empty(e.target.value)
+                                                                formik.setFieldValue('typeBail', e.target.value)
+                                                            }} disabled={props.editDocumentIndividuals} required>
+                                                                        <option value='' disabled>یک مورد انتخاب کنید</option>
+                                                                        <option value="چک">چک</option>
+                                                                        <option value="نقد">نقد</option>
+                                                                        <option value="سفته">سفته</option>
+                                                                        <option value="بانک">بانک</option>
+                                                                        <option value="تعهد">تعهد</option>
+                                                                    </select>
+                                                             <label htmlFor="typeBail">نوع ضمانت</label>
+
+
+                                                            <div className="invalid-feedback">
+                                                                نوع ضمانت را انتخاب کنید.
+                                                            </div>
+                                                         </div>
                                                 )
                                             }
                                       })()}
@@ -532,14 +644,35 @@ const Modal = (props) => {
                                               if (isTypeBail1Empty.length !==0 || props.editDocumentIndividuals || props.ModalTitle === 'edit') {
                                                   return (
                                                       <Fragment>
-                                                            <div className="form-floating col">
-                                                                <input type="text" placeholder={firstBail} name='firstBail' value={formik.values.firstBail}
-                                                                onChange={formik.handleChange} aria-label="First Bail" id='firstBail' className="form-control"
-                                                                disabled={props.editDocumentIndividuals} required/>
-                                                                <label style={{fontSize:'1vw'}} htmlFor="firstBail">{firstBail}</label>
-                                                                <div className="invalid-feedback">
-                                                                 {firstBail} را وارد کنید.
-                                                                </div>
+                                                            <div className="form-floating " style={{width:'14vw'}}>
+                                                                {isTypeBail1Empty === 'تعهد' ?
+
+                                                                    <Fragment>
+                                                                           <input type="search" style={{fontSize:'.9vw'}} placeholder={firstBail} list='commitmentList' name='commitment' value={formik.values.firstBail}
+                                                                           onChange={(e) => {
+                                                                         formik.setFieldValue('firstBail', e.target.value)
+                                                                          }} aria-label="First Bail" id='commitment' className="form-control"
+                                                                            disabled={props.editDocumentIndividuals} required/>
+                                                                            <datalist id="commitmentList" >
+                                                                                    <option value="کسر از حقوق بازنشستگی"/>
+                                                                            </datalist>
+                                                                            <label style={{fontSize:'1vw'}} htmlFor="commitment">{firstBail}</label>
+                                                                            <div className="invalid-feedback">
+                                                                             {firstBail} را وارد کنید.
+                                                                            </div>
+                                                                    </Fragment>
+
+                                                                    :
+                                                                    <Fragment>
+                                                                          <input type="text" placeholder={firstBail} name='firstBail' value={formik.values.firstBail}
+                                                                            onChange={formik.handleChange} aria-label="First Bail" id='firstBail' className="form-control"
+                                                                            disabled={props.editDocumentIndividuals} required/>
+                                                                            <label style={{fontSize:'1vw'}} htmlFor="firstBail">{firstBail}</label>
+                                                                            <div className="invalid-feedback">
+                                                                             {firstBail} را وارد کنید.
+                                                                            </div>
+                                                                    </Fragment>
+                                                                }
                                                             </div>
 
                                                              <div className="form-floating mb-3 col">
@@ -593,6 +726,45 @@ const Modal = (props) => {
                                             </label>
                                     </div>
                                 </div>
+                                </Fragment> : null}
+                            {props.ModalTitle === 'extension' ?
+                                <Fragment>
+                                    <hr className='bg-primary mb-3'/>
+                                    <div className='d-flex gap-3  mb-2 align-items-center '>
+                                            <div className="form-floating mb-3" style={{maxWidth:'200px'}}>
+                                                    <select className="form-select" id="extension" disabled={props.ModalTitle === 'extension' ? false : props.editDocumentIndividuals} style={{minWidth:'185px' , maxWidth:'20vw'}}
+                                                    aria-label="extension"  name='extension' value={formik.values.extension}
+                                                    onChange={e => {
+                                                        formik.setFieldValue('extension' , e.target.value)
+                                                        handleExtension(e.target.value)
+                                                    }}>
+                                                        <option value='' disabled>یک مورد انتخاب کنید</option>
+                                                        <option value="سه ماه">سه ماه</option>
+                                                        <option value="شش ماه">شش ماه</option>
+                                                        <option value="یک سال">یک سال</option>
+                                                        <option value="سایر">سایر</option>
+                                                    </select>
+                                                    <label htmlFor="situationSelector">مدت تمدید</label>
+                                                     <div className="invalid-feedback">
+                                                    لطفا مدت تمدید قرارداد را انتخاب کنید.
+                                                    </div>
+                                              </div>
+                                                    {formik.values.extension === 'سایر' ?
+                                                               <DatePicker
+                                                                     animations={[transition()]}
+                                                                     render={<CustomInputDate disabled={props.ModalTitle === 'extension' ? false : props.editDocumentIndividuals}
+                                                                     ids={"expireDate"} names='expireDatePicker' label='تاریخ پایان قرارداد'/>}
+                                                                     id="expireDatePicker"
+                                                                     name='expireDate'
+                                                                     value={formik.values.expireDate}
+                                                                     onChange={handleChangeExpire}
+                                                                     onOpenPickNewDate={false}
+                                                                     calendar={persian}
+                                                                     locale={persian_fa}
+                                                                     required
+                                                                  />
+                                                    : null}
+                                        </div>
                                 </Fragment> : null}
                             </div>
 

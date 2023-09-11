@@ -5,7 +5,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import Url from "../../../config";
 import {Context} from "../../../../context";
-import {CheckOutlined, DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 
 const AddIndividualsDoc = () => {
     const [contract, setContracts] = useState([])
@@ -13,7 +13,7 @@ const AddIndividualsDoc = () => {
     const context = useContext(Context)
 
     const fetchData = async () => {
-        const response = await fetch(`${Url}/api/persons/?fields=id,type,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument&full_name=${context.formikPersonalSearch.values.full_name}` , {
+        const response = await fetch(`${Url}/api/persons/?fields=id,type,full_name,expireDate,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument&full_name=${context.formikPersonalSearch.values.full_name}` , {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -82,7 +82,7 @@ const AddIndividualsDoc = () => {
                 </div>
              </div>
                <div className='m-4'>
-                    <span className="dot bg-danger"></span><span> به معنی تسویه شده و قفل شده</span>
+                    <span className="dot" style={{backgroundColor: 'hsl(0, 100%, 80%)'}}></span><span> به معنی تسویه شده و قفل شده</span>
                </div>
             <div className= 'm-4 table-responsive text-nowrap rounded-3' style={{maxHeight : '50vh'}}>
                 <table className="table table-hover text-center align-middle table-bordered border-primary bg-light" style={{fontSize:'1vw'}}>
@@ -111,11 +111,16 @@ const AddIndividualsDoc = () => {
                                 }}><EditOutlined /></button>
                                 <button id='deleteBtn' className= 'btn btn-danger ms-2' disabled={data.clearedStatus} onClick={() =>
                                 deleteAlert(data.id)}><DeleteOutlined /></button>
-                                <button id='doneBtn' className= 'btn btn-success ms-2' data-bs-toggle="modal" data-bs-target="#modalMain" disabled={data.clearedStatus} onClick={() => {
+                                <button id='doneBtn' className= 'btn btn-info ms-2' disabled={data.clearedStatus} data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
+                                    setIdNumber(data.id)
+                                    context.setModalTitle('extension')
+                                    context.handleEditDocumentIndividuals()
+                                }}>تمدید</button>
+                                <button id='doneBtn' className= 'btn btn-success ms-2' disabled={data.clearedStatus && data.receivedDocument } data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
                                     setIdNumber(data.id)
                                     context.setModalTitle('done')
                                     context.handleEditDocumentIndividuals()
-                                }}><CheckOutlined /></button>
+                                }}>تسویه</button>
                             </td>
                         </tr>
                         ))) ||

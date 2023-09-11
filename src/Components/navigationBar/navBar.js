@@ -94,7 +94,7 @@ const NavBar = () => {
         key: '2',
         label: (
             <Link className='text-decoration-none' to='/uploadpropertydoc'>بارگزاری
-        اسناد امول</Link>
+        اسناد اموال</Link>
         ),
       },
         {
