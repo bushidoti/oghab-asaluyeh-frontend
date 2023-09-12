@@ -14,7 +14,7 @@ const ObserveModal = () => {
     const [typeDocument , setTypeDocument] = useState('')
 
     const fetchData = async () => {
-        const response = await fetch(`${Url}/api/persons` , {
+        const response = await fetch(`${Url}/api/persons/?fields=id,type,expireDate,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument` , {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
