@@ -24,7 +24,7 @@ const ReportIndividualsDoc = () => {
 
     const fetchData = async () => {
         const response = await
-        fetch(`${Url}/api/persons/?fields=id,type,expireDate,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument&full_name=${context.formikPersonalSearch.values.full_name}
+        fetch(`${Url}/api/persons/?fields=affidavitStatus,id,type,expireDate,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument&full_name=${context.formikPersonalSearch.values.full_name}
         &sex=${context.formikPersonalSearch.values.sex}&id=${context.formikPersonalSearch.values.id}&office=${context.formikPersonalSearch.values.office}
         &date=${fixNumbers(context.formikPersonalSearch.values.date)}&national_id=${fixNumbers(context.formikPersonalSearch.values.national_id)}
         &clearedStatus=${context.formikPersonalSearch.values.clearedStatus}&type=${context.formikPersonalSearch.values.type}&job=${context.formikPersonalSearch.values.job}` , {
@@ -129,7 +129,7 @@ const ReportIndividualsDoc = () => {
                   <div className="form-check ms-4">
                         <input className="form-check-input" type="checkbox" name='expireDate' checked={context.formikPersonalSearch.values.expireDate} onChange={e => e.target.checked ?
                           context.formikPersonalSearch.setFieldValue('expireDate' , true) : context.formikPersonalSearch.setFieldValue('expireDate' , '')}
-                        id="clearedCheck"/>
+                        id="expireDate"/>
                         <label className="form-check-label" htmlFor="expireDate">
                         قرارداد های پایان یافته
                         </label>
@@ -236,6 +236,7 @@ const ReportIndividualsDoc = () => {
                                 <th scope="col">وضعیت تسویه</th>
                                 <th scope="col">تاریخ تسویه</th>
                                 <th scope="col">وضعیت مدرک</th>
+                                <th scope="col">وضعیت اقرارنامه</th>
                                 <th scope="col" className='d-print-none'>نمایش</th>
                             </tr>
                          </thead>
@@ -266,6 +267,7 @@ const ReportIndividualsDoc = () => {
                                     <td>{data.clearedStatus ? 'تسویه شده' : 'تسویه نشده'}</td>
                                     <td>{data.clearedDate}</td>
                                     <td>{data.receivedDocument ? 'تحویل داده شده' : 'تحویل داده نشده'}</td>
+                                    <td>{data.affidavitStatus ? 'تحویل داده شده' : 'تحویل داده نشده'}</td>
                                     <td className='d-print-none'>
                                         <button className= 'btn btn-warning'  data-bs-toggle="modal" id='infoModalBtn' data-bs-target="#modalMain"
                                         onClick={() => {

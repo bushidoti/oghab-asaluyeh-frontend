@@ -18,7 +18,7 @@ const AddIndividualsDoc = () => {
 
 
     const fetchData = async () => {
-        const response = await fetch(`${Url}/api/persons/?fields=id,type,full_name,expireDate,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument&full_name=${context.formikPersonalSearch.values.full_name}` , {
+        const response = await fetch(`${Url}/api/persons/?fields=affidavitStatus,id,type,full_name,expireDate,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument&full_name=${context.formikPersonalSearch.values.full_name}` , {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -138,7 +138,7 @@ const AddIndividualsDoc = () => {
                                     context.setModalTitle('extension')
                                     context.handleEditDocumentIndividuals()
                                 }}>تمدید</button>
-                                <button id='doneBtn' className= 'btn btn-success ms-2' disabled={data.clearedStatus && data.receivedDocument } data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
+                                <button id='doneBtn' className= 'btn btn-success ms-2' disabled={data.clearedStatus && data.receivedDocument && data.affidavitStatus} data-bs-toggle="modal" data-bs-target="#modalMain" onClick={() => {
                                     setIdNumber(data.id)
                                     context.setModalTitle('done')
                                     context.handleEditDocumentIndividuals()

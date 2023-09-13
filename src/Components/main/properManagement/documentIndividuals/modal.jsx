@@ -41,6 +41,7 @@ const Modal = (props) => {
       clearedStatus: contract.clearedStatus || '',
       clearedDate: contract.clearedDate || null,
       receivedDocument: contract.receivedDocument || '',
+      affidavitStatus: contract.affidavitStatus || '',
     },
     enableReinitialize: true,
     });
@@ -165,6 +166,7 @@ const Modal = (props) => {
               clearedStatus: true,
               clearedDate: formik.values.clearedDate,
               receivedDocument: formik.values.receivedDocument,
+              affidavitStatus: formik.values.receivedDocument,
 
          }, {
                 headers: {
@@ -204,7 +206,6 @@ const Modal = (props) => {
         setTimeout(
                     refreshPages, 3000)
         }
-
     const putAlertCleared = () => {
           Swal.fire({
               title: 'مطمئنید?',
@@ -299,7 +300,7 @@ const Modal = (props) => {
 
       const fetchData = async () => {
         if (props.idNumber){
-            const response = await fetch(`${Url}/api/persons/${props.idNumber}/?fields=id,type,extension,expireDate,caseNumber,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument` , {
+            const response = await fetch(`${Url}/api/persons/${props.idNumber}/?fields=id,affidavitStatus,type,extension,expireDate,caseNumber,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument` , {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -310,7 +311,7 @@ const Modal = (props) => {
       }
 
       const fetchLastData = async () => {
-        const response = await fetch(`${Url}/api/persons/?fields=id,type,full_name,caseNumber,extension,expireDate,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument`, {
+        const response = await fetch(`${Url}/api/persons/?fields=id,affidavitStatus,type,full_name,caseNumber,extension,expireDate,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument`, {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
@@ -366,7 +367,6 @@ const Modal = (props) => {
         }
 
     }
-
     (function () {
                   // Fetch all the forms we want to apply custom Bootstrap validation styles to
                 const forms = document.querySelectorAll('form');
@@ -714,7 +714,7 @@ const Modal = (props) => {
                                           <p className='ms-2 w-100'>تسویه شده</p>
                                     </div>
 
-                                    <div className="form-check col ms-4">
+                                    <div className="form-check col">
                                             <input className="form-check-input" type="checkbox" name='receivedDocument' value="مدارک تحویل داده شده" checked={formik.values.receivedDocument}
                                             onChange={() => {
                                                 formik.setFieldValue('receivedDocument' , !formik.values.receivedDocument)
@@ -722,6 +722,16 @@ const Modal = (props) => {
                                             id="receivedDocument" disabled={props.ModalTitle === 'done' ? false : props.editDocumentIndividuals}/>
                                             <label className="form-check-label" htmlFor="receivedDocument">
                                             مدارک تحویل داده شده
+                                            </label>
+                                    </div>
+                                   <div className="form-check col ">
+                                            <input className="form-check-input" type="checkbox" name='affidavitStatus' value="اقرارنامه تحویل داده شده" checked={formik.values.affidavitStatus}
+                                            onChange={() => {
+                                                formik.setFieldValue('affidavitStatus' , !formik.values.affidavitStatus)
+                                            }}
+                                            id="affidavitStatus" disabled={props.ModalTitle === 'done' ? false : props.editDocumentIndividuals}/>
+                                            <label className="form-check-label" htmlFor="affidavitStatus">
+                                            اقرارنامه تحویل داده شده
                                             </label>
                                     </div>
                                 </div>

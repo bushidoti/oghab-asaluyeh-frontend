@@ -76,6 +76,8 @@ const ObserveModal = () => {
             return contract.certificateSecurity
         }else if (selectedFile === 'retired_insurance'){
             return contract.retired_insurance
+        }else if (selectedFile === 'affidavitDoc'){
+            return contract.affidavitDoc
         }
     }
         useEffect(() => {
@@ -126,6 +128,7 @@ const ObserveModal = () => {
                                                             <option value="تضمین">تضمین</option>
                                                             <option value="گواهی">گواهی</option>
                                                             <option value="بازنشستگی">بازنشستگی</option>
+                                                            <option value="اقرارنامه">اقرارنامه</option>
                                                         </select>
                                                         <label htmlFor="typeDocument">نوع مدارک</label>
                                                     </div>
@@ -194,6 +197,12 @@ const ObserveModal = () => {
                                                                     return (
                                                                         <Fragment>
                                                                             <option value="degreeEducation">مدرک تحصیلی</option>
+                                                                        </Fragment>
+                                                                    )
+                                                                }else if (typeDocument === 'اقرارنامه') {
+                                                                    return (
+                                                                        <Fragment>
+                                                                            <option value="affidavitDoc">اقرارنامه</option>
                                                                         </Fragment>
                                                                     )
                                                                 }

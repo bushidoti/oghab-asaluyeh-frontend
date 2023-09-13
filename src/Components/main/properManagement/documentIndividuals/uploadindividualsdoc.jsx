@@ -792,6 +792,47 @@ const UploadIndividualsDoc = () => {
 
                 })
         }
+
+       const putHandler18 = async () => {
+            postAlertLoading()
+            await axios.put(
+                `${Url}/api/persons/${contractId}/`,
+                  {
+                          id: formik.values.id,
+                          type: formik.values.type,
+                          full_name: formik.values.full_name,
+                          date: formik.values.date,
+                          national_id: fixNumbers(formik.values.national_id),
+                          sex: formik.values.sex,
+                          office: formik.values.office,
+                          job: formik.values.job,
+                          approvedPrice: formik.values.approvedPrice,
+                          commitmentPrice: formik.values.commitmentPrice,
+                          typeBail: formik.values.typeBail,
+                          firstBail: formik.values.firstBail,
+                          secondBail: formik.values.secondBail,
+                          affidavitDoc: context.scan,
+             }, {
+                headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                }
+              }).then(response => {
+     return response
+          }).then(async data => {
+                    try {
+                        if (data.response.status === 400) {
+                                alert(data.response.status)
+                        }
+                    } catch (e) {
+                        if (data.status === 200) {
+                            postAlert('دفترچه بیمه بازنشستگی')
+                            context.setScan('')
+
+                        }
+                    }
+
+                })
+        }
    const postAlert = (file) => {
                 Swal.fire(
                   'ثبت شد!',
@@ -838,6 +879,8 @@ const UploadIndividualsDoc = () => {
             return putHandler16
         }else if (selectedFile === 'retired_insurance'){
             return putHandler17
+        }else if (selectedFile === 'affidavitDoc'){
+            return putHandler18
         }
     }
 
@@ -877,6 +920,7 @@ const UploadIndividualsDoc = () => {
                                                 <option value="تضمین">تضمین</option>
                                                 <option value="گواهی">گواهی</option>
                                                 <option value="بازنشستگی">بازنشستگی</option>
+                                                <option value="اقرارنامه">اقرارنامه</option>
                                             </select>
                                             <label htmlFor="typeDocumentSelector">نوع مدارک</label>
                                         </div>
@@ -939,6 +983,12 @@ const UploadIndividualsDoc = () => {
                                                                     return (
                                                                         <Fragment>
                                                                             <option value="degreeEducation">مدرک تحصیلی</option>
+                                                                        </Fragment>
+                                                                    )
+                                                                }else if (typeDocument === 'اقرارنامه') {
+                                                                    return (
+                                                                        <Fragment>
+                                                                            <option value="affidavitDoc">اقرارنامه</option>
                                                                         </Fragment>
                                                                     )
                                                                 }
