@@ -12,27 +12,26 @@ const ReportPropertyDoc = (props) => {
     const [idNumber, setIdNumber] = useState('')
     const componentPDF= useRef();
     const context = useContext(Context)
+    const [loading, setLoading] = useState(true)
 
     const fetchData = async () => {
-        const response = await
-        fetch(`${Url}/api/properties/?fields=id,typeProperty,type_form,name,docNumber,plateMotor,addressChassis,landlord,modelMeter,madeOf,part1plate,part2plate,part3plate,cityPlate,descriptionLocation,paperDoc,insurancePaper,gasCard,carCard,description,soldDate,buyer,soldStatus&name=${context.formikPropertySearch.values.name}&docNumber=${fixNumbers(context.formikPropertySearch.values.docNumber)}
-        &landlord=${context.formikPropertySearch.values.landlord}&madeOf=${context.formikPropertySearch.values.madeOf}
-        &plateMotor=${context.formikPropertySearch.values.plateMotor}&id=${context.formikPropertySearch.values.id}&typeProperty=${context.formikPropertySearch.values.typeProperty}
-        &part1plate=${context.formikPropertySearch.values.part1plate}&part2plate=${context.formikPropertySearch.values.part2plate}&part3plate=${context.formikPropertySearch.values.part3plate}
-        &cityPlate=${context.formikPropertySearch.values.cityPlate}&addressChassis=${context.formikPropertySearch.values.addressChassis}&modelMeter=${context.formikPropertySearch.values.modelMeter}
-        &descriptionLocation=${context.formikPropertySearch.values.descriptionLocation}&soldStatus=${context.formikPropertySearch.values.soldStatus}` , {
+         await fetch(`${Url}/api/properties/?fields=id,typeProperty,type_form,name,docNumber,plateMotor,addressChassis,landlord,modelMeter,madeOf,part1plate,part2plate,part3plate,cityPlate,descriptionLocation,paperDoc,insurancePaper,gasCard,carCard,description,soldDate,buyer,soldStatus` , {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-              })
-        const data = await response.json()
-        setProperties(data)
+              }).then(res => res.json()).then(data => {
+            setProperties(data)
+        }
+        )
+        .finally(() => {
+            setLoading(false)
+        })
       }
       useEffect(() => {
             void fetchData()
           },
           // eslint-disable-next-line react-hooks/exhaustive-deps
-          [context.formikPropertySearch.values])
+          [])
 
 
      const nameFieldHandler = () => {
@@ -300,7 +299,41 @@ const ReportPropertyDoc = (props) => {
                             </tr>
                          </thead>
                         <tbody>
-                            {(property.length > 0 && property.filter(property => property.type_form === !context.propertyToggle).map((data , i) => (
+                            {property.filter((property) => {
+                                 if (context.formikPropertySearch.values.docNumber){
+                                    return  property.docNumber === fixNumbers(context.formikPropertySearch.values.docNumber) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.name){
+                                    return  property.name === fixNumbers(context.formikPropertySearch.values.name) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.landlord){
+                                    return  property.landlord === fixNumbers(context.formikPropertySearch.values.landlord) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.madeOf){
+                                    return  property.madeOf === fixNumbers(context.formikPropertySearch.values.madeOf) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.plateMotor){
+                                    return  property.plateMotor === fixNumbers(context.formikPropertySearch.values.plateMotor) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.id){
+                                    return  property.id === Number(fixNumbers(context.formikPropertySearch.values.id)) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.typeProperty){
+                                    return  property.typeProperty === fixNumbers(context.formikPropertySearch.values.typeProperty) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.part1plate){
+                                    return  property.part1plate === fixNumbers(context.formikPropertySearch.values.part1plate) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.part2plate){
+                                    return  property.part2plate === fixNumbers(context.formikPropertySearch.values.part2plate) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.part3plate){
+                                    return  property.part3plate === fixNumbers(context.formikPropertySearch.values.part3plate) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.cityPlate){
+                                    return  property.cityPlate === fixNumbers(context.formikPropertySearch.values.cityPlate) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.addressChassis){
+                                    return  property.addressChassis === fixNumbers(context.formikPropertySearch.values.addressChassis) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.modelMeter){
+                                    return  property.modelMeter === fixNumbers(context.formikPropertySearch.values.modelMeter) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.descriptionLocation){
+                                    return  property.descriptionLocation === fixNumbers(context.formikPropertySearch.values.descriptionLocation) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.soldStatus){
+                                    return  property.soldStatus === context.formikPropertySearch.values.soldStatus && property.type_form === !context.propertyToggle
+                                }else {
+                                    return property.type_form === !context.propertyToggle
+                                }
+                                }).map((data , i) => (
                                 <tr key={data.id} style={{backgroundColor:`${(data.soldStatus ? 'hsl(0, 100%, 80%)' : null) }`}}>
                                     <th scope="row">{i+1}</th>
                                     <td>{data.id}</td>
@@ -342,13 +375,57 @@ const ReportPropertyDoc = (props) => {
                                 </Fragment>
                             }
                         </tr>
-                        ))) ||
-                        <tr>
-                            <td colSpan="16" className='h3'><div className="spinner-border text-primary" role="status">
-                                <span className="visually-hidden">Loading...</span>
+                        ))}
+                           {property.filter((value) => {
+                                 if (context.formikPropertySearch.values.docNumber){
+                                    return  property.docNumber === fixNumbers(context.formikPropertySearch.values.docNumber) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.name){
+                                    return  property.name === fixNumbers(context.formikPropertySearch.values.name) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.landlord){
+                                    return  property.landlord === fixNumbers(context.formikPropertySearch.values.landlord) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.madeOf){
+                                    return  property.madeOf === fixNumbers(context.formikPropertySearch.values.madeOf) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.plateMotor){
+                                    return  property.plateMotor === fixNumbers(context.formikPropertySearch.values.plateMotor) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.id){
+                                    return  property.id === fixNumbers(context.formikPropertySearch.values.id) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.typeProperty){
+                                    return  property.typeProperty === fixNumbers(context.formikPropertySearch.values.typeProperty) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.part1plate){
+                                    return  property.part1plate === fixNumbers(context.formikPropertySearch.values.part1plate) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.part2plate){
+                                    return  property.part2plate === fixNumbers(context.formikPropertySearch.values.part2plate) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.part3plate){
+                                    return  property.part3plate === fixNumbers(context.formikPropertySearch.values.part3plate) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.cityPlate){
+                                    return  property.cityPlate === fixNumbers(context.formikPropertySearch.values.cityPlate) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.addressChassis){
+                                    return  property.addressChassis === fixNumbers(context.formikPropertySearch.values.addressChassis) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.modelMeter){
+                                    return  property.modelMeter === fixNumbers(context.formikPropertySearch.values.modelMeter) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.descriptionLocation){
+                                    return  property.descriptionLocation === fixNumbers(context.formikPropertySearch.values.descriptionLocation) && property.type_form === !context.propertyToggle
+                                }else if (context.formikPropertySearch.values.soldStatus){
+                                    return  property.soldStatus === fixNumbers(context.formikPropertySearch.values.soldStatus) && property.type_form === !context.propertyToggle
+                                }else {
+                                    return property.type_form === !context.propertyToggle
+                                }
+                                }).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="16" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
                             </div></td>
-                        </tr>
-                        }
+                          </tr>
+                        : null}
+
+                         {loading ?
+                           <tr>
+                                <td colSpan="16" className='h3'><div className="spinner-border text-primary" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div></td>
+                              </tr>
+                            :
+                         null}
                     </tbody>
                 </table>
             </div>

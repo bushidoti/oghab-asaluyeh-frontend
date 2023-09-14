@@ -12,18 +12,22 @@ const AddPropertyDoc = (props) => {
     const [property, setProperties] = useState([])
     const [idNumber, setIdNumber] = useState(null)
     const context = useContext(Context)
+    const [loading, setLoading] = useState(true)
 
     const fetchData = async () => {
         if (context.formikPropertySearch.values.docNumber !== null){
-            const response = await fetch(`${Url}/api/properties/?fields=id,typeProperty,type_form,name,docNumber,plateMotor,addressChassis,landlord,modelMeter,madeOf,part1plate,part2plate,part3plate,cityPlate,descriptionLocation,paperDoc,insurancePaper,gasCard,carCard,description,soldDate,buyer,soldStatus&docNumber=${fixNumbers(context.formikPropertySearch.values.docNumber)}` , {
+             await fetch(`${Url}/api/properties/?fields=id,typeProperty,type_form,name,docNumber,plateMotor,addressChassis,landlord,modelMeter,madeOf,part1plate,part2plate,part3plate,cityPlate,descriptionLocation,paperDoc,insurancePaper,gasCard,carCard,description,soldDate,buyer,soldStatus` , {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-              })
-            const data = await response.json()
+              }).then(res => res.json()).then(data => {
             setProperties(data)
         }
-
+        )
+        .finally(() => {
+            setLoading(false)
+        })
+        }
     }
 
     const deleteAlert = (id) => {
@@ -64,7 +68,7 @@ const AddPropertyDoc = (props) => {
             void fetchData()
           },
           // eslint-disable-next-line react-hooks/exhaustive-deps
-          [context.formikPropertySearch.values.docNumber])
+          [])
 
     return (
         <Fragment>
@@ -133,7 +137,13 @@ const AddPropertyDoc = (props) => {
                             </tr>
                             </thead>
                             <tbody>
-                            {(property.length > 0 && property.filter(property => property.type_form === !context.propertyToggle).map((data) => (
+                            {property.filter((property) => {
+                                 if (context.formikPropertySearch.values.docNumber){
+                                    return  property.docNumber === fixNumbers(context.formikPropertySearch.values.docNumber) && property.type_form === !context.propertyToggle
+                                }else {
+                                    return property.type_form === !context.propertyToggle
+                                }
+                                }).map((data) => (
                             <tr key={data.id} style={{backgroundColor:`${(data.soldStatus ? 'hsl(0, 100%, 80%)' : null) }`}}>
                                 <th scope="row">{data.id}</th>
                                 <td>{data.typeProperty}</td>
@@ -156,13 +166,32 @@ const AddPropertyDoc = (props) => {
                                     }}><CheckOutlined /></button>
                                 </td>
                             </tr>
-                                   ))) ||
-                                <tr>
-                                    <td colSpan="6" className='h3'><div className="spinner-border text-primary" role="status">
-                                        <span className="visually-hidden">Loading...</span>
-                                    </div></td>
-                                </tr>
-                                    }
+                           ))}
+
+
+                            {property.filter((value) => {
+                                 if (context.formikPropertySearch.values.docNumber){
+                                    return  value.docNumber === fixNumbers(context.formikPropertySearch.values.docNumber) && property.type_form === !context.propertyToggle
+                                }else {
+                                    return property.type_form === !context.propertyToggle
+                                }
+                                }).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="6" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null}
+
+
+                                {loading ?
+                                       <tr>
+                                            <td colSpan="6" className='h3'><div className="spinner-border text-primary" role="status">
+                                                <span className="visually-hidden">Loading...</span>
+                                            </div></td>
+                                          </tr>
+                                        :
+                                    null}
                             </tbody>
                         </table>
                     </div>
