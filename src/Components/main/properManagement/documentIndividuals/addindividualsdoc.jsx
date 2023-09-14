@@ -15,17 +15,24 @@ const AddIndividualsDoc = () => {
     const [idNumber, setIdNumber] = useState(null)
     const context = useContext(Context)
     const date = new DateObject({ calendar: persian})
+    const [loading, setLoading] = useState(true)
 
 
     const fetchData = async () => {
-        const response = await fetch(`${Url}/api/persons/?fields=affidavitStatus,id,type,full_name,expireDate,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument&full_name=${context.formikPersonalSearch.values.full_name}` , {
+        await fetch(`${Url}/api/persons/?fields=affidavitStatus,id,type,full_name,expireDate,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument` , {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-              })
-        const data = await response.json()
-        setContracts(data)
+              }).then(res => res.json()).then(data => {
+            setContracts(data)
+        }
+        )
+        .finally(() => {
+            setLoading(false)
+        })
+
       }
+
 
     const deleteAlert = (id) => {
           Swal.fire({
@@ -64,7 +71,7 @@ const AddIndividualsDoc = () => {
             void fetchData()
           },
             // eslint-disable-next-line react-hooks/exhaustive-deps
-           [context.formikPersonalSearch.values.full_name])
+           [])
 
     return (
      <Fragment>
@@ -100,7 +107,7 @@ const AddIndividualsDoc = () => {
                     <span className="dot" style={{backgroundColor: 'hsl(0, 100%, 80%)'}}></span><span> به معنی تسویه شده و قفل شده</span>
                     <span className="ms-5 dot" style={{backgroundColor: 'hsla(48,100%,50%,0.6)'}}></span><span> به معنی پایان قرارداد</span>
                </div>
-            <div className= 'm-4 table-responsive text-nowrap rounded-3' style={{maxHeight : '50vh'}}>
+            <div className= 'm-4 table-responsive text-nowrap rounded-3' style={{maxHeight : '48vh'}}>
                 <table className="table table-hover text-center align-middle table-bordered border-primary bg-light" style={{fontSize:'1vw'}}>
                     <thead className= 'bg-light'>
                     <tr>
@@ -113,9 +120,11 @@ const AddIndividualsDoc = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {(contract.length > 0 && contract.filter((value) => {
+                    {contract.filter((value) => {
                                 if (context.formikPersonalSearch.values.expireDate){
                                     return date.format().replaceAll('/' , '-') >  value.expireDate
+                                }else if (context.formikPersonalSearch.values.full_name){
+                                    return  value.full_name === context.formikPersonalSearch.values.full_name
                                 }else {
                                     return contract
                                 }
@@ -145,13 +154,32 @@ const AddIndividualsDoc = () => {
                                 }}>تسویه</button>
                             </td>
                         </tr>
-                        ))) ||
-                         <tr>
+                        ))
+                    }
+                    {contract.filter((value) => {
+                                if (context.formikPersonalSearch.values.expireDate){
+                                    return date.format().replaceAll('/' , '-') >  value.expireDate
+                                }else if (context.formikPersonalSearch.values.full_name){
+                                    return  value.full_name === context.formikPersonalSearch.values.full_name
+                                }else {
+                                    return contract
+                                }
+                                }).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="6" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null}
+
+                    {loading ?
+                       <tr>
                             <td colSpan="6" className='h3'><div className="spinner-border text-primary" role="status">
                                 <span className="visually-hidden">Loading...</span>
                             </div></td>
                           </tr>
-                    }
+                        :
+                    null}
                     </tbody>
                 </table>
             </div>
