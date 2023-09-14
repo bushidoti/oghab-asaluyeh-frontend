@@ -216,9 +216,9 @@ const ReportIndividualsDoc = () => {
                             <span className="dot" style={{backgroundColor: 'hsl(0, 100%, 80%)'}}></span><span> به معنی تسویه شده و قفل شده</span>
                             <span className="ms-5 dot" style={{backgroundColor: 'hsla(48,100%,50%,0.6)'}}></span><span> به معنی پایان قرارداد</span>
                        </div>
-                <div className= 'm-4 table-responsive text-nowrap rounded-3' style={{maxHeight : '40vh'}}>
+                <div className= 'm-4 table-responsive text-nowrap rounded-3' style={{maxHeight : '38vh'}}>
                     <table className="table table-hover table-fixed text-center align-middle table-bordered border-primary bg-light"
-                           ref={componentPDF} style={{direction:'rtl' , fontSize:'1vw'}}>
+                           ref={componentPDF} style={{direction:'rtl' , fontSize:'.71vw'}}>
                          <thead className= 'bg-light'>
                             <tr>
                                 <th scope="col">ردیف</th>
