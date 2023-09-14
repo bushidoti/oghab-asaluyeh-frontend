@@ -13,15 +13,20 @@ const Main = (props) => {
     const [contract, setContracts] = useState([])
     const [idNumber, setIdNumber] = useState(null)
     const context = useContext(Context)
+    const [loading, setLoading] = useState(true)
 
     const fetchData = async () => {
-        const response = await fetch(`${Url}/api/documents/?fields=id,contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus`, {
+         await fetch(`${Url}/api/documents/?fields=id,contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus`, {
              headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
+        }).then(res => res.json()).then(data => {
+            setContracts(data)
+        }
+        )
+        .finally(() => {
+            setLoading(false)
         })
-        const data = await response.json()
-        setContracts(data)
       }
 
       const deleteAlert = (id) => {
@@ -102,7 +107,7 @@ const Main = (props) => {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    {(contract.length > 0 && contract.filter((contract) => {
+                                    {contract.filter((contract) => {
                                                     if (context.formik.values.employer){
                                                         return contract.type_form === context.docToggle && contract.employer === String(context.formik.values.employer)
                                                     }else {
@@ -131,13 +136,30 @@ const Main = (props) => {
                                                 }}><CheckOutlined /></button>
                                             </td>
                                         </tr>
-                                        ))) ||
-                                        <tr>
-                                            <td colSpan="7" className='h3'><div className="spinner-border text-primary" role="status">
-                                                <span className="visually-hidden">Loading...</span>
-                                            </div></td>
-                                        </tr>
+                                        ))
                                     }
+                                    {contract.filter((contract) => {
+                                        if (context.formik.values.employer){
+                                            return contract.type_form === context.docToggle && contract.employer === String(context.formik.values.employer)
+                                        }else {
+                                            return contract.type_form === context.docToggle
+                                        }
+                                        }).length === 0 && !loading ?
+                                          <tr>
+                                            <td colSpan="7" className='h3'><div className="text-dark" role="status">
+                                                <span>یافت نشد ....</span>
+                                            </div></td>
+                                          </tr>
+                                        : null}
+
+                                      {loading ?
+                                           <tr>
+                                                <td colSpan="7" className='h3'><div className="spinner-border text-primary" role="status">
+                                                    <span className="visually-hidden">Loading...</span>
+                                                </div></td>
+                                              </tr>
+                                            :
+                                        null}
                                 </tbody>
                             </Table>
                         </div>

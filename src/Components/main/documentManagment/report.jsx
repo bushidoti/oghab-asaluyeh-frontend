@@ -18,16 +18,20 @@ const Report = (props) => {
       const [idNumber, setIdNumber] = useState(null)
       const componentPDF= useRef();
       const context = useContext(Context)
+      const [loading, setLoading] = useState(true)
 
     const fetchData = async () => {
-        const response = await
-        fetch(`${Url}/api/documents/?fields=id,contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus` , {
+         await fetch(`${Url}/api/documents/?fields=id,contractNumber,employer,type_form,dateContract,contractPrice,durationContract,prePaidPrice,goodPrice,typeBail1,firstBail,secondBail,commitmentPrice,typeBail2,firstBail2,secondBail2,topicContract,typeContract,clearedDate,receivedDocument,clearedStatus` , {
              headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
+        }).then(res => res.json()).then(data => {
+            setContracts(data)
+        }
+        )
+        .finally(() => {
+            setLoading(false)
         })
-        const data = await response.json()
-        setContracts(data)
       }
 
       useEffect(() => {
@@ -193,7 +197,7 @@ const Report = (props) => {
                             </thead>
 
                             <tbody>
-                                {(contract.length > 0 && contract.filter((contract) => {
+                                {contract.filter((contract) => {
                                                     if (context.formik.values.employer){
                                                         return contract.type_form === context.docToggle && contract.employer === String(context.formik.values.employer)
                                                     }else if (context.formik.values.typeContract){
@@ -239,15 +243,42 @@ const Report = (props) => {
                                             }}><InfoOutlined /></button>
                                     </td>
                                 </tr>
-                            ))) ||
+                            ))}
 
-                          <tr>
-                            <td colSpan="17" className='h3'><div className="spinner-border text-primary" role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </div></td>
-                          </tr>
+                            {contract.filter((contract) => {
+                                       if (context.formik.values.employer){
+                                                    return contract.type_form === context.docToggle && contract.employer === String(context.formik.values.employer)
+                                                }else if (context.formik.values.typeContract){
+                                                    return contract.type_form === context.docToggle && contract.typeContract === String(context.formik.values.typeContract)
+                                                }else if (context.formik.values.id){
+                                                    return contract.type_form === context.docToggle && contract.id === Number(context.formik.values.id)
+                                                }else if (context.formik.values.contractNumber){
+                                                    return contract.type_form === context.docToggle && contract.contractNumber === String(fixNumbers(context.formik.values.contractNumber))
+                                                }else if (context.formik.values.topicContract){
+                                                    return contract.type_form === context.docToggle && contract.topicContract === String(context.formik.values.topicContract)
+                                                }else if (context.formik.values.clearedStatus){
+                                                    return contract.type_form === context.docToggle && contract.clearedStatus === String(context.formik.values.clearedStatus)
+                                                }else if (context.formik.values.dateContract){
+                                                    return contract.type_form === context.docToggle && contract.dateContract === fixNumbers(context.formik.values.dateContract)
+                                                }else {
+                                                    return contract.type_form === context.docToggle
+                                                }
+                                        }).length === 0 && !loading ?
+                                          <tr>
+                                            <td colSpan="17" className='h3'><div className="text-dark" role="status">
+                                                <span>یافت نشد ....</span>
+                                            </div></td>
+                                          </tr>
+                                        : null}
 
-                                    }
+                           {loading ?
+                               <tr>
+                                    <td colSpan="17" className='h3'><div className="spinner-border text-primary" role="status">
+                                        <span className="visually-hidden">Loading...</span>
+                                    </div></td>
+                                  </tr>
+                                :
+                            null}
 
                             </tbody>
                         </table>
