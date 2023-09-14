@@ -7,7 +7,6 @@ import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import {CustomInputDate} from "../../../../App";
 import {useReactToPrint} from "react-to-print";
-import options from "../../date-option"
 import fixNumbers from "../../persianNumbers"
 import Url from "../../../config";
 import {Context} from "../../../../context";
