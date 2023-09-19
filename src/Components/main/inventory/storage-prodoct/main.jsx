@@ -24,6 +24,7 @@ const WarHouse = () => {
     const [search , setSearch] = useState('')
     const [office, setOffice] = useState('');
     const componentPDF= useRef();
+    const [loading, setLoading] = useState(true)
     const generatePDF= useReactToPrint({
         content: ()=>componentPDF.current,
         documentTitle:"Data",
@@ -34,23 +35,31 @@ const WarHouse = () => {
 
 
     const fetchData = async () => {
-        const response = await fetch(`${Url}/api/product/`, {
+         await fetch(`${Url}/api/product/`, {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            })
-        const data = await response.json()
-        setProduct(data)
+            }).then(res => res.json()).then(data => {
+            setProduct(data)
+        }
+        )
+        .finally(() => {
+            setLoading(false)
+        })
       }
 
     const fetchDataProducts = async () => {
-        const response = await fetch(`${Url}/api/allproducts/?fields=product,input,output,document_code,document_type,systemID,date,operator,afterOperator,obsolete,consumable,buyer,inventory,receiver,amendment,id`, {
+         await fetch(`${Url}/api/allproducts/?fields=product,input,output,document_code,document_type,systemID,date,operator,afterOperator,obsolete,consumable,buyer,inventory,receiver,amendment,id`, {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            })
-        const data = await response.json()
-        setProducts(data)
+            }).then(res => res.json()).then(data => {
+            setProducts(data)
+        }
+        )
+        .finally(() => {
+            setLoading(false)
+        })
       }
 
 
@@ -228,7 +237,7 @@ const WarHouse = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {(product.length > 0 && product.filter(product => {if (rank === 'مدیر'){
+                    {product.filter(product => {if (rank === 'مدیر'){
                                            if (context.formikProductSearch.values.code){
                                                if (context.formikProductSearch.values.inventory){
                                                    return  product.code === Number(context.formikProductSearch.values.code) && product.inventory === String(context.formikProductSearch.values.inventory)
@@ -244,9 +253,9 @@ const WarHouse = () => {
 
                                             }else if (context.formikProductSearch.values.name) {
                                                  if (context.formikProductSearch.values.inventory){
-                                                   return product.name === String(context.formikProductSearch.values.name) && product.inventory === String(context.formikProductSearch.values.inventory)
+                                                   return product.name.includes(String(context.formikProductSearch.values.name))  && product.inventory === String(context.formikProductSearch.values.inventory)
                                                }else{
-                                                  return product.name === String(context.formikProductSearch.values.name)
+                                                  return product.name.includes(String(context.formikProductSearch.values.name))
                                                }
 
                                            }else if (context.formikProductSearch.values.inventory) {
@@ -260,7 +269,7 @@ const WarHouse = () => {
                                                         }else if (context.formikProductSearch.values.category){
                                                                 return product.category === String(context.formikProductSearch.values.category) && product.inventory === context.office
                                                         }else if (context.formikProductSearch.values.name) {
-                                                               return product.name === String(context.formikProductSearch.values.name) && product.inventory === context.office
+                                                               return product.name.includes(String(context.formikProductSearch.values.name)) && product.inventory === context.office
                                                        }else {
                                                               return product.inventory === context.office
                                                        }
@@ -280,14 +289,62 @@ const WarHouse = () => {
                             }}><InfoOutlined /></button>
                         </td>
                     </tr>
-                         ))) ||
-                         <tr>
-                            <td colSpan="7" className='h3'>
-                                <div className="spinner-border text-primary" role="status">
-                                    <span className="visually-hidden">Loading...</span>
-                                </div></td>
-                        </tr>
+                         ))
                     }
+
+                        {product.filter(product => {if (rank === 'مدیر'){
+                                           if (context.formikProductSearch.values.code){
+                                               if (context.formikProductSearch.values.inventory){
+                                                   return  product.code === Number(context.formikProductSearch.values.code) && product.inventory === String(context.formikProductSearch.values.inventory)
+                                               }else{
+                                                return product.code === Number(context.formikProductSearch.values.code)
+                                               }
+                                            }else if (context.formikProductSearch.values.category){
+                                                 if (context.formikProductSearch.values.inventory){
+                                                   return product.category === String(context.formikProductSearch.values.category) && product.inventory === String(context.formikProductSearch.values.inventory)
+                                               }else{
+                                                 return product.category === String(context.formikProductSearch.values.category)
+                                               }
+
+                                            }else if (context.formikProductSearch.values.name) {
+                                                 if (context.formikProductSearch.values.inventory){
+                                                   return product.name.includes(String(context.formikProductSearch.values.name)) && product.inventory === String(context.formikProductSearch.values.inventory)
+                                               }else{
+                                                  return product.name.includes(String(context.formikProductSearch.values.name))
+                                               }
+
+                                           }else if (context.formikProductSearch.values.inventory) {
+                                             return product.inventory === String(context.formikProductSearch.values.inventory)
+                                           }else {
+                                                  return product.inventory
+                                           }
+                                          }else{
+                                                if (context.formikProductSearch.values.code){
+                                                    return product.code === Number(context.formikProductSearch.values.code) && product.inventory === context.office
+                                                        }else if (context.formikProductSearch.values.category){
+                                                                return product.category === String(context.formikProductSearch.values.category) && product.inventory === context.office
+                                                        }else if (context.formikProductSearch.values.name) {
+                                                               return product.name.includes(String(context.formikProductSearch.values.name)) && product.inventory === context.office
+                                                       }else {
+                                                              return product.inventory === context.office
+                                                       }
+                                          }}).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="6" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null}
+
+                     {loading ?
+                       <tr>
+                            <td colSpan="7" className='h3'><div className="spinner-border text-primary" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div></td>
+                          </tr>
+                        :
+                    null}
+
                     </tbody>
                 </table>
             </div>

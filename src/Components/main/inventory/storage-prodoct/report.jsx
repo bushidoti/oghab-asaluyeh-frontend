@@ -28,6 +28,7 @@ const ReportProducts = () => {
     const [products, setProducts] = useState([])
     const [search , setSearch] = useState('')
     const [office, setOffice] = useState('');
+    const [loading, setLoading] = useState(true)
     const componentPDF= useRef();
     const generatePDF= useReactToPrint({
         content: ()=>componentPDF.current,
@@ -36,23 +37,31 @@ const ReportProducts = () => {
     const context = useContext(Context)
 
       const fetchData = async () => {
-        const response = await fetch(`${Url}/api/allproducts/?fields=product,input,seller,output,systemID,document_code,document_type,date,operator,inventory,afterOperator,obsolete,consumable,buyer,receiver,amendment,id`, {
+        await fetch(`${Url}/api/allproducts/?fields=product,input,seller,output,systemID,document_code,document_type,date,operator,inventory,afterOperator,obsolete,consumable,buyer,receiver,amendment,id`, {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            })
-        const data = await response.json()
-        setProduct(data)
+            }).then(res => res.json()).then(data => {
+            setProduct(data)
+        }
+        )
+        .finally(() => {
+            setLoading(false)
+        })
       }
 
     const fetchDataProducts = async () => {
-        const response = await fetch(`${Url}/api/allproducts/?fields=product,seller,input,name,category,systemID,scale,inventory,output,document_code,document_type,date,operator,afterOperator,obsolete,consumable,buyer,receiver,amendment,id`, {
+         await fetch(`${Url}/api/allproducts/?fields=product,seller,input,name,category,systemID,scale,inventory,output,document_code,document_type,date,operator,afterOperator,obsolete,consumable,buyer,receiver,amendment,id`, {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            })
-        const data = await response.json()
-        setProducts(data)
+            }).then(res => res.json()).then(data => {
+            setProducts(data)
+        }
+        )
+        .finally(() => {
+            setLoading(false)
+        })
       }
 
     useEffect(() => {
@@ -332,7 +341,7 @@ const ReportProducts = () => {
                      </tr>
                     </thead>
                     <tbody>
-                        {(products.length > 0 && products.filter((value) => {if (rank === 'مدیر'){
+                        {products.filter((value) => {if (rank === 'مدیر'){
                                                     if (context.formikProductSearch.values.product){
                                                          if (context.formikProductSearch.values.inventory){
                                                                return value.product === Number(context.formikProductSearch.values.product) && value.inventory === String(context.formikProductSearch.values.inventory)
@@ -353,9 +362,9 @@ const ReportProducts = () => {
                                                            }
                                                     }else if (context.formikProductSearch.values.name){
                                                              if (context.formikProductSearch.values.inventory){
-                                                               return value.name === String(context.formikProductSearch.values.name) && value.inventory === String(context.formikProductSearch.values.inventory)
+                                                               return value.name.includes(String(context.formikProductSearch.values.name)) && value.inventory === String(context.formikProductSearch.values.inventory)
                                                            }else{
-                                                               return value.name === String(context.formikProductSearch.values.name)
+                                                               return value.name.includes(String(context.formikProductSearch.values.name))
                                                            }
 
                                                     }else if (context.formikProductSearch.values.buyer){
@@ -406,7 +415,7 @@ const ReportProducts = () => {
                                                 }else if (context.formikProductSearch.values.consumable){
                                                         return value.inventory === context.office && value.consumable === String(context.formikProductSearch.values.consumable)
                                                 }else if (context.formikProductSearch.values.name){
-                                                        return value.inventory === context.office && value.name === String(context.formikProductSearch.values.name)
+                                                        return value.inventory === context.office && value.name.includes(String(context.formikProductSearch.values.name))
                                                 }else if (context.formikProductSearch.values.buyer){
                                                         return value.inventory === context.office && value.buyer === String(context.formikProductSearch.values.buyer)
                                                 }else if (context.formikProductSearch.values.seller){
@@ -439,14 +448,115 @@ const ReportProducts = () => {
                                 <td>{data.receiver}</td>
                                 <td>{data.amendment}</td>
                             </tr>
-                                   ))) ||
-                            <tr>
-                                <td colSpan="16" className='h3'>
-                                    <div className="spinner-border text-primary" role="status">
-                                        <span className="visually-hidden">Loading...</span>
-                                    </div></td>
-                            </tr>
+                                   ))
                         }
+
+
+                        {products.filter((value) => {if (rank === 'مدیر'){
+                                                    if (context.formikProductSearch.values.product){
+                                                         if (context.formikProductSearch.values.inventory){
+                                                               return value.product === Number(context.formikProductSearch.values.product) && value.inventory === String(context.formikProductSearch.values.inventory)
+                                                           }else{
+                                                                return value.product === Number(context.formikProductSearch.values.product)
+                                                           }
+                                                    }else if (context.formikProductSearch.values.category){
+                                                            if (context.formikProductSearch.values.inventory){
+                                                               return value.category === String(context.formikProductSearch.values.category) && value.inventory === String(context.formikProductSearch.values.inventory)
+                                                           }else{
+                                                                return value.category === String(context.formikProductSearch.values.category)
+                                                           }
+                                                    }else if (context.formikProductSearch.values.consumable){
+                                                            if (context.formikProductSearch.values.inventory){
+                                                               return value.consumable === String(context.formikProductSearch.values.consumable) && value.inventory === String(context.formikProductSearch.values.inventory)
+                                                           }else{
+                                                               return value.consumable === String(context.formikProductSearch.values.consumable)
+                                                           }
+                                                    }else if (context.formikProductSearch.values.name){
+                                                             if (context.formikProductSearch.values.inventory){
+                                                               return value.name.includes(String(context.formikProductSearch.values.name)) && value.inventory === String(context.formikProductSearch.values.inventory)
+                                                           }else{
+                                                               return value.name.includes(String(context.formikProductSearch.values.name))
+                                                           }
+
+                                                    }else if (context.formikProductSearch.values.buyer){
+                                                           if (context.formikProductSearch.values.inventory){
+                                                               return value.buyer === String(context.formikProductSearch.values.buyer) && value.inventory === String(context.formikProductSearch.values.inventory)
+                                                           }else{
+                                                               return value.buyer === String(context.formikProductSearch.values.buyer)
+                                                           }
+
+                                                    }else if (context.formikProductSearch.values.seller){
+                                                            if (context.formikProductSearch.values.inventory){
+                                                               return value.seller === String(context.formikProductSearch.values.seller) && value.inventory === String(context.formikProductSearch.values.inventory)
+                                                           }else{
+                                                               return value.seller === String(context.formikProductSearch.values.seller)
+                                                           }
+
+                                                    }else if (context.formikProductSearch.values.receiver){
+                                                          if (context.formikProductSearch.values.inventory){
+                                                               return value.receiver === String(context.formikProductSearch.values.receiver) && value.inventory === String(context.formikProductSearch.values.inventory)
+                                                           }else{
+                                                               return value.receiver === String(context.formikProductSearch.values.receiver)
+                                                           }
+
+                                                    }else if (context.formikProductSearch.values.operator){
+                                                        if (context.formikProductSearch.values.inventory){
+                                                               return value.operator === String(context.formikProductSearch.values.operator) && value.inventory === String(context.formikProductSearch.values.inventory)
+                                                           }else{
+                                                               return value.operator === String(context.formikProductSearch.values.operator)
+                                                           }
+
+                                                    }else if (context.formikProductSearch.values.date){
+                                                          if (context.formikProductSearch.values.inventory){
+                                                               return value.date === fixNumbers(context.formikProductSearch.values.date) && value.inventory === String(context.formikProductSearch.values.inventory)
+                                                           }else{
+                                                                 return value.date === fixNumbers(context.formikProductSearch.values.date)
+                                                           }
+                                                    }else if (context.formikProductSearch.values.inventory){
+                                                        return  value.inventory === String(context.formikProductSearch.values.inventory)
+                                                    }else {
+                                                        return value.inventory
+                                                    }
+
+                                          }else{
+                                                if (context.formikProductSearch.values.product){
+                                                    return value.inventory === context.office && value.product === Number(context.formikProductSearch.values.product)
+                                                }else if (context.formikProductSearch.values.category){
+                                                    return value.inventory === context.office && value.category === String(context.formikProductSearch.values.category)
+                                                }else if (context.formikProductSearch.values.consumable){
+                                                        return value.inventory === context.office && value.consumable === String(context.formikProductSearch.values.consumable)
+                                                }else if (context.formikProductSearch.values.name){
+                                                        return value.inventory === context.office && value.name.includes(String(context.formikProductSearch.values.name))
+                                                }else if (context.formikProductSearch.values.buyer){
+                                                        return value.inventory === context.office && value.buyer === String(context.formikProductSearch.values.buyer)
+                                                }else if (context.formikProductSearch.values.seller){
+                                                        return value.inventory === context.office && value.seller === String(context.formikProductSearch.values.seller)
+                                                }else if (context.formikProductSearch.values.receiver){
+                                                        return value.inventory === context.office && value.receiver === String(context.formikProductSearch.values.receiver)
+                                                }else if (context.formikProductSearch.values.operator){
+                                                        return value.inventory === context.office && value.operator === String(context.formikProductSearch.values.operator)
+                                                }else if (context.formikProductSearch.values.date){
+                                                        return value.inventory === context.office && value.date === fixNumbers(context.formikProductSearch.values.date)
+                                                }else {
+                                                    return value.inventory === context.office
+                                                }
+                                          }}).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="16" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null}
+
+                        {loading ?
+                       <tr>
+                            <td colSpan="16" className='h3'><div className="spinner-border text-primary" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div></td>
+                          </tr>
+                        :
+                    null}
+
                     </tbody>
                 </table>
             </div>
