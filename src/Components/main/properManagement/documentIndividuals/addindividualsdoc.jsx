@@ -124,7 +124,7 @@ const AddIndividualsDoc = () => {
                                 if (context.formikPersonalSearch.values.expireDate){
                                     return date.format().replaceAll('/' , '-') >  value.expireDate
                                 }else if (context.formikPersonalSearch.values.full_name){
-                                    return  value.full_name === context.formikPersonalSearch.values.full_name
+                                    return  value.full_name.includes(context.formikPersonalSearch.values.full_name)
                                 }else {
                                     return contract
                                 }
@@ -160,7 +160,7 @@ const AddIndividualsDoc = () => {
                                 if (context.formikPersonalSearch.values.expireDate){
                                     return date.format().replaceAll('/' , '-') >  value.expireDate
                                 }else if (context.formikPersonalSearch.values.full_name){
-                                    return  value.full_name === context.formikPersonalSearch.values.full_name
+                                    return  value.full_name.includes(context.formikPersonalSearch.values.full_name)
                                 }else {
                                     return contract
                                 }

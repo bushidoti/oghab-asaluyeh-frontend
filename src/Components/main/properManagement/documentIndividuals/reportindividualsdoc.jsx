@@ -248,23 +248,23 @@ const ReportIndividualsDoc = () => {
                                 if (context.formikPersonalSearch.values.expireDate){
                                     return date.format().replaceAll('/' , '-') >  value.expireDate
                                 }else if (context.formikPersonalSearch.values.full_name){
-                                    return  value.full_name === context.formikPersonalSearch.values.full_name
+                                    return  value.full_name.includes(context.formikPersonalSearch.values.full_name)
                                 }else if (context.formikPersonalSearch.values.sex){
                                     return  value.sex === context.formikPersonalSearch.values.sex
                                 }else if (context.formikPersonalSearch.values.id){
                                     return  value.id === Number(context.formikPersonalSearch.values.id)
                                 }else if (context.formikPersonalSearch.values.office){
-                                    return  value.office === context.formikPersonalSearch.values.office
+                                    return  value.office.includes(context.formikPersonalSearch.values.office)
                                 }else if (context.formikPersonalSearch.values.date){
                                     return  value.date === fixNumbers(context.formikPersonalSearch.values.date)
                                 }else if (context.formikPersonalSearch.values.national_id){
-                                    return  value.national_id === context.formikPersonalSearch.values.national_id
+                                    return  value.national_id.includes(context.formikPersonalSearch.values.national_id)
                                 }else if (context.formikPersonalSearch.values.clearedStatus){
                                     return  value.clearedStatus === context.formikPersonalSearch.values.clearedStatus
                                 }else if (context.formikPersonalSearch.values.type){
                                     return  value.type === context.formikPersonalSearch.values.type
                                 }else if (context.formikPersonalSearch.values.job){
-                                    return  value.job === context.formikPersonalSearch.values.job
+                                    return  value.job.includes(context.formikPersonalSearch.values.job)
                                 }else {
                                     return contract
                                 }
@@ -305,23 +305,23 @@ const ReportIndividualsDoc = () => {
                                 if (context.formikPersonalSearch.values.expireDate){
                                     return date.format().replaceAll('/' , '-') >  value.expireDate
                                 }else if (context.formikPersonalSearch.values.full_name){
-                                    return  value.full_name === context.formikPersonalSearch.values.full_name
+                                    return  value.full_name.includes(context.formikPersonalSearch.values.full_name)
                                 }else if (context.formikPersonalSearch.values.sex){
                                     return  value.sex === context.formikPersonalSearch.values.sex
                                 }else if (context.formikPersonalSearch.values.id){
                                     return  value.id === Number(context.formikPersonalSearch.values.id)
                                 }else if (context.formikPersonalSearch.values.office){
-                                    return  value.office === context.formikPersonalSearch.values.office
+                                    return  value.office.includes(context.formikPersonalSearch.values.office)
                                 }else if (context.formikPersonalSearch.values.date){
                                     return  value.date === fixNumbers(context.formikPersonalSearch.values.date)
                                 }else if (context.formikPersonalSearch.values.national_id){
-                                    return  value.national_id === context.formikPersonalSearch.values.national_id
+                                    return  value.national_id.includes(context.formikPersonalSearch.values.national_id)
                                 }else if (context.formikPersonalSearch.values.clearedStatus){
                                     return  value.clearedStatus === context.formikPersonalSearch.values.clearedStatus
                                 }else if (context.formikPersonalSearch.values.type){
                                     return  value.type === context.formikPersonalSearch.values.type
                                 }else if (context.formikPersonalSearch.values.job){
-                                    return  value.job === context.formikPersonalSearch.values.job
+                                    return  value.job.includes(context.formikPersonalSearch.values.job)
                                 }else {
                                     return contract
                                 }
