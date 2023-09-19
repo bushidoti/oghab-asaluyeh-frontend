@@ -286,17 +286,20 @@ const Modal = (props) => {
 
 
     function handleChange(value){
-            formik.setFieldValue('date' , value.toDate().toLocaleDateString('fa-IR', options).replaceAll('/' , '-'))
+            formik.setFieldValue('date' , fixNumbers(value.format().replaceAll('/' , '-')))
+
         }
 
         function handleChangeExpire(value){
-            formik.setFieldValue('expireDate' , value.toDate().toLocaleDateString('fa-IR', options).replaceAll('/' , '-'))
+            formik.setFieldValue('expireDate' , fixNumbers(value.format().replaceAll('/' , '-')))
 
         }
 
     function handleChangeClear(value){
-            formik.setFieldValue('clearedDate' , value.toDate().toLocaleDateString('fa-IR', options).replaceAll('/' , '-'))
+            formik.setFieldValue('clearedDate' , fixNumbers(value.format().toLocaleDateString('fa-IR', options).replaceAll('/' , '-')))
         }
+
+
 
       const fetchData = async () => {
         if (props.idNumber){

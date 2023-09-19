@@ -327,7 +327,7 @@ const ReportIndividualsDoc = () => {
                                 }
                                 }).length === 0 && !loading ?
                           <tr>
-                            <td colSpan="18" className='h3'><div className="text-dark" role="status">
+                            <td colSpan="19" className='h3'><div className="text-dark" role="status">
                                 <span>یافت نشد ....</span>
                             </div></td>
                           </tr>
@@ -335,7 +335,7 @@ const ReportIndividualsDoc = () => {
 
                     {loading ?
                        <tr>
-                            <td colSpan="18" className='h3'><div className="spinner-border text-primary" role="status">
+                            <td colSpan="19" className='h3'><div className="spinner-border text-primary" role="status">
                                 <span className="visually-hidden">Loading...</span>
                             </div></td>
                           </tr>
