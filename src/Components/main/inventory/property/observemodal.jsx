@@ -7,29 +7,38 @@ import {CloseOutlined, PrinterOutlined} from "@ant-design/icons";
 const ObserveModal = (props) => {
   const [property, setProperty] = useState([])
   const [repaired, setRepaired] = useState([])
+  const [loading, setLoading] = useState(true)
   const componentPDF= useRef();
 
    const fetchData = async () => {
       if (props.idNumber !== null){
-            const response = await fetch(`${Url}/api/${props.typeProperty}/`+ props.idNumber , {
+             await fetch(`${Url}/api/${props.typeProperty}/`+ props.idNumber , {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            })
-            const data = await response.json()
+            }).then(res => res.json()).then(data => {
             setProperty(data)
+        }
+        )
+        .finally(() => {
+            setLoading(false)
+        })
       }
   }
 
   const fetchDataProducts = async () => {
               if (props.typeProperty !== '') {
-                  const response = await fetch(`${Url}/api/${handleRepairedProperties()}/` , {
+                   await fetch(`${Url}/api/${handleRepairedProperties()}/` , {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            })
-                  const data = await response.json()
-                  setRepaired(data)
+            }).then(res => res.json()).then(data => {
+            setRepaired(data)
+        }
+        )
+        .finally(() => {
+            setLoading(false)
+        })
               }
       }
 
@@ -134,7 +143,7 @@ const ObserveModal = (props) => {
                              {(() => {
                                 if (props.typeProperty === 'safetyequipment'){
                                     return (
-                                     (repaired.length > 0 && repaired.filter(property => property.safety_equipment ===  props.idNumber).map((data,i) => (
+                                     (repaired.filter(property => property.safety_equipment ===  props.idNumber).map((data,i) => (
                                                 <tr key={data.id}>
                                                     <th scope="row">{i}</th>
                                                     <td>{data.name}</td>
@@ -142,17 +151,11 @@ const ObserveModal = (props) => {
                                                     <td>{data.description}</td>
                                                     <td>{data.safety_equipment}</td>
                                                 </tr>
-                                        ))) ||
-
-                                      <tr>
-                                        <td colSpan="17" className='h3'>داده ای یافت نشد .....</td>
-                                      </tr>
-
-
+                                        )))
                                     )
                                 }else if (props.typeProperty === 'airportequipment'){
                                     return (
-                                     (repaired.length > 0 && repaired.filter(property => property.airport_equipment ===  props.idNumber).map((data,i) => (
+                                     (repaired.filter(property => property.airport_equipment ===  props.idNumber).map((data,i) => (
                                                 <tr key={data.id}>
                                                     <th scope="row">{i}</th>
                                                     <td>{data.name}</td>
@@ -161,15 +164,11 @@ const ObserveModal = (props) => {
                                                     <td>{data.description}</td>
                                                     <td>{data.airport_equipment}</td>
                                                 </tr>
-                                        ))) ||
-
-                                      <tr>
-                                        <td colSpan="17" className='h3'>داده ای یافت نشد .....</td>
-                                      </tr>
+                                        )))
                                     )
                                 }else if (props.typeProperty === 'digitalfurniture'){
                                     return (
-                                     (repaired.length > 0 && repaired.filter(property => property.digital_furniture ===  props.idNumber).map((data,i) => (
+                                     (repaired.filter(property => property.digital_furniture ===  props.idNumber).map((data,i) => (
                                                 <tr key={data.id}>
                                                     <th scope="row">{i}</th>
                                                     <td>{data.name}</td>
@@ -178,15 +177,11 @@ const ObserveModal = (props) => {
                                                     <td>{data.description}</td>
                                                     <td>{data.digital_furniture}</td>
                                                 </tr>
-                                        ))) ||
-
-                                      <tr>
-                                        <td colSpan="17" className='h3'>داده ای یافت نشد .....</td>
-                                      </tr>
+                                        )))
                                     )
                                 }else if (props.typeProperty === 'facilityfurniture'){
                                     return (
-                                     (repaired.length > 0 && repaired.filter(property => property.facility_furniture ===  props.idNumber).map((data,i) => (
+                                     (repaired.filter(property => property.facility_furniture ===  props.idNumber).map((data,i) => (
                                                 <tr key={data.id}>
                                                     <th scope="row">{i}</th>
                                                     <td>{data.name}</td>
@@ -194,15 +189,11 @@ const ObserveModal = (props) => {
                                                     <td>{data.description}</td>
                                                     <td>{data.facility_furniture}</td>
                                                 </tr>
-                                        ))) ||
-
-                                      <tr>
-                                        <td colSpan="17" className='h3'>داده ای یافت نشد .....</td>
-                                      </tr>
+                                        )))
                                     )
                                 }else if (props.typeProperty === 'airportfurniture'){
                                     return (
-                                     (repaired.length > 0 && repaired.filter(property => property.airport_furniture ===  props.idNumber).map((data,i) => (
+                                     (repaired.filter(property => property.airport_furniture ===  props.idNumber).map((data,i) => (
                                                 <tr key={data.id}>
                                                     <th scope="row">{i}</th>
                                                     <td>{data.name}</td>
@@ -210,15 +201,11 @@ const ObserveModal = (props) => {
                                                     <td>{data.description}</td>
                                                     <td>{data.airport_furniture}</td>
                                                 </tr>
-                                        ))) ||
-
-                                      <tr>
-                                        <td colSpan="17" className='h3'>داده ای یافت نشد .....</td>
-                                      </tr>
+                                        )))
                                     )
                                 }else if (props.typeProperty === 'electronicfurniture'){
                                     return (
-                                     (repaired.length > 0 && repaired.filter(property => property.electronic_furniture ===  props.idNumber).map((data,i) => (
+                                     (repaired.filter(property => property.electronic_furniture ===  props.idNumber).map((data,i) => (
                                                 <tr key={data.id}>
                                                     <th scope="row">{i}</th>
                                                     <td>{data.name}</td>
@@ -226,15 +213,11 @@ const ObserveModal = (props) => {
                                                     <td>{data.description}</td>
                                                     <td>{data.electronic_furniture}</td>
                                                 </tr>
-                                        ))) ||
-
-                                      <tr>
-                                        <td colSpan="17" className='h3'>داده ای یافت نشد .....</td>
-                                      </tr>
+                                        )))
                                     )
                                 }else if (props.typeProperty === 'officefurniture'){
                                     return (
-                                     (repaired.length > 0 && repaired.filter(property => property.office_furniture ===  props.idNumber).map((data,i) => (
+                                     (repaired.filter(property => property.office_furniture ===  props.idNumber).map((data,i) => (
                                                 <tr key={data.id}>
                                                     <th scope="row">{i}</th>
                                                     <td>{data.name}</td>
@@ -242,15 +225,11 @@ const ObserveModal = (props) => {
                                                     <td>{data.description}</td>
                                                     <td>{data.office_furniture}</td>
                                                 </tr>
-                                        ))) ||
-
-                                      <tr>
-                                        <td colSpan="17" className='h3'>داده ای یافت نشد .....</td>
-                                      </tr>
+                                        )))
                                     )
                                 }else if (props.typeProperty === 'airportvehicle'){
                                     return (
-                                     (repaired.length > 0 && repaired.filter(property => property.airport_vehicle ===  props.idNumber).map((data,i) => (
+                                     (repaired.filter(property => property.airport_vehicle ===  props.idNumber).map((data,i) => (
                                                 <tr key={data.id}>
                                                     <th scope="row">{i+1}</th>
                                                     <td>{data.name}</td>
@@ -261,15 +240,11 @@ const ObserveModal = (props) => {
                                                     <td>{data.description}</td>
                                                     <td>{data.airport_vehicle}</td>
                                                 </tr>
-                                        ))) ||
-
-                                      <tr>
-                                        <td colSpan="17" className='h3'>داده ای یافت نشد .....</td>
-                                      </tr>
+                                        )))
                                     )
                                 }else if (props.typeProperty === 'officevehicle'){
                                     return (
-                                     (repaired.length > 0 && repaired.filter(property => property.office_vehicle ===  props.idNumber).map((data,i) => (
+                                     (repaired.filter(property => property.office_vehicle ===  props.idNumber).map((data,i) => (
                                                 <tr key={data.id}>
                                                     <th scope="row">{i}</th>
                                                     <td>{data.name}</td>
@@ -280,15 +255,11 @@ const ObserveModal = (props) => {
                                                     <td>{data.description}</td>
                                                     <td>{data.office_vehicle}</td>
                                                 </tr>
-                                        ))) ||
-
-                                      <tr>
-                                        <td colSpan="17" className='h3'>داده ای یافت نشد .....</td>
-                                      </tr>
+                                        )))
                                     )
                                 }else if (props.typeProperty === 'industrialtool'){
                                     return (
-                                     (repaired.length > 0 && repaired.filter(property => property.industrial_tool ===  props.idNumber).map((data,i) => (
+                                     (repaired.filter(property => property.industrial_tool ===  props.idNumber).map((data,i) => (
                                                 <tr key={data.id}>
                                                     <th scope="row">{i}</th>
                                                     <td>{data.name}</td>
@@ -296,14 +267,123 @@ const ObserveModal = (props) => {
                                                     <td>{data.description}</td>
                                                     <td>{data.industrial_tool}</td>
                                                 </tr>
-                                        ))) ||
-
-                                      <tr>
-                                        <td colSpan="17" className='h3'>داده ای یافت نشد .....</td>
-                                      </tr>
+                                        )))
                                     )
                                 }
                             })()}
+
+                             {(() => {
+                                if (props.typeProperty === 'safetyequipment'){
+                                    return (
+                                     (repaired.filter(property => property.safety_equipment ===  props.idNumber).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="20" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                    )
+                                }else if (props.typeProperty === 'airportequipment'){
+                                    return (
+                                     (repaired.filter(property => property.airport_equipment ===  props.idNumber).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="20" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                    )
+                                }else if (props.typeProperty === 'digitalfurniture'){
+                                    return (
+                                     (repaired.filter(property => property.digital_furniture ===  props.idNumber).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="20" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                    )
+                                }else if (props.typeProperty === 'facilityfurniture'){
+                                    return (
+                                     (repaired.filter(property => property.facility_furniture ===  props.idNumber).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="20" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                    )
+                                }else if (props.typeProperty === 'airportfurniture'){
+                                    return (
+                                     (repaired.filter(property => property.airport_furniture ===  props.idNumber).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="20" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                    )
+                                }else if (props.typeProperty === 'electronicfurniture'){
+                                    return (
+                                     (repaired.filter(property => property.electronic_furniture ===  props.idNumber).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="20" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                    )
+                                }else if (props.typeProperty === 'officefurniture'){
+                                    return (
+                                     (repaired.filter(property => property.office_furniture ===  props.idNumber).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="20" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                    )
+                                }else if (props.typeProperty === 'airportvehicle'){
+                                    return (
+                                     (repaired.filter(property => property.airport_vehicle ===  props.idNumber).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="20" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                    )
+                                }else if (props.typeProperty === 'officevehicle'){
+                                    return (
+                                     (repaired.filter(property => property.office_vehicle ===  props.idNumber).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="20" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                    )
+                                }else if (props.typeProperty === 'industrialtool'){
+                                    return (
+                                     (repaired.filter(property => property.industrial_tool ===  props.idNumber).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="20" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                    )
+                                }
+                            })()}
+
+                            {loading ?
+                               <tr>
+                                    <td colSpan="20" className='h3'><div className="spinner-border text-primary" role="status">
+                                        <span className="visually-hidden">Loading...</span>
+                                    </div></td>
+                                  </tr>
+                                :
+                            null}
 
                             </tbody>
                         </table>
