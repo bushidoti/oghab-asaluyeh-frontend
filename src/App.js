@@ -341,7 +341,7 @@ function App() {
                  <Maintenance/>
                : null}
            <Detector
-                polling={{url:"https://ipv4.icanhazip.com"}}
+                polling={{url:"https://api.oghab-asaluyeh.ir/api"}}
               render={({ online }) => (
                 <div className='text-danger nav-link'>
                     {online ? null : alert()}
