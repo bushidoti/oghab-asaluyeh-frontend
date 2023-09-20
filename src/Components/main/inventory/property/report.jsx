@@ -20,6 +20,7 @@ const ReportProperty = () => {
     const [property, setProperty] = useState([])
     const [idNumber, setIdNumber] = useState(null)
     const [systemIDBtn, setSystemIDBtn] = useState(true)
+    const [loading, setLoading] = useState(true)
     const [typeDigital , setTypeDigital] = useState('')
     const [typeCommunication , setTypeCommunication] = useState('')
     const [viewOnly, setViewOnly] = useState(false)
@@ -60,13 +61,17 @@ const ReportProperty = () => {
 
     const fetchData = async () => {
         if (typeProperty !== ''){
-                const response = await fetch(`${Url}/api/${typeProperty}/?code=${formik.values.code}&name=${formik.values.name}&user=${formik.values.user}&install_location=${formik.values.install_location}&use_for=${formik.values.use_for}&year_buy=${formik.values.year_buy}&model=${formik.values.model}&using_location=${formik.values.using_location}&year_made=${formik.values.year_made}&motor=${formik.values.motor}&chassis=${formik.values.chassis}&owner=${formik.values.owner}&plate1=${formik.values.plate1}&plate2=${formik.values.plate2}&plate3=${formik.values.plate3}&plate4=${formik.values.plate4}&type_item=${formik.values.type_item}&number_type=${formik.values.number_type}&number=${formik.values.number}`, {
+              await fetch(`${Url}/api/${typeProperty}/?code=${formik.values.code}&name=${formik.values.name}&user=${formik.values.user}&install_location=${formik.values.install_location}&use_for=${formik.values.use_for}&year_buy=${formik.values.year_buy}&model=${formik.values.model}&using_location=${formik.values.using_location}&year_made=${formik.values.year_made}&motor=${formik.values.motor}&chassis=${formik.values.chassis}&owner=${formik.values.owner}&plate1=${formik.values.plate1}&plate2=${formik.values.plate2}&plate3=${formik.values.plate3}&plate4=${formik.values.plate4}&type_item=${formik.values.type_item}&number_type=${formik.values.number_type}&number=${formik.values.number}`, {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            })
-                const data = await response.json()
-                setProperty(data)
+            }).then(res => res.json()).then(data => {
+            setProperty(data)
+        }
+        )
+        .finally(() => {
+            setLoading(false)
+        })
         }
     }
     
@@ -125,13 +130,17 @@ const ReportProperty = () => {
     }
 
      const fetchDataFactors = async () => {
-        const response = await fetch(`${Url}/api/factors/?fields=document_code,inventory,systemID,date`, {
+         await fetch(`${Url}/api/factors/?fields=document_code,inventory,systemID,date`, {
                  headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
                 }
-            })
-        const data = await response.json()
-        setFactors(data)
+            }).then(res => res.json()).then(data => {
+            setFactors(data)
+        }
+        )
+        .finally(() => {
+            setLoading(false)
+        })
       }
 
      useEffect(() => {
@@ -471,7 +480,7 @@ const ReportProperty = () => {
                              {(() => {
                                     if (typeProperty === 'airportequipment'){
                                         return (
-                                          (property.length > 0 && property.filter(property => {if (rank === 'مدیر'){
+                                          (property.filter(property => {if (rank === 'مدیر'){
                                               return property.inventory
                                           }else{
                                               return (property.inventory === office)
@@ -504,18 +513,11 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                 </td>
                                            </tr>
-                                             ))) ||
-
-                                              <tr>
-                                                <td colSpan="9" className='h3'>
-                                                    <div className="spinner-border text-primary" role="status">
-                                                        <span className="visually-hidden">Loading...</span>
-                                                    </div></td>
-                                              </tr>
+                                             )))
                                         )
                                     }else if (typeProperty === 'safetyequipment'){
                                         return (
-                                          (property.length > 0 && property.filter(property => {if (rank === 'مدیر'){
+                                          (property.filter(property => {if (rank === 'مدیر'){
                                               return property.inventory
                                           }else{
                                               return (property.inventory === office)
@@ -546,18 +548,11 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                 </td>
                                             </tr>
-                                                     ))) ||
-
-                                              <tr>
-                                                <td colSpan="7" className='h3'>
-                                                    <div className="spinner-border text-primary" role="status">
-                                                        <span className="visually-hidden">Loading...</span>
-                                                    </div></td>
-                                              </tr>
+                                                     )))
                                         )
                                     }else if (typeProperty === 'digitalfurniture'){
                                         return (
-                                          (property.length > 0 && property.filter(property => {if (rank === 'مدیر'){
+                                          (property.filter(property => {if (rank === 'مدیر'){
                                               return property.inventory
                                           }else{
                                               return (property.inventory === office)
@@ -588,18 +583,11 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                 </td>
                                             </tr>
-                                                     ))) ||
-
-                                              <tr>
-                                                <td colSpan="5" className='h3'>
-                                                    <div className="spinner-border text-primary" role="status">
-                                                        <span className="visually-hidden">Loading...</span>
-                                                    </div></td>
-                                              </tr>
+                                                     )))
                                         )
                                     }else if (typeProperty === 'electronicfurniture' || typeProperty === 'facilityfurniture'){
                                         return (
-                                          (property.length > 0 && property.filter(property => {if (rank === 'مدیر'){
+                                          (property.filter(property => {if (rank === 'مدیر'){
                                               return property.inventory
                                           }else{
                                               return (property.inventory === office)
@@ -631,17 +619,11 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
-                                             ))) ||
-                                              <tr>
-                                                <td colSpan="8" className='h3'>
-                                                    <div className="spinner-border text-primary" role="status">
-                                                        <span className="visually-hidden">Loading...</span>
-                                                    </div></td>
-                                              </tr>
+                                             )))
                                         )
                                     }else if (typeProperty === 'officefurniture'){
                                         return (
-                                           (property.length > 0 && property.filter(property => {if (rank === 'مدیر'){
+                                           (property.filter(property => {if (rank === 'مدیر'){
                                               return property.inventory
                                           }else{
                                               return (property.inventory === office)
@@ -672,17 +654,11 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
-                                           ))) ||
-                                              <tr>
-                                                <td colSpan="7" className='h3'>
-                                                    <div className="spinner-border text-primary" role="status">
-                                                        <span className="visually-hidden">Loading...</span>
-                                                    </div></td>
-                                              </tr>
+                                           )))
                                         )
                                     }else if (typeProperty === 'airportfurniture'){
                                         return (
-                                           (property.length > 0 && property.filter(property => {if (rank === 'مدیر'){
+                                           (property.filter(property => {if (rank === 'مدیر'){
                                               return property.inventory
                                           }else{
                                               return (property.inventory === office)
@@ -712,17 +688,11 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
-                                           ))) ||
-                                              <tr>
-                                                <td colSpan="6" className='h3'>
-                                                    <div className="spinner-border text-primary" role="status">
-                                                        <span className="visually-hidden">Loading...</span>
-                                                    </div></td>
-                                              </tr>
+                                           )))
                                         )
                                     }else if (typeProperty === 'airportvehicle' || typeProperty === 'officevehicle' ){
                                         return (
-                                           (property.length > 0 && property.filter(property => {if (rank === 'مدیر'){
+                                           (property.filter(property => {if (rank === 'مدیر'){
                                               return property.inventory
                                           }else{
                                               return (property.inventory === office)
@@ -757,17 +727,11 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
-                                           ))) ||
-                                              <tr>
-                                                <td colSpan="11" className='h3'>
-                                                    <div className="spinner-border text-primary" role="status">
-                                                        <span className="visually-hidden">Loading...</span>
-                                                    </div></td>
-                                              </tr>
+                                           )))
                                         )
                                     }else if (typeProperty === 'airplane'){
                                         return (
-                                           (property.length > 0 && property.filter(property => {if (rank === 'مدیر'){
+                                           (property.filter(property => {if (rank === 'مدیر'){
                                               return property.inventory
                                           }else{
                                               return (property.inventory === office)
@@ -801,17 +765,11 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
-                                           ))) ||
-                                              <tr>
-                                                <td colSpan="10" className='h3'>
-                                                    <div className="spinner-border text-primary" role="status">
-                                                        <span className="visually-hidden">Loading...</span>
-                                                    </div></td>
-                                              </tr>
+                                           )))
                                         )
                                     }else if (typeProperty === 'noneindustrialtool'){
                                         return (
-                                           (property.length > 0 && property.filter(property => {if (rank === 'مدیر'){
+                                           (property.filter(property => {if (rank === 'مدیر'){
                                               return property.inventory
                                           }else{
                                               return (property.inventory === office)
@@ -838,17 +796,11 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
-                                           ))) ||
-                                              <tr>
-                                                <td colSpan="7" className='h3'>
-                                                    <div className="spinner-border text-primary" role="status">
-                                                        <span className="visually-hidden">Loading...</span>
-                                                    </div></td>
-                                              </tr>
+                                           )))
                                         )
                                     }else if (typeProperty === 'industrialtool'){
                                         return (
-                                           (property.length > 0 && property.filter(property => {if (rank === 'مدیر'){
+                                           (property.filter(property => {if (rank === 'مدیر'){
                                               return property.inventory
                                           }else{
                                               return (property.inventory === office)
@@ -880,17 +832,11 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
-                                           ))) ||
-                                              <tr>
-                                                <td colSpan="8" className='h3'>
-                                                    <div className="spinner-border text-primary" role="status">
-                                                        <span className="visually-hidden">Loading...</span>
-                                                    </div></td>
-                                              </tr>
+                                           )))
                                         )
                                     }else if (typeProperty === 'supportitem'){
                                         return (
-                                           (property.length > 0 && property.filter(property => {if (rank === 'مدیر'){
+                                           (property.filter(property => {if (rank === 'مدیر'){
                                               return property.inventory
                                           }else{
                                               return (property.inventory === office)
@@ -918,17 +864,11 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
-                                           ))) ||
-                                              <tr>
-                                                <td colSpan="8" className='h3'>
-                                                    <div className="spinner-border text-primary" role="status">
-                                                        <span className="visually-hidden">Loading...</span>
-                                                    </div></td>
-                                              </tr>
+                                           )))
                                         )
-                                    }else if (typeProperty === 'benefit'){
+                                    } else if (typeProperty === 'benefit'){
                                         return (
-                                           (property.length > 0 && property.filter(property => {if (rank === 'مدیر'){
+                                           (property.filter(property => {if (rank === 'مدیر'){
                                               return property.inventory
                                           }else{
                                               return (property.inventory === office)
@@ -950,16 +890,190 @@ const ReportProperty = () => {
                                                         }}><DeleteOutlined /></button>
                                                     </td>
                                                 </tr>
-                                           )))  ||
-                                              <tr>
-                                                <td colSpan="6" className='h3'>
-                                                    <div className="spinner-border text-primary" role="status">
-                                                        <span className="visually-hidden">Loading...</span>
-                                                    </div></td>
-                                              </tr>
+                                           )))
                                         )
                                     }
                                 })()}
+
+                            {(() => {
+                                    if (typeProperty === 'airportequipment'){
+                                        return (
+                                          (property.filter(property => {if (rank === 'مدیر'){
+                                              return property.inventory
+                                          }else{
+                                              return (property.inventory === office)
+                                          }}).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="15" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                        )
+                                    }else if (typeProperty === 'safetyequipment'){
+                                        return (
+                                          (property.filter(property => {if (rank === 'مدیر'){
+                                              return property.inventory
+                                          }else{
+                                              return (property.inventory === office)
+                                          }}).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="15" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                        )
+                                    }else if (typeProperty === 'digitalfurniture'){
+                                        return (
+                                          (property.filter(property => {if (rank === 'مدیر'){
+                                              return property.inventory
+                                          }else{
+                                              return (property.inventory === office)
+                                          }}).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="15" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                        )
+                                    }else if (typeProperty === 'electronicfurniture' || typeProperty === 'facilityfurniture'){
+                                        return (
+                                          (property.filter(property => {if (rank === 'مدیر'){
+                                              return property.inventory
+                                          }else{
+                                              return (property.inventory === office)
+                                          }}).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="15" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                        )
+                                    }else if (typeProperty === 'officefurniture'){
+                                        return (
+                                           (property.filter(property => {if (rank === 'مدیر'){
+                                              return property.inventory
+                                          }else{
+                                              return (property.inventory === office)
+                                          }}).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="15" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                        )
+                                    }else if (typeProperty === 'airportfurniture'){
+                                        return (
+                                           (property.filter(property => {if (rank === 'مدیر'){
+                                              return property.inventory
+                                          }else{
+                                              return (property.inventory === office)
+                                          }}).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="15" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                        )
+                                    }else if (typeProperty === 'airportvehicle' || typeProperty === 'officevehicle' ){
+                                        return (
+                                           (property.filter(property => {if (rank === 'مدیر'){
+                                              return property.inventory
+                                          }else{
+                                              return (property.inventory === office)
+                                          }}).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="15" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                        )
+                                    }else if (typeProperty === 'airplane'){
+                                        return (
+                                           (property.filter(property => {if (rank === 'مدیر'){
+                                              return property.inventory
+                                          }else{
+                                              return (property.inventory === office)
+                                          }}).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="15" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                        )
+                                    }else if (typeProperty === 'noneindustrialtool'){
+                                        return (
+                                           (property.filter(property => {if (rank === 'مدیر'){
+                                              return property.inventory
+                                          }else{
+                                              return (property.inventory === office)
+                                          }}).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="15" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                        )
+                                    }else if (typeProperty === 'industrialtool'){
+                                        return (
+                                           (property.filter(property => {if (rank === 'مدیر'){
+                                              return property.inventory
+                                          }else{
+                                              return (property.inventory === office)
+                                          }}).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="15" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                        )
+                                    }else if (typeProperty === 'supportitem'){
+                                        return (
+                                           (property.filter(property => {if (rank === 'مدیر'){
+                                              return property.inventory
+                                          }else{
+                                              return (property.inventory === office)
+                                          }}).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="15" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                        )
+                                    } else if (typeProperty === 'benefit'){
+                                        return (
+                                           (property.filter(property => {if (rank === 'مدیر'){
+                                              return property.inventory
+                                          }else{
+                                              return (property.inventory === office)
+                                          }}).length === 0 && !loading ?
+                          <tr>
+                            <td colSpan="15" className='h3'><div className="text-dark" role="status">
+                                <span>یافت نشد ....</span>
+                            </div></td>
+                          </tr>
+                        : null)
+                                        )
+                                    }
+                                })()}
+                        {loading ?
+                       <tr>
+                            <td colSpan="15" className='h3'><div className="spinner-border text-primary" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div></td>
+                          </tr>
+                        :
+                    null}
                     </tbody>
                 </table>
             </div>
