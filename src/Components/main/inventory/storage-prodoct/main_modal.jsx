@@ -59,74 +59,8 @@ const Modal = (props) => {
               });
         }
 
-     const postHandler = async () => {
-           await axios.post(
-            `${Url}/api/product/`,
-              {
-              code: handleAutoIncrement(),
-              name: formik.values.name,
-              category: formik.values.category,
-              input: formik.values.input,
-              inventory: props.office,
-              operator: 'ثبت اولیه',
-              output: 0,
-              date: today.replaceAll('/' , '-'),
-              left_stock: formik.values.input,
-              scale: formik.values.scale,
-         }, {
-                 headers: {
-                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
-                }
-            })
-         await axios.post(
-            `${Url}/api/allproducts/`,
-              {
-              input: formik.values.input,
-              name: formik.values.name,
-              scale: formik.values.scale,
-              afterOperator: (props.products.filter(products => products.product ===  props.idNumber).reduce((a,v) =>   a + v.input , 0 ))
-              - (props.products.filter(products => products.product ===  props.idNumber).reduce((a,v) =>   a + v.output , 0 )) + formik.values.input,
-              date: today.replaceAll('/' , '-'),
-              operator:'ثبت اولیه',
-              document_type: formik.values.document_type,
-              document_code: fixNumbers(formik.values.document_code),
-              factor: formik.values.factor,
-              receiver:formik.values.receiver,
-              buyer:formik.values.buyer,
-              product: handleAutoIncrement(),
-         }, {
-                 headers: {
-                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
-                }
-            })
-           setTimeout(
-                    refreshPages, 3000)
-        }
 
-    const postAlert = () => {
-          Swal.fire({
-              title: 'مطمئنید?',
-              text: "آیا از ثبت اولیه این کالا مطمئنید ؟",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              cancelButtonText: 'انصراف',
-              confirmButtonText: 'بله, ثبت کن!'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                Swal.fire(
-                  'ثبت شد!',
-                  'کالا ثبت شد.',
-                  'success',
-                  'ok',
-                  postHandler(),
-                  putHandlerAutoIncrement(),
 
-                )
-              }
-            })
-      }
       const postHandlerUpdate = async () => {
          if (increase === 'افزایش' && (formik.values.operator === 'ورود' || formik.values.operator === 'ثبت اولیه')){
                   await axios.post(
@@ -167,8 +101,8 @@ const Modal = (props) => {
                       buyer:formik.values.buyer,
                       seller:formik.values.seller,
                       operator:'خروج',
-                      document_type: products.document_type,
-                      document_code: fixNumbers(products.document_code),
+                      document_type: '',
+                      document_code: '',
                       product: formik.values.code,
                       factor: products.factor,
                       amendment: formik.values.amendment,
@@ -213,8 +147,8 @@ const Modal = (props) => {
                                     - (props.products.filter(products => products.product ===  props.idNumber).reduce((a,v) =>   a + v.output , 0 )) - formik.values.output,
                       date: today.replaceAll('/' , '-'),
                       operator:'خروج',
-                      document_type: products.document_type,
-                      document_code: fixNumbers(products.document_code),
+                      document_type: '',
+                      document_code: '',
                       product: formik.values.code,
                       checkBill: products.checkBill,
                       amendment: formik.values.amendment,
@@ -226,12 +160,10 @@ const Modal = (props) => {
                 }
             })
          }
-
-
-
            setTimeout(
                     refreshPages, 3000)
         }
+
     const putHandlerUpdate = async () => {
            await axios.put(
             `${Url}/api/allproducts/${products.id}/`,
@@ -277,104 +209,6 @@ const Modal = (props) => {
             })
       }
 
-    const postHandlerProductInput = async () => {
-           await axios.post(
-            `${Url}/api/allproducts/`,
-              {
-              input: formik.values.input,
-              name: formik.values.name,
-              scale: formik.values.scale,
-              afterOperator: (props.products.filter(products => products.product ===  props.idNumber).reduce((a,v) =>   a + v.input , 0 ))
-              - (props.products.filter(products => products.product ===  props.idNumber).reduce((a,v) =>   a + v.output , 0 )) + formik.values.input,
-              date: today.replaceAll('/' , '-'),
-              receiver:formik.values.receiver,
-              buyer:formik.values.buyer,
-              operator:'ورود',
-              document_type: formik.values.document_type,
-              document_code: fixNumbers(formik.values.document_code),
-              product: formik.values.code,
-              factor: formik.values.factor,
-         }, {
-                 headers: {
-                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
-                }
-            })
-           setTimeout(
-                    refreshPages, 3000)
-        }
-
-    const postHandlerProductOutput = async () => {
-           await axios.post(
-            `${Url}/api/allproducts/`,
-              {
-              consumable: formik.values.consumable,
-              output: formik.values.output,
-              afterOperator: (props.products.filter(products => products.product ===  props.idNumber).reduce((a,v) =>   a + v.input , 0 ))
-                            - (props.products.filter(products => products.product ===  props.idNumber).reduce((a,v) =>   a + v.output , 0 )) - formik.values.output,
-              name: formik.values.name,
-              scale: formik.values.scale,
-              date: today.replaceAll('/' , '-'),
-              operator:'خروج',
-              receiver:formik.values.receiver,
-              document_type: formik.values.document_type,
-              document_code: fixNumbers(formik.values.document_code),
-              product: formik.values.code,
-              checkBill: formik.values.checkBill,
-         }, {
-                 headers: {
-                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
-                }
-            })
-           setTimeout(
-                    refreshPages, 3000)
-        }
-
-    const postAlertProductsInput = () => {
-          Swal.fire({
-              title: 'مطمئنید?',
-              text: "آیا از ثبت ورودی این کالا مطمئنید ؟",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              cancelButtonText: 'انصراف',
-              confirmButtonText: 'بله, ثبت کن!'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                Swal.fire(
-                  'ثبت شد!',
-                  'کالا ثبت شد.',
-                  'success',
-                  'ok',
-                  postHandlerProductInput(),
-                )
-              }
-            })
-      }
-
-    const postAlertProductsOutput = () => {
-          Swal.fire({
-              title: 'مطمئنید?',
-              text: "آیا از ثبت خروجی این کالا مطمئنید ؟",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              cancelButtonText: 'انصراف',
-              confirmButtonText: 'بله, ثبت کن!'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                Swal.fire(
-                  'ثبت شد!',
-                  'کالا ثبت شد.',
-                  'success',
-                  'ok',
-                  postHandlerProductOutput(),
-                )
-              }
-            })
-      }
-
     const fetchData = async () => {
            if (props.idNumber !== null) {
                const response = await fetch(`${Url}/api/product/` + props.idNumber, {
@@ -411,23 +245,7 @@ const Modal = (props) => {
         setAutoIncrement(data)
       }
 
-    const putHandlerAutoIncrement = async () => {
-           await axios.put(
-            `${Url}/api/autoIncrement/1/`,
-              {
-              oghab101: props.office === 'دفتر مرکزی' ? autoIncrement.oghab101+1 : autoIncrement.oghab101,
-              oghab102: props.office === 'چابهار' ? autoIncrement.oghab102+1 : autoIncrement.oghab102,
-              oghab103: props.office === 'دزفول' ? autoIncrement.oghab103+1 : autoIncrement.oghab103,
-              oghab104: props.office === 'جاسک' ? autoIncrement.oghab104+1 : autoIncrement.oghab104,
-              oghab105: props.office === 'بیشه کلا' ? autoIncrement.oghab105+1 : autoIncrement.oghab105,
-              oghab106: props.office === 'اورهال تهران' ? autoIncrement.oghab106+1 : autoIncrement.oghab106,
-              oghab107: props.office === 'اورهال اصفهان' ? autoIncrement.oghab107+1 : autoIncrement.oghab107,
-         }, {
-                 headers: {
-                  'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
-                }
-            })
-        }
+
 
     useEffect(() => {
           void fetchData()
@@ -438,13 +256,7 @@ const Modal = (props) => {
         [props.idNumber , props.idNumberProduct])
 
     const handleSubmit = () => {
-        if (props.modalTitle === 'entry'){
-            return postAlertProductsInput
-        }else if (props.modalTitle === 'remove'){
-            return postAlertProductsOutput
-        }else if (props.modalTitle === 'register'){
-            return postAlert
-        }else if (props.modalTitle === 'edit'){
+      if (props.modalTitle === 'edit'){
             return postAlertUpdate
         }
     }
