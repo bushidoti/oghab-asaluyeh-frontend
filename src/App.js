@@ -403,9 +403,9 @@ function App() {
                                 </Fragment>
 
                             : null}
-                            {permission === 'مدیر' || permission === 'اداری' || permission === 'مشاهده' ?
+                            {permission === 'مدیر' || permission === 'اداری' || permission === 'مدیر اداری' || permission === 'مشاهده' ?
                                 <Fragment>
-                                    {permission === 'مدیر' || (permission === 'اداری' && office === 'دفتر مرکزی') || permission === 'مشاهده' ?
+                                    {permission === 'مدیر' || permission === 'اداری' || permission === 'مشاهده' || permission === 'مدیر اداری' ?
                                         <Fragment>
                                         <Route path="report" element={<Report handleForm={handleFormReport}
                                                   setSearch={setSearch} search={search}/>}/>
@@ -417,7 +417,7 @@ function App() {
                                        <Route path="uploadindividualsdoc" element={<UploadIndividualsDoc/>}/>
                                         </Fragment>
                                     : null}
-                                    {permission === 'مدیر' || permission === 'اداری' ?
+                                    {permission === 'مدیر' || permission === 'اداری' || permission === 'مدیر اداری' ?
                                         <Fragment>
                                             <Route path="addpropertydoc"
                                                    element={<AddPropertyDoc handleFormProp={handleFormProperty}/>}/>

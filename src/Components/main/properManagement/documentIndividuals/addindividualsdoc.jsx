@@ -8,15 +8,16 @@ import {Context} from "../../../../context";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import DateObject from "react-date-object";
 import persian from "react-date-object/calendars/persian";
+import {Permission} from "../../inventory/permission";
 
 
 const AddIndividualsDoc = () => {
     const [contract, setContracts] = useState([])
     const [idNumber, setIdNumber] = useState(null)
     const context = useContext(Context)
+    const [rank, setRank] = useState('');
     const date = new DateObject({ calendar: persian})
     const [loading, setLoading] = useState(true)
-
 
     const fetchData = async () => {
         await fetch(`${Url}/api/persons/?fields=affidavitStatus,id,type,full_name,expireDate,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument` , {
@@ -75,18 +76,34 @@ const AddIndividualsDoc = () => {
 
     return (
      <Fragment>
+            <Permission setRank={setRank}/>
             <Modal ModalTitle={context.modalTitle} setEditDocumentIndividuals={context.setEditDocumentIndividuals} editDocumentIndividuals={context.editDocumentIndividuals} idNumber={idNumber} setIdNumber={setIdNumber}/>
 
              <div className= 'plater  m-2 rounded-3 shadow-lg '>
-
                 <div className= 'd-flex justify-content-end m-4' >
                     <div className= 'd-flex gap-2'>
                       <Link to= '/reportindividualsdoc'><button className= 'btn btn-secondary'>گزارش</button></Link>
                       <button className= 'btn btn-primary' id='modalAddBtn' data-bs-toggle="modal"
                           data-bs-target="#modalMain" onClick={() => context.setModalTitle('add')}>ثبت قرارداد جدید</button>
                     </div>
-
                 </div>
+                    <div className='d-flex m-4'>
+                           {rank === 'مدیر اداری' ?
+                           <div className="form-floating">
+                                <select className="form-select" id="branch" defaultValue='' onChange={e => context.formikPersonalSearch.setFieldValue('office' , e.target.value)}
+                                    aria-label="branch">
+                                    <option value=''>همه</option>
+                                    <option value="دفتر مرکزی">دفتر مرکزی</option>
+                                    <option value="چابهار">چابهار</option>
+                                    <option value="دزفول">دزفول</option>
+                                    <option value="جاسک">جاسک</option>
+                                    <option value="بیشه کلا">بیشه کلا</option>
+                                    <option value="اورهال تهران">اورهال تهران</option>
+                                    <option value="اورهال اصفهان">اورهال اصفهان</option>
+                                </select>
+                                <label htmlFor="branch">شعبه</label>
+                           </div>
+                :  null}
                   <div className="form-check m-4">
                         <input className="form-check-input" type="checkbox" name='expireDate' checked={context.formikPersonalSearch.values.expireDate} onChange={e => e.target.checked ?
                           context.formikPersonalSearch.setFieldValue('expireDate' , true) : context.formikPersonalSearch.setFieldValue('expireDate' , '')}
@@ -95,6 +112,8 @@ const AddIndividualsDoc = () => {
                         قرارداد های پایان یافته
                         </label>
                   </div>
+
+                    </div>
 
              <div className='m-4'>
                 <div className="input-group mb-3">
@@ -120,15 +139,26 @@ const AddIndividualsDoc = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {contract.filter((value) => {
-                                if (context.formikPersonalSearch.values.expireDate){
-                                    return date.format().replaceAll('/' , '-') >  value.expireDate
-                                }else if (context.formikPersonalSearch.values.full_name){
-                                    return  value.full_name.includes(context.formikPersonalSearch.values.full_name)
+                    {contract.filter((value) => {if (rank === 'مدیر اداری'){
+                                    if (context.formikPersonalSearch.values.expireDate){
+                                        return date.format().replaceAll('/' , '-') >  value.expireDate
+                                    }else if (context.formikPersonalSearch.values.full_name){
+                                        return  value.full_name.includes(context.formikPersonalSearch.values.full_name)
+                                    }else if (context.formikPersonalSearch.values.office){
+                                        return  value.office.includes(context.formikPersonalSearch.values.office)
+                                    }else {
+                                        return contract
+                                    }
                                 }else {
-                                    return contract
+                                if (context.formikPersonalSearch.values.expireDate){
+                                                return date.format().replaceAll('/' , '-') >  value.expireDate && value.office === context.office
+                                            }else if (context.formikPersonalSearch.values.full_name){
+                                                return  value.full_name.includes(context.formikPersonalSearch.values.full_name) && value.office === context.office
+                                        }else {
+                                    return contract && value.office === context.office
                                 }
-                                }).map((data) => (
+                                }
+                    }).map((data) => (
                         <tr key={data.id} style={{backgroundColor:`${(data.clearedStatus ? 'hsl(0, 100%, 80%)' : null) || ( date.format().replaceAll('/' , '-') >  data.expireDate  ? 'hsla(48,100%,50%,0.6)'  : null) }`}}>
                             <th scope="row">{data.id}</th>
                             <td>{data.type}</td>
@@ -156,15 +186,26 @@ const AddIndividualsDoc = () => {
                         </tr>
                         ))
                     }
-                    {contract.filter((value) => {
-                                if (context.formikPersonalSearch.values.expireDate){
-                                    return date.format().replaceAll('/' , '-') >  value.expireDate
-                                }else if (context.formikPersonalSearch.values.full_name){
-                                    return  value.full_name.includes(context.formikPersonalSearch.values.full_name)
+                    {contract.filter((value) => {if (rank === 'مدیر اداری'){
+                                    if (context.formikPersonalSearch.values.expireDate){
+                                        return date.format().replaceAll('/' , '-') >  value.expireDate
+                                    }else if (context.formikPersonalSearch.values.full_name){
+                                        return  value.full_name.includes(context.formikPersonalSearch.values.full_name)
+                                    }else if (context.formikPersonalSearch.values.office){
+                                        return  value.office.includes(context.formikPersonalSearch.values.office)
+                                    }else {
+                                        return contract
+                                    }
                                 }else {
-                                    return contract
+                                if (context.formikPersonalSearch.values.expireDate){
+                                                return date.format().replaceAll('/' , '-') >  value.expireDate && value.office === context.office
+                                            }else if (context.formikPersonalSearch.values.full_name){
+                                                return  value.full_name.includes(context.formikPersonalSearch.values.full_name) && value.office === context.office
+                                        }else {
+                                    return contract && value.office === context.office
                                 }
-                                }).length === 0 && !loading ?
+                                }
+                    }).length === 0 && !loading ?
                           <tr>
                             <td colSpan="6" className='h3'><div className="text-dark" role="status">
                                 <span>یافت نشد ....</span>

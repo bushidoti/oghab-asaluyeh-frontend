@@ -12,6 +12,7 @@ import Url from "../../../config";
 import {Context} from "../../../../context";
 import {CopyOutlined, InfoOutlined, PrinterOutlined} from "@ant-design/icons";
 import DateObject from "react-date-object";
+import {Permission} from "../../inventory/permission";
 
 const ReportIndividualsDoc = () => {
     const [search , setSearch] = useState('')
@@ -21,6 +22,7 @@ const ReportIndividualsDoc = () => {
     const context = useContext(Context)
     const date = new DateObject({ calendar: persian })
     const [loading, setLoading] = useState(true)
+    const [rank, setRank] = useState('');
 
     const fetchData = async () => {
      await fetch(`${Url}/api/persons/?fields=affidavitStatus,id,type,expireDate,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument` , {
@@ -59,8 +61,6 @@ const ReportIndividualsDoc = () => {
              return 'sex'
          }else if (search === 'کد ملی'){
              return 'national_id'
-         }else if (search === 'محل کار'){
-             return 'office'
          }else if (search === 'شغل'){
              return 'job'
          }else if (search === 'تاریخ استخدام'){
@@ -76,6 +76,7 @@ const ReportIndividualsDoc = () => {
 
     return (
         <Fragment>
+            <Permission setRank={setRank}/>
             <ObserveModal/>
             <Modal editDocumentIndividuals={context.editDocumentIndividuals}  setEditDocumentIndividuals={context.setEditDocumentIndividuals} ModalTitle={context.modalTitle} idNumber={idNumber} setIdNumber={setIdNumber}/>
 
@@ -89,6 +90,22 @@ const ReportIndividualsDoc = () => {
                  </div>
 
                 <div className='d-flex gap-2 align-items-center'>
+                    {rank === 'مدیر اداری' ?
+                           <div className="form-floating m-4">
+                                <select className="form-select" id="branch" defaultValue='' onChange={e => context.formikPersonalSearch.setFieldValue('office' , e.target.value)}
+                                    aria-label="branch">
+                                    <option value=''>همه</option>
+                                    <option value="دفتر مرکزی">دفتر مرکزی</option>
+                                    <option value="چابهار">چابهار</option>
+                                    <option value="دزفول">دزفول</option>
+                                    <option value="جاسک">جاسک</option>
+                                    <option value="بیشه کلا">بیشه کلا</option>
+                                    <option value="اورهال تهران">اورهال تهران</option>
+                                    <option value="اورهال اصفهان">اورهال اصفهان</option>
+                                </select>
+                                <label htmlFor="branch">شعبه</label>
+                           </div>
+                :  null}
                   <div className="form-floating m-4" style={{maxWidth:'255px'}}>
                     <select className="form-select" id="searchSelect" defaultValue='' style={{maxWidth:'20vw' , minWidth:'200px'}}
                         aria-label="Floating label select example"  onChange={(e) =>
@@ -114,7 +131,6 @@ const ReportIndividualsDoc = () => {
                         <option value="وضعیت">وضعیت</option>
                         <option value="جنسیت">جنسیت</option>
                         <option value="کد ملی">کد ملی</option>
-                        <option value="محل کار">محل کار</option>
                         <option value="شغل">شغل</option>
                         <option value="تاریخ استخدام">تاریخ استخدام</option>
                     </select>
@@ -168,28 +184,8 @@ const ReportIndividualsDoc = () => {
                                                 </select>
                                                 <label htmlFor="sexSelector">جنسیت</label>
                                             </div>
-
                                      )
-
-                                 }else if (search === 'محل کار'){
-                                     return (
-                                            <div className="col-2 form-floating" style={{maxWidth:'255px'}}>
-                                                    <input className="form-control" type='search' list="workLocationList" id="workLocation" style={{maxWidth:'20vw' , minWidth:'200px'}}
-                                                    onChange={(e) => {
-                                                    context.formikPersonalSearch.setFieldValue('office' , e.target.value)
-                                                    }} name='office' placeholder="جاسک" required/>
-                                                    <label htmlFor="workLocation">محل کار</label>
-                                                    <datalist id="workLocationList">
-                                                                <option value="جاسک"/>
-                                                                <option value="اورهال تهران"/>
-                                                                <option value="اورهال اصفهان"/>
-                                                                <option value="دفتر مرکزی"/>
-                                                                <option value="دزفول"/>
-                                                                <option value="بیشه کلا"/>
-                                                                <option value="چابهار"/>
-                                                    </datalist>
-                                            </div>
-                                     )}else if (search === 'وضعیت'){
+                                 }else if (search === 'وضعیت'){
                                          return (
                                               <div className="form-floating  col-2" style={{maxWidth:'255px'}}>
                                                     <select className="form-select" defaultValue='' id="typeSelector" style={{maxWidth:'20vw' , minWidth:'200px'}} onChange={(e) => {
@@ -244,7 +240,7 @@ const ReportIndividualsDoc = () => {
                          </thead>
 
                         <tbody>
-                            {contract.filter((value) => {
+                            {contract.filter((value) => {if (rank === 'مدیر اداری'){
                                 if (context.formikPersonalSearch.values.expireDate){
                                     return date.format().replaceAll('/' , '-') >  value.expireDate
                                 }else if (context.formikPersonalSearch.values.full_name){
@@ -259,6 +255,8 @@ const ReportIndividualsDoc = () => {
                                     return  value.date === fixNumbers(context.formikPersonalSearch.values.date)
                                 }else if (context.formikPersonalSearch.values.national_id){
                                     return  value.national_id.includes(context.formikPersonalSearch.values.national_id)
+                                }else if (context.formikPersonalSearch.values.office){
+                                        return  value.office.includes(context.formikPersonalSearch.values.office)
                                 }else if (context.formikPersonalSearch.values.clearedStatus){
                                     return  value.clearedStatus === context.formikPersonalSearch.values.clearedStatus
                                 }else if (context.formikPersonalSearch.values.type){
@@ -268,7 +266,35 @@ const ReportIndividualsDoc = () => {
                                 }else {
                                     return contract
                                 }
-                                }).map((data,i) => (
+                              }else {
+                                if (context.formikPersonalSearch.values.expireDate){
+                                    return date.format().replaceAll('/' , '-') >  value.expireDate  && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.full_name){
+                                    return  value.full_name.includes(context.formikPersonalSearch.values.full_name) && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.sex){
+                                    return  value.sex === context.formikPersonalSearch.values.sex && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.id){
+                                    return  value.id === Number(context.formikPersonalSearch.values.id) && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.office){
+                                    return  value.office.includes(context.formikPersonalSearch.values.office) && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.date){
+                                    return  value.date === fixNumbers(context.formikPersonalSearch.values.date) && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.national_id){
+                                    return  value.national_id.includes(context.formikPersonalSearch.values.national_id) && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.office){
+                                        return  value.office.includes(context.formikPersonalSearch.values.office) && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.clearedStatus){
+                                    return  value.clearedStatus === context.formikPersonalSearch.values.clearedStatus  && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.type){
+                                    return  value.type === context.formikPersonalSearch.values.type && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.job){
+                                    return  value.job.includes(context.formikPersonalSearch.values.job) && value.office === context.office
+                                }else {
+                                    return contract  && value.office === context.office
+                                }
+
+                            }
+                            }).map((data,i) => (
                                 <tr key={data.id} style={{backgroundColor:`${(data.clearedStatus ? 'hsl(0, 100%, 80%)' : null)  || ( date.format().replaceAll('/' , '-') >  data.expireDate  ? 'hsla(48,100%,50%,0.6)'  : null) }`}}>
                                     <th scope="row">{i+1}</th>
                                     <td>{data.id}</td>
@@ -301,7 +327,7 @@ const ReportIndividualsDoc = () => {
                                 ))
                             }
 
-                         {contract.filter((value) => {
+                         {contract.filter((value) => {if (rank === 'مدیر اداری'){
                                 if (context.formikPersonalSearch.values.expireDate){
                                     return date.format().replaceAll('/' , '-') >  value.expireDate
                                 }else if (context.formikPersonalSearch.values.full_name){
@@ -316,6 +342,8 @@ const ReportIndividualsDoc = () => {
                                     return  value.date === fixNumbers(context.formikPersonalSearch.values.date)
                                 }else if (context.formikPersonalSearch.values.national_id){
                                     return  value.national_id.includes(context.formikPersonalSearch.values.national_id)
+                                }else if (context.formikPersonalSearch.values.office){
+                                        return  value.office.includes(context.formikPersonalSearch.values.office)
                                 }else if (context.formikPersonalSearch.values.clearedStatus){
                                     return  value.clearedStatus === context.formikPersonalSearch.values.clearedStatus
                                 }else if (context.formikPersonalSearch.values.type){
@@ -325,7 +353,35 @@ const ReportIndividualsDoc = () => {
                                 }else {
                                     return contract
                                 }
-                                }).length === 0 && !loading ?
+                              }else {
+                                if (context.formikPersonalSearch.values.expireDate){
+                                    return date.format().replaceAll('/' , '-') >  value.expireDate  && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.full_name){
+                                    return  value.full_name.includes(context.formikPersonalSearch.values.full_name) && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.sex){
+                                    return  value.sex === context.formikPersonalSearch.values.sex && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.id){
+                                    return  value.id === Number(context.formikPersonalSearch.values.id) && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.office){
+                                    return  value.office.includes(context.formikPersonalSearch.values.office) && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.date){
+                                    return  value.date === fixNumbers(context.formikPersonalSearch.values.date) && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.national_id){
+                                    return  value.national_id.includes(context.formikPersonalSearch.values.national_id) && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.office){
+                                        return  value.office.includes(context.formikPersonalSearch.values.office) && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.clearedStatus){
+                                    return  value.clearedStatus === context.formikPersonalSearch.values.clearedStatus  && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.type){
+                                    return  value.type === context.formikPersonalSearch.values.type && value.office === context.office
+                                }else if (context.formikPersonalSearch.values.job){
+                                    return  value.job.includes(context.formikPersonalSearch.values.job) && value.office === context.office
+                                }else {
+                                    return contract  && value.office === context.office
+                                }
+
+                            }
+                            }).length === 0 && !loading ?
                           <tr>
                             <td colSpan="19" className='h3'><div className="text-dark" role="status">
                                 <span>یافت نشد ....</span>

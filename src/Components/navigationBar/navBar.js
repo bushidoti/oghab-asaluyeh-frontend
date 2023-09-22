@@ -179,20 +179,38 @@ const NavBar = () => {
 
 
     const handleChange = async (value: string) => {
-        await axios.put(
-            `${Url}/api/employee/1/`,
-            {
-                office: value,
-                department: 'مالی',
-                rank: 'مدیر',
-                user: 1,
-            }, {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
-                }
-            })
-        setTimeout(
-            refreshPages, 1000)
+        if (context.permission === 'مدیر'){
+              await axios.put(
+                `${Url}/api/employee/1/`,
+                {
+                    office: value,
+                    department: 'مالی',
+                    rank: 'مدیر',
+                    user: 1,
+                }, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                    }
+                })
+            setTimeout(
+                refreshPages, 1000)
+        }else if (context.permission === 'مدیر اداری'){
+              await axios.put(
+                `${Url}/api/employee/3/`,
+                {
+                    office: value,
+                    department: 'اداری',
+                    rank: 'مدیر اداری',
+                    user: 3,
+                }, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+                    }
+                })
+            setTimeout(
+                refreshPages, 1000)
+        }
+
     };
 
     function refreshPages() {
@@ -229,7 +247,7 @@ const NavBar = () => {
                           >
                     {context.isAuth ?
                         <Fragment>
-                            {context.permission === 'مدیر' ?
+                            {context.permission === 'مدیر' || context.permission === 'مدیر اداری' ?
                                 <Fragment>
                                     <Select className='nav-link active'
                                           defaultValue="انتخاب انبار"
@@ -251,9 +269,9 @@ const NavBar = () => {
                                 </Fragment>
 
                             : null}
-                            {context.permission === 'مدیر'  || context.permission === 'اداری' || context.permission === 'مشاهده'?
+                            {context.permission === 'مدیر' ||  context.permission === 'مدیر اداری'  || context.permission === 'اداری' || context.permission === 'مشاهده'?
                                 <Fragment>
-                                    {context.permission === 'مدیر' || (context.permission === 'اداری' && context.office === 'دفتر مرکزی') || context.permission === 'مشاهده'  ?
+                                    {context.permission === 'مدیر' || context.permission === 'اداری'  || context.permission === 'مشاهده' ||  context.permission === 'مدیر اداری'  ?
                                            <Dropdown className='nav-link active' placement="bottom" arrow={{ pointAtCenter: true }} orientation="left"
                                             menu={{
                                               items:dropdown1,
@@ -267,7 +285,7 @@ const NavBar = () => {
 
                                     : null}
 
-                                    {context.permission === 'مدیر' || context.permission === 'اداری' ?
+                                    {context.permission === 'مدیر' || context.permission === 'اداری' ||  context.permission === 'مدیر اداری' ?
 
 
                                         <Dropdown className='nav-link active' placement="bottom" arrow={{ pointAtCenter: true }}
