@@ -1,7 +1,7 @@
-import React, {Fragment} from "react";
+import React from "react";
 import emailjs from 'emailjs-com';
 import Swal from "sweetalert2";
-import {Helmet} from "react-helmet";
+import {Helmet, HelmetProvider} from "react-helmet-async";
 const SERVICE_ID = "service_cu99qpv";
 const TEMPLATE_ID = "template_27khoqf";
 const USER_ID = "fzWdo3mvBl-JiKkz2";
@@ -26,7 +26,7 @@ export const ContactUS =  () => {
     e.target.reset()
   };
     return (
-        <Fragment>
+        <HelmetProvider>
                <Helmet>
                     <title>پشتیبانی</title>
                     <meta name='description' content='پشتیبان سامانه مدیریتی شرکت فرودگاهی عقاب عسلویه' />
@@ -86,9 +86,6 @@ export const ContactUS =  () => {
 
                  </div>
             </div>
-
-
-
-        </Fragment>
+        </HelmetProvider>
     )
 }
