@@ -23,6 +23,7 @@ const ReportIndividualsDoc = () => {
     const date = new DateObject({ calendar: persian })
     const [loading, setLoading] = useState(true)
     const [rank, setRank] = useState('');
+    const [office, setOffice] = useState('');
 
     const fetchData = async () => {
      await fetch(`${Url}/api/persons/?fields=affidavitStatus,id,type,expireDate,full_name,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument` , {
@@ -76,7 +77,7 @@ const ReportIndividualsDoc = () => {
 
     return (
         <Fragment>
-            <Permission setRank={setRank}/>
+            <Permission setRank={setRank} setOffice={setOffice}/>
             <ObserveModal/>
             <Modal editDocumentIndividuals={context.editDocumentIndividuals}  setEditDocumentIndividuals={context.setEditDocumentIndividuals} ModalTitle={context.modalTitle} idNumber={idNumber} setIdNumber={setIdNumber}/>
 

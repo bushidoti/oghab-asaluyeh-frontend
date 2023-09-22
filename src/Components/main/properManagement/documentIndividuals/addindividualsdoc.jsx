@@ -18,6 +18,7 @@ const AddIndividualsDoc = () => {
     const [rank, setRank] = useState('');
     const date = new DateObject({ calendar: persian})
     const [loading, setLoading] = useState(true)
+    const [office, setOffice] = useState('');
 
     const fetchData = async () => {
         await fetch(`${Url}/api/persons/?fields=affidavitStatus,id,type,full_name,expireDate,date,national_id,sex,office,job,approvedPrice,commitmentPrice,typeBail,firstBail,secondBail,clearedStatus,clearedDate,receivedDocument` , {
@@ -73,10 +74,9 @@ const AddIndividualsDoc = () => {
           },
             // eslint-disable-next-line react-hooks/exhaustive-deps
            [])
-
     return (
      <Fragment>
-            <Permission setRank={setRank}/>
+            <Permission setRank={setRank} setOffice={setOffice}/>
             <Modal ModalTitle={context.modalTitle} setEditDocumentIndividuals={context.setEditDocumentIndividuals} editDocumentIndividuals={context.editDocumentIndividuals} idNumber={idNumber} setIdNumber={setIdNumber}/>
 
              <div className= 'plater  m-2 rounded-3 shadow-lg '>

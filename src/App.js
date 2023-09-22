@@ -32,7 +32,7 @@ import {Detector} from "react-detect-offline";
 import Swal from "sweetalert2";
 import PendingRecycle from "./Components/main/inventory/property/pending-recycle";
 import {Maintenance} from "./Components/maintenance/maintenance";
-import {Helmet, HelmetProvider} from "react-helmet-async";
+import {HelmetProvider} from "react-helmet-async";
 
 function App() {
     const [modalTitle , setModalTitle] = useState('')
@@ -334,10 +334,6 @@ function App() {
 
   return (
       <HelmetProvider context={helmetContext}>
-            <Helmet>
-                <title>پشتیبانی</title>
-                <meta name='description' content='پشتیبان سامانه مدیریتی شرکت فرودگاهی عقاب عسلویه' />
-            </Helmet>
        <Fragment>
                 {maintenance  ?
                  <Maintenance/>
