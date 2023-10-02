@@ -250,7 +250,7 @@ const NavBar = () => {
                             {context.permission === 'مدیر' || context.permission === 'مدیر اداری' ?
                                 <Fragment>
                                     <Select className='nav-link active'
-                                          defaultValue="انتخاب انبار"
+                                          defaultValue="انتخاب مرکز"
                                           style={{ width: 150 }}
                                           onChange={handleChange}
                                           options={[

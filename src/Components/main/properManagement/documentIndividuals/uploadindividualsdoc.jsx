@@ -114,7 +114,7 @@ const UploadIndividualsDoc = () => {
                           typeBail: formik.values.typeBail,
                           firstBail: formik.values.firstBail,
                           secondBail: formik.values.secondBail,
-                          Birth_certificate1: context.scan,
+                          Birth_certificate1: context.compressed,
              }, {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),

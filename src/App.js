@@ -33,6 +33,7 @@ import Swal from "sweetalert2";
 import PendingRecycle from "./Components/main/inventory/property/pending-recycle";
 import {Maintenance} from "./Components/maintenance/maintenance";
 import {HelmetProvider} from "react-helmet-async";
+import Compressor from 'compressorjs';
 
 function App() {
     const [modalTitle , setModalTitle] = useState('')
@@ -41,6 +42,8 @@ function App() {
     const [maintenance, setMaintenance] = useState(false);
     const [office, setOffice] = useState('');
     const [scan, setScan] = useState('');
+    const [compress, setCompress] = useState('');
+    const [compressed, setCompressed] = useState('');
     const [factor, setFactor] = useState('');
     const [systemIDFactor, setSystemIDFactor] = useState('');
     const [systemIDFactorProperty, setSystemIDFactorProperty] = useState('');
@@ -322,15 +325,47 @@ function App() {
                    f.name = "File" + i;
                    const reader = new FileReader();
                    reader.onload = function (e) {
-                          setScan(e.target.result.replace('data:application/octet-stream;base64,' ,  'data:image/jpg;base64,' ))
+                          setScan(e.target.result.replace('data:application/octet-stream;base64,' ,   'data:image/jpg;base64,' ))
+                          setCompress(e.target.result.replace('data:application/octet-stream;base64,' ,  '' ))
                    }
                    reader.readAsDataURL(f);
                }
            };
        };
+    const imageContent = atob(compress);
+    const buffer = new ArrayBuffer(imageContent.length);
+    const view = new Uint8Array(buffer);
+     for (let n = 0; n < imageContent.length; n++) {
+        view[n] = imageContent.charCodeAt(n);
+      }
+      const type = 'image/jpeg';
+      const blob = new Blob([buffer], { type });
+      const file =  new File([blob], 'we', { lastModified: new Date().getTime(), type });
 
 
-    const helmetContext = {};
+        new Compressor(file, {
+    quality: 0.8,
+
+    // The compression process is asynchronous,
+    // which means you have to access the `result` in the `success` hook function.
+    success(result) {
+
+      // The third parameter is required for server
+            var reader = new FileReader();
+                reader.readAsDataURL(result);
+                reader.onloadend = function() {
+                  var base64data = reader.result;
+                  setCompressed(base64data);
+                }
+      // Send the compressed image file to server with XMLHttpRequest.
+
+    },
+    error(err) {
+      console.log(err.message);
+    },
+  });
+
+  const helmetContext = {};
 
   return (
       <HelmetProvider context={helmetContext}>
@@ -376,6 +411,7 @@ function App() {
             systemIDFactorProperty:systemIDFactorProperty,
             factor:factor,
             date:date,
+            compressed:compressed,
             dateProperty:dateProperty,
             setDate:setDate,
             factorNumber:factorNumber,
