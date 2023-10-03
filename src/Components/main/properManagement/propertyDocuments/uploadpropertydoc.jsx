@@ -419,7 +419,7 @@ const UploadPropertyDoc = () => {
                                                    حجم فایل بیشتر از 5 مگابایت است (در رابط اسکنر DPI را 100 قرار دهید).
                                                 </div>
                                             : null}
-                                        <img width={'500px'} height={'350px'} src={context.scan} alt={'تصویری اسکن نشده است'}/>
+                                        <img width={'500px'} height={'350px'} src={context.preview} alt={'تصویری اسکن نشده است'}/>
                                          </Fragment>
                                  )
                              }

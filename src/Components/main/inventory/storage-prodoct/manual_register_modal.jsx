@@ -658,7 +658,7 @@ const ManualModal = (props) => {
                                                            htmlFor="factor-check">فایل {documents}</label>
                                                     <button className="btn btn-warning" type="button" id="firstPageBtn" onClick={scanImage}>اسکن</button>
                                                 </div>
-                                                   <img width={'250px'} height={'250px'} class="figure-img img-fluid rounded" src={props.scan} alt={'تصویری اسکن نشده است'}/>
+                                                   <img width={'250px'} height={'250px'} class="figure-img img-fluid rounded" src={props.preview} alt={'تصویری اسکن نشده است'}/>
                                                 </div>
                                                 {props.scan.length > 5000000 ?
                                                     <div className="alert alert-danger mx-2" role="alert">

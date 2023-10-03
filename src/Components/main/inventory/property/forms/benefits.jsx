@@ -372,7 +372,7 @@ export const Benefits = () => {
                                     فایل را کنید.
                             </div>
                         </div>
-                        <img width={'250px'} height={'250px'} src={form.scan} alt={'تصویری اسکن نشده است'}/>
+                        <img width={'250px'} height={'250px'} src={form.preview} alt={'تصویری اسکن نشده است'}/>
                     </div>
                         {form.scan.length > 5000000 ?
                             <div className="alert alert-danger my-2" role="alert">

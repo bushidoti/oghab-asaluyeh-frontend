@@ -344,26 +344,26 @@ function App() {
 
 
         new Compressor(file, {
-    quality: 0.8,
+            quality: 0.8,
 
-    // The compression process is asynchronous,
-    // which means you have to access the `result` in the `success` hook function.
-    success(result) {
+            // The compression process is asynchronous,
+            // which means you have to access the `result` in the `success` hook function.
+            success(result) {
 
-      // The third parameter is required for server
-            var reader = new FileReader();
-                reader.readAsDataURL(result);
-                reader.onloadend = function() {
-                  var base64data = reader.result;
-                  setCompressed(base64data);
-                }
-      // Send the compressed image file to server with XMLHttpRequest.
+              // The third parameter is required for server
+                    var reader = new FileReader();
+                        reader.readAsDataURL(result);
+                        reader.onloadend = function() {
+                          var base64data = reader.result;
+                          setCompressed(base64data);
+                        }
+              // Send the compressed image file to server with XMLHttpRequest.
 
-    },
-    error(err) {
-      console.log(err.message);
-    },
-  });
+            },
+            error(err) {
+              console.log(err.message);
+            },
+          });
 
   const helmetContext = {};
 
@@ -389,7 +389,7 @@ function App() {
             editDocument:editDocument,
             formik:formikDocumentSearch,
             isAuth:isAuth,
-            scan:scan,
+            scan:compressed,
             setIsAuth:setIsAuth,
             office:office,
             setDocToggle:setDocToggle,
@@ -411,7 +411,7 @@ function App() {
             systemIDFactorProperty:systemIDFactorProperty,
             factor:factor,
             date:date,
-            compressed:compressed,
+            preview:scan,
             dateProperty:dateProperty,
             setDate:setDate,
             factorNumber:factorNumber,

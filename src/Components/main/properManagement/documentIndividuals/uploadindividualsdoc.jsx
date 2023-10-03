@@ -114,7 +114,7 @@ const UploadIndividualsDoc = () => {
                           typeBail: formik.values.typeBail,
                           firstBail: formik.values.firstBail,
                           secondBail: formik.values.secondBail,
-                          Birth_certificate1: context.compressed,
+                          Birth_certificate1: context.scan,
              }, {
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
@@ -1002,7 +1002,7 @@ const UploadIndividualsDoc = () => {
                                                حجم فایل بیشتر از 5 مگابایت است (در رابط اسکنر DPI را 100 قرار دهید).
                                             </div>
                                         : null}
-                                        <img width={'500px'} height={'350px'} src={context.scan} alt={'تصویری اسکن نشده است'}/>
+                                        <img width={'500px'} height={'350px'} src={context.preview} alt={'تصویری اسکن نشده است'}/>
                                    </Fragment>
                                    )
                                }

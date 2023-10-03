@@ -750,7 +750,7 @@ const UploadDocuments = () => {
                                                         </div>
                                                     : null}
                                          </div>
-                                     <img width={'500px'} height={'350px'} src={context.scan} alt={'تصویری اسکن نشده است'}/>
+                                     <img width={'500px'} height={'350px'} src={context.preview} alt={'تصویری اسکن نشده است'}/>
                                     </Fragment>
                                 )
                             }
