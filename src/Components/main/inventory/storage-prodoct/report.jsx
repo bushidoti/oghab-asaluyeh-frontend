@@ -249,6 +249,16 @@ const ReportProducts = () => {
                                             onChange={e => context.formikProductSearch.setFieldValue('consumable' , e.target.value)} list="consumeCauseList" id="consumeCause" placeholder="اجاره"/>
                                             <label htmlFor="consumeCause">مورد مصرف</label>
                                             <datalist id="consumeCauseList">
+                                                {context.office === 'دفتر مرکزی' ?
+                                                    <>
+                                                        <option value="چابهار"/>
+                                                        <option value="دزفول"/>
+                                                        <option value="جاسک"/>
+                                                        <option value="بیشه کلا"/>
+                                                        <option value="اورهال تهران"/>
+                                                        <option value="اورهال اصفهان"/>
+                                                    </>
+                                                : null}
                                                 <option value="اداری"/>
                                                 <option value="موتور پول"/>
                                                 <option value="مهندسی"/>
