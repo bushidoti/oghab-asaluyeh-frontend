@@ -159,7 +159,7 @@ const NavBar = () => {
         ],
       },
          {
-        type: 'divider',
+        type:  context.permission === 'مدیر'  ? 'divider' : null,
       },
       {
         key: '3',

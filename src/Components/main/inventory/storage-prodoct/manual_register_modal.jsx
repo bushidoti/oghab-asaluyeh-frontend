@@ -803,6 +803,17 @@ const ManualModal = (props) => {
                                                                         placeholder="اجاره" required/>
                                                                         <label htmlFor="consumeCause">مورد مصرف</label>
                                                                         <datalist id="consumeCauseList">
+
+                                                                            {props.office === 'دفتر مرکزی' ?
+                                                                        <>
+                                                                            <option value="چابهار"/>
+                                                                            <option value="دزفول"/>
+                                                                            <option value="جاسک"/>
+                                                                            <option value="بیشه کلا"/>
+                                                                            <option value="اورهال تهران"/>
+                                                                            <option value="اورهال اصفهان"/>
+                                                                        </>
+                                                                                : null}
                                                                             <option value="اداری"/>
                                                                             <option value="موتور پول"/>
                                                                             <option value="مهندسی"/>
@@ -1001,6 +1012,12 @@ const ChildComponent = ({registerType , formik ,listProduct , office , productLi
                                                                         placeholder="اجاره" required/>
                                                                         <label htmlFor="consumeCause">مورد مصرف</label>
                                                                         <datalist id="consumeCauseList">
+                                                                            <option value="چابهار"/>
+                                                                            <option value="دزفول"/>
+                                                                            <option value="جاسک"/>
+                                                                            <option value="بیشه کلا"/>
+                                                                            <option value="اورهال تهران"/>
+                                                                            <option value="اورهال اصفهان"/>
                                                                             <option value="اداری"/>
                                                                             <option value="موتور پول"/>
                                                                             <option value="مهندسی"/>
